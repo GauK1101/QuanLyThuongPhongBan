@@ -1,0 +1,100 @@
+﻿<Window
+    x:Class="QuanLyThuongPhongBan.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i= "http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:QuanLyThuongPhongBan"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="1280"
+    Height="720"
+    mc:Ignorable="d"
+    AllowsTransparency="True"
+    Background="{x:Null}"
+    Name="mainWindow"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    Title="Main"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{x:Null}" CommandParameter="{Binding ElementName=mainWindow}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Margin="5 3 5 47">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+
+            <!--ControlBar-->
+            <Border Background="{StaticResource MaterialDesign.Brush.Primary}" CornerRadius="10,10,0,0">
+                <Grid>
+
+                    <DockPanel>
+
+                        <Button
+                            Height="35"
+                            VerticalAlignment="Center"
+                            Click="Btn_Close_Click"
+                            DockPanel.Dock="Right"
+                            Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                            materialDesign:ButtonAssist.CornerRadius="6"
+                            materialDesign:RippleAssist.Feedback="White"
+                            Style="{StaticResource MaterialDesignFlatButton}">                            ✘
+                        </Button>
+
+                        <Button
+                            Height="35"
+                            VerticalAlignment="Center"
+                            Click="Btn_Maximize_Click"
+                            DockPanel.Dock="Right"
+                            Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                            materialDesign:ButtonAssist.CornerRadius="6"
+                            materialDesign:RippleAssist.Feedback="White"
+                            Style="{StaticResource MaterialDesignFlatButton}">                            ❏
+                        </Button>
+
+                        <Button
+                            Height="35"
+                            VerticalAlignment="Center"
+                            Click="Btn_Minimize_Click"
+                            DockPanel.Dock="Right"
+                            Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                            materialDesign:ButtonAssist.CornerRadius="6"
+                            materialDesign:RippleAssist.Feedback="White"
+                            Style="{StaticResource MaterialDesignFlatButton}">                            ⇀
+                        </Button>
+
+                        <Image
+                                Height="30"
+                                Margin="10 3 5 0"
+                                DockPanel.Dock="Left"
+                                Source="/Image/Logo.ico" />
+                        
+                        <TextBlock
+                            x:Name="Title_Window"
+                            Width="auto"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Left"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Foreground="Black"
+                            MouseDown="Title_Window_MouseDown"
+                            Text="GauK Coder" />
+
+                    </DockPanel>
+                </Grid>
+            </Border>
+
+        </StackPanel>
+
+        <!--Main Content-->
+
+    </Grid>
+</Window>
