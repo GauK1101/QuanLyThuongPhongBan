@@ -12,7 +12,7 @@
     Background="{x:Null}"
     ResizeMode="CanMinimize"
     Title="Update"
-    WindowStartupLocation="CenterOwner"
+    WindowStartupLocation="CenterScreen"
     WindowStyle="None">
 
     <Border CornerRadius="10" MouseDown="Title_Window_MouseDown">

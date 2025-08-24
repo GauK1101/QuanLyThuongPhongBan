@@ -8,5 +8,4 @@ namespace QuanLyThuongPhongBan
     public partial class App : Application
     {
     }
-
 }

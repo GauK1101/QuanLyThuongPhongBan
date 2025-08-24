@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -25,7 +26,7 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
         public Updater()
         {
             currentVersion = "1.0.0";
-            newVersionUrl = "https://github.com/GauK1101/KTD_Software/releases/download/KTD_Software/KTD_Software.zip";
+            newVersionUrl = "https://github.com/GauK1101/QuanLyThuongPhongBan/releases/download/QuanLyThuongPhongBan/QuanLyThuongPhongBan.zip";
             httpClient = new HttpClient();
 
             if (Properties.SettingsUpdate.Default.IsShowVersion)
@@ -41,7 +42,7 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
         {
             try
             {
-                string url = "https://api.github.com/repos/GauK1101/KTD_Software/releases";
+                string url = "https://api.github.com/repos/GauK1101/QuanLyThuongPhongBan/releases";
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3");
 
                 var response = await httpClient.GetStringAsync(url);
@@ -103,7 +104,14 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
             }
             catch (Exception)
             {
-                //MessageBox.Show("Kiểm tra cập nhật không thành công: " + ex.Message);
+                var window = Application.Current.Windows
+                    .OfType<Window>()
+                    .FirstOrDefault(w => w.GetType().Name == "UpdateWindow");
+
+                if (window != null)
+                {
+                    window.Close();
+                }
             }
         }
 

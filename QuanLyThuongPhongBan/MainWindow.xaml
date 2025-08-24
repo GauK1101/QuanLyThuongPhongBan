@@ -10,91 +10,293 @@
     Width="1280"
     Height="720"
     mc:Ignorable="d"
-    AllowsTransparency="True"
-    Background="{x:Null}"
     Name="mainWindow"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     Title="Main"
-    WindowStartupLocation="CenterScreen"
-    WindowStyle="None">
+    WindowStartupLocation="CenterScreen">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{x:Null}" CommandParameter="{Binding ElementName=mainWindow}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+    <Grid>
 
-    <Grid Margin="5 3 5 47">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-            <!--ControlBar-->
-            <Border Background="{StaticResource MaterialDesign.Brush.Primary}" CornerRadius="10,10,0,0">
+            <Grid Grid.Row="0">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+
+                    <Button
+                        Height="35"
+                        Margin="15 0 15 0"
+                        VerticalAlignment="Center"
+                        Command="{Binding AdminCommand}"
+                        Foreground="Black"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Visibility="{Binding VisibilityAdmin}">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center"
+                                Kind="Crown" />
+                            <TextBlock>Admin</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Height="35"
+                        Margin="15 0 15 0"
+                        VerticalAlignment="Center"
+                        Command="{Binding AccountCommand}"
+                        Foreground="Black"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Visibility="{Binding VisibilityAccount}">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center"
+                                Kind="Account" />
+                            <TextBlock>Tài khoản</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Height="35"
+                        Margin="15 0 15 0"
+                        VerticalAlignment="Center"
+                        Command="{Binding ShowHomeViewCommand}"
+                        Foreground="Black"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center"
+                                Kind="Home" />
+                            <TextBlock>Trang chủ</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Height="35"
+                        Margin="15 0 15 0"
+                        VerticalAlignment="Center"
+                        Command="{Binding ShowOrderAndProductViewCommand}"
+                        Foreground="Black"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center"
+                                Kind="Newspaper" />
+                            <TextBlock>Đơn hàng và sản phẩm</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Height="35"
+                        Margin="15 0 15 0"
+                        VerticalAlignment="Center"
+                        Command="{Binding ShowProductInventoryViewCommand}"
+                        Foreground="Black"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center"
+                                Kind="Storage" />
+                            <TextBlock>Sản phẩm lưu trữ</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Height="35"
+                        Margin="15 0 15 0"
+                        VerticalAlignment="Center"
+                        Command="{Binding ShowManufacturerViewCommand}"
+                        Foreground="Black"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center"
+                                Kind="FacebookGaming" />
+                            <TextBlock>Hãng sản xuất</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Height="35"
+                        Margin="15 0 15 0"
+                        VerticalAlignment="Center"
+                        Command="{Binding ShowCustomerViewModelCommand}"
+                        Foreground="Black"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center"
+                                Kind="TicketUser" />
+                            <TextBlock>Khách hàng</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
 
-                    <DockPanel>
+                        <Border CornerRadius="10">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{x:Null}" Stretch="UniformToFill" />
+                            </Border.Background>
+                        </Border>
 
-                        <Button
-                            Height="35"
-                            VerticalAlignment="Center"
-                            Click="Btn_Close_Click"
-                            DockPanel.Dock="Right"
-                            Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
-                            materialDesign:ButtonAssist.CornerRadius="6"
-                            materialDesign:RippleAssist.Feedback="White"
-                            Style="{StaticResource MaterialDesignFlatButton}">                            ✘
-                        </Button>
+                        <Border
+                            Background="White"
+                            CornerRadius="10"
+                            Opacity="0.5" />
 
-                        <Button
-                            Height="35"
-                            VerticalAlignment="Center"
-                            Click="Btn_Maximize_Click"
-                            DockPanel.Dock="Right"
-                            Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
-                            materialDesign:ButtonAssist.CornerRadius="6"
-                            materialDesign:RippleAssist.Feedback="White"
-                            Style="{StaticResource MaterialDesignFlatButton}">                            ❏
-                        </Button>
+                        <Grid Margin="10 0 10 0">
 
-                        <Button
-                            Height="35"
-                            VerticalAlignment="Center"
-                            Click="Btn_Minimize_Click"
-                            DockPanel.Dock="Right"
-                            Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
-                            materialDesign:ButtonAssist.CornerRadius="6"
-                            materialDesign:RippleAssist.Feedback="White"
-                            Style="{StaticResource MaterialDesignFlatButton}">                            ⇀
-                        </Button>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
 
-                        <Image
-                                Height="30"
-                                Margin="10 3 5 0"
-                                DockPanel.Dock="Left"
-                                Source="/Image/Logo.ico" />
-                        
-                        <TextBlock
-                            x:Name="Title_Window"
-                            Width="auto"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Left"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            Foreground="Black"
-                            MouseDown="Title_Window_MouseDown"
-                            Text="GauK Coder" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <WrapPanel Margin="10 10 0 0">
+                                    <materialDesign:PackIcon
+                                        Width="30"
+                                        Height="25"
+                                        Margin="0 0 5 0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource MaterialDesignBody}"
+                                        Kind="{Binding Icon, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBlock
+                                        FontSize="20"
+                                        FontWeight="Bold"
+                                        Text="{Binding Caption}" />
+                                </WrapPanel>
 
-                    </DockPanel>
+
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="0 10 0 0"
+                                    HorizontalAlignment="Right">
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <Button
+                                            Height="35"
+                                            Margin="0 0 10 0"
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            materialDesign:ButtonAssist.CornerRadius="6"
+                                            materialDesign:RippleAssist.Feedback="White"
+                                            Style="{StaticResource MaterialDesignFlatButton}">
+                                            <WrapPanel>
+                                                <materialDesign:PackIcon
+                                                    Width="20"
+                                                    Height="20"
+                                                    VerticalAlignment="Center"
+                                                    Kind="Bell" />
+                                            </WrapPanel>
+                                        </Button>
+
+                                        <Button
+                                            Height="35"
+                                            Command="{Binding LogoutCommand}"
+                                            CommandParameter="{Binding ElementName=mainWindow}"
+                                            Foreground="{DynamicResource MaterialDesignBody}"
+                                            materialDesign:ButtonAssist.CornerRadius="6"
+                                            materialDesign:RippleAssist.Feedback="White"
+                                            Style="{StaticResource MaterialDesignFlatButton}">
+                                            <WrapPanel>
+                                                <materialDesign:PackIcon
+                                                    Width="20"
+                                                    Height="20"
+                                                    VerticalAlignment="Center"
+                                                    Kind="Logout" />
+                                            </WrapPanel>
+                                        </Button>
+                                    </StackPanel>
+
+                                    <Popup
+                                        x:Name="NotificationPopup"
+                                        AllowsTransparency="True"
+                                        Placement="Bottom"
+                                        StaysOpen="False">
+                                        <Border
+                                            Margin="20"
+                                            HorizontalAlignment="Stretch"
+                                            Background="#FFE8FFE0"
+                                            CornerRadius="8"
+                                            Padding="10">
+                                            <ScrollViewer
+                                                Width="600"
+                                                MaxHeight="300"
+                                                HorizontalScrollBarVisibility="Auto">
+                                                <StackPanel>
+                                                    <TextBlock
+                                                        Margin="0,0,0,10"
+                                                        FontSize="16"
+                                                        FontWeight="Bold"
+                                                        Text="Thông báo!" />
+                                                    <ItemsControl ItemsSource="{Binding Notifications,UpdateSourceTrigger=PropertyChanged}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock
+                                                                    Margin="0,5,0,5"
+                                                                    Text="{Binding}"
+                                                                    TextWrapping="Wrap" />
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Popup>
+
+                                </Grid>
+                            </Grid>
+
+                            <ContentControl
+                                Grid.Row="1"
+                                Margin="10"
+                                Content="{Binding CurrentView}" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Margin="0 7"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Name="txbVersion"
+                                Text="1.0.0" />
+
+                        </Grid>
+                    </Grid>
                 </Grid>
-            </Border>
-
-        </StackPanel>
-
-        <!--Main Content-->
-
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
