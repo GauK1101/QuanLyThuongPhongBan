@@ -1,25 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using QuanLyThuongPhongBan.ViewModels;
 
 namespace QuanLyThuongPhongBan.Models;
 
-public partial class TbThuongDaiDoanSmb
+public partial class TbThuongDaiDoanSmb : BaseViewModel
 {
-    public int Id { get; set; }
+    public int Id
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
 
-    public int IdPhongBan { get; set; }
+    public int IdPhongBan
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
 
-    public int IdTongThuongSmb { get; set; }
+    public int IdTongThuongSmb
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
 
-    public decimal TiLeSmb { get; set; }
+    public decimal TiLeSmb
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal TiLeGiaTri { get; set; }
+    public decimal TiLeGiaTri
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal TiLeDot1 { get; set; }
+    public decimal TiLeDot1
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal GiaTriDot1 { get; set; }
+    public decimal GiaTriDot1
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal ThuHoiCongNo { get; set; }
+    public decimal ThuHoiCongNo
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal NghiemThu { get; set; }
+    public decimal NghiemThu
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 }

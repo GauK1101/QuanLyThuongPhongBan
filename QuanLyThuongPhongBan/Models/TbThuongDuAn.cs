@@ -1,21 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using QuanLyThuongPhongBan.ViewModels;
+using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace QuanLyThuongPhongBan.Models;
 
-public partial class TbThuongDuAn
+public partial class TbThuongDuAn : BaseViewModel
 {
-    public int Id { get; set; }
+    public int Id
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
 
-    public decimal GiaTriHopDong { get; set; }
+    public decimal GiaTriHopDong
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal QuyetToan { get; set; }
+    public decimal QuyetToan
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal TiLeThuongPhongBan { get; set; }
+    public decimal TiLeThuongPhongBan
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal TongGiaTriThuongPhongBan { get; set; }
+    public decimal TongGiaTriThuongPhongBan
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public string NamThuong { get; set; } = null!;
+    public string NamThuong
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
 
-    public List<TbThuongDaiDoanDuAn> Details { get; set; } = new List<TbThuongDaiDoanDuAn>();
+    public ObservableCollection<TbThuongDaiDoanDuAn> Details
+    {
+        get
+        {
+            var v = Get<ObservableCollection<TbThuongDaiDoanDuAn>>();
+            if (v == null)
+            {
+                v = new ObservableCollection<TbThuongDaiDoanDuAn>();
+                Set(v); // QUAN TRỌNG: lưu lại, để các lần sau không tạo mới
+            }
+            return v;
+        }
+        set => Set(value);
+    }
 }

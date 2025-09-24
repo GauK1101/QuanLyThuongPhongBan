@@ -1,29 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using QuanLyThuongPhongBan.ViewModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyThuongPhongBan.Models;
 
-public partial class TbThuongDaiDoanDuAn
+public partial class TbThuongDaiDoanDuAn : BaseViewModel
 {
-    public int Id { get; set; }
+    public int Id { get => Get<int>(); set => Set(value); }
 
-    public int IdPhongBan { get; set; }
+    [ForeignKey("IdPhongBanNavigation")]
+    public int IdPhongBan { get => Get<int>(); set => Set(value); }
 
-    public int IdThuongDuAnPhongBan { get; set; }
+    public int IdThuongDuAnPhongBan { get => Get<int>(); set => Set(value); }
 
-    public decimal TiLeThuong { get; set; }
+    public decimal TiLeThuong { get => Get<decimal>(); set => Set(value); }
 
-    public decimal GiaTri { get; set; }
+    public decimal GiaTri { get => Get<decimal>(); set => Set(value); }
 
-    public decimal GiaTriDieuChinhDot1 { get; set; }
+    public decimal GiaTriDieuChinhDot1 { get => Get<decimal>(); set => Set(value); }
 
-    public decimal TiLeDieuChinhDot1 { get; set; }
+    public decimal TiLeDieuChinhDot1 { get => Get<decimal>(); set => Set(value); }
 
-    public decimal GiaTriDieuChinhDot2 { get; set; }
+    public decimal GiaTriDieuChinhDot2 { get => Get<decimal>(); set => Set(value); }
 
-    public decimal TiLeDieuChinhDot2 { get; set; }
+    public decimal TiLeDieuChinhDot2 { get => Get<decimal>(); set => Set(value); }
 
-    public decimal ThuHoiCongNo { get; set; }
+    public decimal ThuHoiCongNo { get => Get<decimal>(); set => Set(value); }
 
-    public decimal NghiemThu { get; set; }
+    public decimal NghiemThu { get => Get<decimal>(); set => Set(value); }
+
+    [ForeignKey(nameof(IdThuongDuAnPhongBan))]
+    public TbThuongDuAn? TbThuongDuAn { get; set; }
+
+    public virtual TbPhongBan? IdPhongBanNavigation { get; set; }
 }

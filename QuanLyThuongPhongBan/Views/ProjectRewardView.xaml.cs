@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace QuanLyThuongPhongBan.Views
 {
@@ -37,6 +38,16 @@ namespace QuanLyThuongPhongBan.Views
 
             Properties.Settings.Default.ColumnProjectRewardView = string.Join(",", columnOrder);
             Properties.Settings.Default.Save();
+        }
+
+        private void chkExpandAll_Checked(object sender, RoutedEventArgs e)
+        {
+            myDataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Visible;
+        }
+
+        private void chkExpandAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            myDataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
         }
     }
 }

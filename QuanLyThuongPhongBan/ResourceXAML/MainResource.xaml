@@ -3,5 +3,6 @@
                     xmlns:viewmodel="clr-namespace:QuanLyThuongPhongBan.ViewModels">
 
     <viewmodel:MainViewModel x:Key="MainVM"/>
-    
+    <viewmodel:ProjectRewardViewModel x:Key="ProjectRewardVM"/>
+
 </ResourceDictionary>

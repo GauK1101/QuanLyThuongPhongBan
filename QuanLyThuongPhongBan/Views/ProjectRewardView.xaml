@@ -3,11 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:QuanLyThuongPhongBan.Views"
+             xmlns:local="clr-namespace:QuanLyThuongPhongBan"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:class="clr-namespace:QuanLyThuongPhongBan.CLass"
              mc:Ignorable="d"
              Background="White"
+             DataContext="{StaticResource ProjectRewardVM}"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <class:CurrencyConverter x:Key="CurrencyConverter"/>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -20,7 +27,6 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
-
 
             <Button Style="{DynamicResource MaterialDesignToolButton}">
                 <materialDesign:PackIcon Kind="Search" Opacity=".56" />
@@ -36,23 +42,66 @@
                 materialDesign:HintAssist.Hint="Tìm kiếm..."
                 Text="{Binding SearchFill, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Button
+            <StackPanel
                 Grid.Column="2"
-                Margin="10 0"
+                Orientation="Horizontal"
                 HorizontalAlignment="Right"
-                Command="{Binding ShowAddOrEditRowCommand}"
-                FontSize="15"
-                Foreground="White"
-                materialDesign:ButtonAssist.CornerRadius="10"
-                Style="{StaticResource MaterialDesignFlatMidBgButton}">
-                <WrapPanel>
+                VerticalAlignment="Center"
+                >
+
+                <Button
+                    Margin="0 0 10 0"
+                    VerticalAlignment="Center"
+                    Command="{Binding ReloadDataCommand}"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                    Style="{StaticResource MaterialDesignIconButton}"
+                    ToolTip="Tải lại trang"
+                    >
                     <materialDesign:PackIcon
-                        Margin="0 2 5 0"
-                        VerticalAlignment="Center"
-                        Kind="Add" />
-                    <TextBlock>Thêm mới</TextBlock>
-                </WrapPanel>
-            </Button>
+                        Kind="Reload"
+                        />
+                </Button>
+
+                <!-- Checkbox để mở/tắt toàn bộ expand -->
+                <ToggleButton
+                    x:Name="chkExpandAll"
+                    Checked="chkExpandAll_Checked"
+                    Unchecked="chkExpandAll_Unchecked"
+                    Width="60"
+                    Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                    ToolTip="Ẩn/Hiện chi tiết các cột"
+                    >
+                    <materialDesign:ToggleButtonAssist.SwitchTrackOnBackground
+                        >
+                        <SolidColorBrush
+                            Color="Purple" />
+                    </materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                    <materialDesign:ToggleButtonAssist.SwitchTrackOffBackground
+                        >
+                        <SolidColorBrush
+                            Color="Gray" />
+                    </materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+                </ToggleButton>
+
+                <Button
+                    Margin="10 0"
+                    HorizontalAlignment="Right"
+                    Command="{Binding ShowAddOrEditRowCommand}"
+                    FontSize="15"
+                    Foreground="White"
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                    <WrapPanel>
+                        <materialDesign:PackIcon
+                            Margin="0 2 5 0"
+                            VerticalAlignment="Center"
+                            Kind="Add" />
+                        <TextBlock>Thêm mới</TextBlock>
+                    </WrapPanel>
+                </Button>
+            </StackPanel>
+
+
         </Grid>
 
         <DataGrid
@@ -63,7 +112,8 @@
             CanUserAddRows="False"
             CanUserResizeColumns="True"
             ColumnReordered="DataGrid_ColumnReordered"
-            FrozenColumnCount="3"
+            FrozenColumnCount="1"
+            IsReadOnly="True"
             ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}"
             VirtualizingStackPanel.IsVirtualizing="True"
             VirtualizingStackPanel.VirtualizationMode="Recycling">
@@ -92,11 +142,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding nam}" Header="Năm" />
-                <DataGridTextColumn Binding="{Binding nam}" Header="Hợp Đồng" />
-                <DataGridTextColumn Binding="{Binding nam}" Header="Quyết Toán" />
-                <DataGridTextColumn Binding="{Binding nam}" Header="Tổng Tỉ Lệ" />
-                <DataGridTextColumn Binding="{Binding nam}" Header="Tổng Giá Trị" />
+                <DataGridTextColumn Binding="{Binding NamThuong}" Header="Năm" />
+                <DataGridTextColumn Binding="{Binding GiaTriHopDong, Converter={StaticResource CurrencyConverter}}" Header="Hợp Đồng" />
+                <DataGridTextColumn Binding="{Binding QuyetToan, Converter={StaticResource CurrencyConverter}}" Header="Quyết Toán" />
+                <DataGridTextColumn Binding="{Binding TiLeThuongPhongBan, StringFormat={}{0:0.#####}%}" Header="Tổng Tỉ Lệ" />
+                <DataGridTextColumn Binding="{Binding TongGiaTriThuongPhongBan, Converter={StaticResource CurrencyConverter}}" Header="Tổng Giá Trị" />
             </DataGrid.Columns>
 
             <DataGrid.RowDetailsTemplate>
@@ -108,12 +158,25 @@
                               Margin="20,5,5,5"
                               HeadersVisibility="Column">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Phòng ban/Nhóm" Binding="{Binding Property}" />
-                            <DataGridTextColumn Header="Tổng gói" Binding="{Binding Value}" />
-                            <DataGridTextColumn Header="Giai đoạn 1" Binding="{Binding Value}" />
-                            <DataGridTextColumn Header="Giai đoạn 2" Binding="{Binding Value}" />
-                            <DataGridTextColumn Header="Quyết toán/Thu hồi công nợ" Binding="{Binding Value}" />
-                            <DataGridTextColumn Header="Tổng cộng" Binding="{Binding Value}" />
+                            <DataGridTextColumn Header="Phòng ban"
+                                                Binding="{Binding IdPhongBanNavigation.TenPhongBan}" />
+                            <DataGridTextColumn Header="Tỉ lệ tổng thưởng"
+                                                Binding="{Binding TiLeThuong, StringFormat={}{0:0.#####}%}" />
+                            <DataGridTextColumn Header="Giá trị tổng gói"
+                                                Binding="{Binding GiaTri, Converter={StaticResource CurrencyConverter}}" />
+                            <DataGridTextColumn Header="Tỉ lệ GD1 trúng thầu"
+                                                Binding="{Binding TiLeDieuChinhDot1, StringFormat={}{0:0.#####}%}" />
+                            <DataGridTextColumn Header="Giá trị GD1 trúng thầu"
+                                                Binding="{Binding GiaTriDieuChinhDot1, Converter={StaticResource CurrencyConverter}}" />
+                            <DataGridTextColumn Header="Tỉ lệ GD2 triển khai"
+                                                Binding="{Binding TiLeDieuChinhDot2, StringFormat={}{0:0.#####}%}" />
+                            <DataGridTextColumn Header="Giá trị GD2 triển khai"
+                                                Binding="{Binding GiaTriDieuChinhDot2, Converter={StaticResource CurrencyConverter}}" />
+                            <DataGridTextColumn Header="Thu hồi công nợ"
+                                                Binding="{Binding ThuHoiCongNo, Converter={StaticResource CurrencyConverter}}" />
+                            <DataGridTextColumn Header="Tổng cộng"
+                                                Binding="{Binding NghiemThu, Converter={StaticResource CurrencyConverter}}" />
+
                         </DataGrid.Columns>
                     </DataGrid>
                 </DataTemplate>

@@ -66,9 +66,6 @@ namespace QuanLyThuongPhongBan.ViewModels
             CurrentView = new ProjectRewardView();
             Caption = "Thưởng dự án";
             Icon = PackIconKind.Newspaper;
-
-            EditProjectRewardWindow editProjectRewardWindow = new EditProjectRewardWindow();
-            editProjectRewardWindow.Show();
         }
 
         private void ShowSMBRewardView()

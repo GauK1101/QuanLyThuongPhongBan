@@ -1,17 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using QuanLyThuongPhongBan.ViewModels;
 
 namespace QuanLyThuongPhongBan.Models;
 
-public partial class TbThuongSmb
+public partial class TbThuongSmb : BaseViewModel
 {
-    public int Id { get; set; }
+    public int Id
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
 
-    public decimal TongGiaTriSmb { get; set; }
+    public decimal TongGiaTriSmb
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal TiLeQuyetToan { get; set; }
+    public decimal TiLeQuyetToan
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal TongTiLeSmb { get; set; }
+    public decimal TongTiLeSmb
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
 
-    public decimal TongGiaTriSmbDieuChinh { get; set; }
+    public decimal TongGiaTriSmbDieuChinh
+    {
+        get => Get<decimal>();
+        set => Set(value);
+    }
+
 }
