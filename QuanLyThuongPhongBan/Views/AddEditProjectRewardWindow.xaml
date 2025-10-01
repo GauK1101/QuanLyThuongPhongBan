@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:QuanLyThuongPhongBan.CLass" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         DataContext="{StaticResource ProjectRewardVM}"
+        Background="#fdfffd"
         WindowStartupLocation="CenterScreen"
-        Title="AddEditProjectRewardWindow" Height="720" Width="1350">
+        Title="AddEditProjectRewardWindow" Height="520" Width="1400">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -89,7 +90,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:TextFieldAssist.SuffixText="%"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding TbThuongDuAn.TiLeThuongPhongBan, UpdateSourceTrigger=PropertyChanged, StringFormat=0.##}">
+                            Text="{Binding TbThuongDuAn.TiLeThuongPhongBan, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
                             <materialDesign:HintAssist.Hint>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Tỉ lệ thưởng phòng ban" />
@@ -137,7 +138,7 @@
                     <DataGrid
                         ItemsSource="{Binding TbThuongDuAn.Details}"
                         AutoGenerateColumns="False"
-                        CanUserAddRows="True"
+                        CanUserAddRows="False"
                         CanUserDeleteRows="True"
                         IsReadOnly="False"
                         Margin="8"
@@ -164,12 +165,11 @@
                         <DataGrid.Columns>
                             <!-- Phòng ban -->
                             <DataGridTextColumn Header="Phòng ban"
-                                                Binding="{Binding IdPhongBan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                />
+                                                Binding="{Binding IdPhongBanNavigation.TenPhongBan}" />
 
                             <!-- Tỉ lệ thưởng (%) -->
-                            <DataGridTextColumn Header="Tỉ lệ tổng thưởng (%)"
-                                                Binding="{Binding TiLeThuong, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=0.##}"
+                            <DataGridTextColumn Header="Tỉ lệ tổng gói (%)"
+                                                Binding="{Binding TiLeThuong, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#####}}"
                                                 />
 
                             <!-- Giá trị -->
@@ -178,19 +178,19 @@
                                                 />
 
                             <!-- Điều chỉnh đợt 1 -->
+                            <DataGridTextColumn Header="Tỉ lệ GD1/Trúng thầu (%)"
+                                                Binding="{Binding TiLeDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#####}}"
+                                                />
                             <DataGridTextColumn Header="Giá trị GD1/Trúng thầu"
                                                 Binding="{Binding GiaTriDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
                                                 />
-                            <DataGridTextColumn Header="Tỉ lệ GD1/Trúng thầu (%)"
-                                                Binding="{Binding TiLeDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=0.##}"
-                                                />
 
                             <!-- Điều chỉnh đợt 2 -->
-                            <DataGridTextColumn Header="Giá trị GD2/Trúng thầu"
-                                                Binding="{Binding GiaTriDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                            <DataGridTextColumn Header="Tỉ lệ GD2/Triển khai (%)"
+                                                Binding="{Binding TiLeDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#####}}"
                                                 />
-                            <DataGridTextColumn Header="Tỉ lệ GD2/Trúng thầu (%)"
-                                                Binding="{Binding TiLeDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=0.##}"
+                            <DataGridTextColumn Header="Giá trị GD2/Triển khai"
+                                                Binding="{Binding GiaTriDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
                                                 />
 
                             <!-- Thu hồi công nợ -->
@@ -243,6 +243,30 @@
                                 VerticalAlignment="Center"
                                 Kind="Close" />
                             <TextBlock>Đóng</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Margin="5 0 5 0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding CalculatorDataCommand}"
+                        FontSize="15"
+                        Foreground="White"
+                        materialDesign:ButtonAssist.CornerRadius="10">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#59a2ff" Offset="0" />
+                                <!-- Xanh lá nhạt -->
+                                <GradientStop Color="#005fda" Offset="1" />
+                                <!-- Xanh lá đậm -->
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 2 5 0"
+                                VerticalAlignment="Center"
+                                Kind="Calculator" />
+                            <TextBlock>Tính toán</TextBlock>
                         </WrapPanel>
                     </Button>
 

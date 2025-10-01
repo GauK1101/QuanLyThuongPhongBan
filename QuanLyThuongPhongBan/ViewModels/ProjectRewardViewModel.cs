@@ -14,7 +14,9 @@ namespace QuanLyThuongPhongBan.ViewModels
     {
         public ICommand? ShowAddOrEditRowCommand { get; }
         public ICommand? AddOrEditRowCommand { get; }
+        public ICommand? DeleteRowCommand { get; }
         public ICommand? ReloadDataCommand { get; }
+        public ICommand? CalculatorDataCommand { get; }
 
         private ObservableCollection<TbThuongDuAn>? _list;
         public ObservableCollection<TbThuongDuAn>? List
@@ -40,6 +42,8 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             ShowAddOrEditRowCommand = new RelayCommand<TbThuongDuAn>(_ => true, ShowAddOrEditRow);
             AddOrEditRowCommand = new RelayCommand<TbThuongDuAn>(_ => true, _ => AddOrEditRow());
+            DeleteRowCommand = new RelayCommand<TbThuongDuAn>(_ => true, DeleteRow);
+            CalculatorDataCommand = new RelayCommand<TbThuongDuAn>(_ => true, CalculatorData);
             ReloadDataCommand = new RelayCommand<object>(_ => true, _ => Load());
         }
 
@@ -50,15 +54,10 @@ namespace QuanLyThuongPhongBan.ViewModels
 
         private void ShowAddOrEditRow(TbThuongDuAn model)
         {
-            //if (Authorization == "Guest")
-            //{
-            //    MessageNotifyWindow.Show("Bạn không đủ thẩm quyền để làm việc này!", Colors.Orange);
-            //    return;
-            //}
-
             if (TbThuongDuAn == null) return;
 
-            if (model == null){
+            if (model == null)
+            {
 
                 model = new TbThuongDuAn();
 
@@ -80,27 +79,32 @@ namespace QuanLyThuongPhongBan.ViewModels
             _ = RefreshTable();
         }
 
+        private void CalculatorData(TbThuongDuAn model)
+        {
+            if (TbThuongDuAn == null) return;
+
+            foreach (var detail in TbThuongDuAn.Details)
+            {
+                detail.GiaTri = (TbThuongDuAn.QuyetToan * detail.TiLeThuong) / 100;
+                detail.GiaTriDieuChinhDot1 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot1) / 100;
+                detail.GiaTriDieuChinhDot2 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot2) / 100;
+                detail.ThuHoiCongNo = detail.GiaTri - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
+                detail.NghiemThu = detail.GiaTriDieuChinhDot1 + detail.GiaTriDieuChinhDot2 + detail.ThuHoiCongNo;
+            }
+        }
+
         private void AddOrEditRow()
         {
             if (TbThuongDuAn == null) return;
 
-            string changeProperties = string.Empty;
-
             try
             {
-                foreach (var detail in TbThuongDuAn.Details)
-                {
-                    DataProvider.Ins.DB.TbPhongBans.Any(x => x.Id == detail.IdPhongBan);
-                    MessageBox.Show("Không có phòng ban !", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
                 if (TbThuongDuAn.Id == 0)
                 {
                     DataProvider.Ins.DB.TbThuongDuAns.Add(TbThuongDuAn);
 
                     DataProvider.Ins.DB.SaveChanges();
-                    MessageBox.Show("Tạo mới thành công!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Tạo mới thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
@@ -112,34 +116,39 @@ namespace QuanLyThuongPhongBan.ViewModels
                     DataProvider.Ins.DB.Entry(exiting).State = EntityState.Detached;
                     DataProvider.Ins.DB.Entry(TbThuongDuAn).State = EntityState.Modified;
 
-                    //changeProperties = CopyAndDetectChanges(TbThuongDuAn, exiting);
-
-                    if (!string.IsNullOrEmpty(changeProperties))
-                        DataProvider.Ins.DB.SaveChanges();
-                    else
+                    foreach (var detail in TbThuongDuAn.Details.ToList())
                     {
-                        //MessageNotifyWindow.Show("Không có thay đổi nào xảy ra cả.");
-                        return;
+                        var exitingDetail = DataProvider.Ins.DB.TbThuongDaiDoanDuAns
+                            .FirstOrDefault(x => x.Id == detail.Id && x.IdThuongDuAnPhongBan == TbThuongDuAn.Id);
+                        if (exitingDetail != null)
+                        {
+                            DataProvider.Ins.DB.Entry(exitingDetail).State = EntityState.Detached;
+                            DataProvider.Ins.DB.Entry(detail).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            detail.IdThuongDuAnPhongBan = TbThuongDuAn.Id;
+                            DataProvider.Ins.DB.TbThuongDaiDoanDuAns.Add(detail);
+                        }
+                    }
+
+                    TbThuongDuAn.Details = new ObservableCollection<TbThuongDaiDoanDuAn>(
+                        DataProvider.Ins.DB.TbThuongDaiDoanDuAns
+                            .Where(d => d.IdThuongDuAnPhongBan == TbThuongDuAn.Id)
+                            .Include(d => d.IdPhongBanNavigation)
+                            .ToList()
+                    );
+
+                    DataProvider.Ins.DB.SaveChanges();
+                    if (MessageBox.Show("Sửa thành công!\nBạn thoát khỏi màn hình chinh sửa không?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+                    {
+                        var currentWindow = Application.Current.Windows
+                                             .OfType<Window>()
+                                             .SingleOrDefault(w => w.IsActive);
+
+                        currentWindow?.Close();
                     }
                 }
-
-                //if (!string.IsNullOrEmpty(changeProperties))
-                //{
-                //    DataProvider.Ins.DB.ThongBaos
-                //        .Add(
-                //            new ThongBao
-                //            {
-                //                TieuDe = "",
-                //                TinNhan = $"{NameAccount} đã {changeProperties}",
-                //                ThoiGianTao = DateTime.Now
-                //            });
-                //}
-
-                //addorEditCustomerView?.Close();
-
-                //DataProvider.Ins.DB.SaveChanges();
-
-                //MessageNotifyWindow.Show($"{NameAccount} đã {changeProperties} thành công");
             }
             catch (DbUpdateException dbUpdateEx)
             {
@@ -163,17 +172,60 @@ namespace QuanLyThuongPhongBan.ViewModels
                 }
                 else
                 {
-                    errorMessage = "Lỗi không xác định trong quá trình cập nhật dữ liệu.";
+                    MessageBox.Show("Lỗi không xác định trong quá trình cập nhật dữ liệu.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
-                //MessageNotifyWindow.Show($"Thêm mới hoặc sửa không thành công:\n{errorMessage}", Colors.Red);
             }
             catch (Exception ex)
             {
-                //MessageNotifyWindow.Show($"Lỗi không xác định:\n{ex.Message}", Colors.Red);
+                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        private void DeleteRow(TbThuongDuAn model)
+        {
+            try
+            {
+                if (MessageBox.Show("Bạn có thật sự muốn xoá không ?", "Xoá", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel) return;
+
+                var data = DataProvider.Ins.DB.TbThuongDaiDoanDuAns.FirstOrDefault(x => x.IdThuongDuAnPhongBan == model.Id);
+                if (data != null)
+                    DataProvider.Ins.DB.TbThuongDaiDoanDuAns.Remove(data);
+
+                DataProvider.Ins.DB.TbThuongDuAns.Remove(model);
+
+                DataProvider.Ins.DB.SaveChanges();
+
+                MessageBox.Show("Xoá đơn hàng và sản phẩm thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                _ = RefreshTable();
+            }
+            catch (DbUpdateException dbUpdateEx)
+            {
+                string errorMessage;
+
+                // Kiểm tra lỗi cụ thể
+                if (dbUpdateEx.InnerException is SqlException sqlEx)
+                {
+                    switch (sqlEx.Number)
+                    {
+                        case 547: // Vi phạm ràng buộc ngoại
+                            errorMessage = "Không thể xóa vì có ràng buộc ngoại. Xin kiểm tra dữ liệu liên quan.";
+                            break;
+                        default:
+                            errorMessage = "Lỗi không xác định: " + sqlEx.Message;
+                            break;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Lỗi không xác định trong quá trình xóa dữ liệu.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         private CancellationTokenSource? cancellationTokenSource;
         private void CancelPreviousTask()
@@ -251,7 +303,10 @@ namespace QuanLyThuongPhongBan.ViewModels
                     List.Add(item);
                 }
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }
