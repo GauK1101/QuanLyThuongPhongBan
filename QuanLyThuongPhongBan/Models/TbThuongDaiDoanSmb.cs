@@ -1,4 +1,5 @@
 ﻿using QuanLyThuongPhongBan.ViewModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyThuongPhongBan.Models;
 
@@ -10,6 +11,7 @@ public partial class TbThuongDaiDoanSmb : BaseViewModel
         set => Set(value);
     }
 
+    [ForeignKey("IdPhongBanNavigation")]
     public int IdPhongBan
     {
         get => Get<int>();
@@ -57,4 +59,9 @@ public partial class TbThuongDaiDoanSmb : BaseViewModel
         get => Get<decimal>();
         set => Set(value);
     }
+
+    [ForeignKey(nameof(IdTongThuongSmb))]
+    public TbThuongDuAn? TbThuongDuAn { get; set; }
+
+    public virtual TbPhongBan? IdPhongBanNavigation { get; set; }
 }

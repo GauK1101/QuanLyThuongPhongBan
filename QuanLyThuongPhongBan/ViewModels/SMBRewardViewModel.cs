@@ -6,11 +6,10 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace QuanLyThuongPhongBan.ViewModels
 {
-    internal class ProjectRewardViewModel : BaseViewModel
+    internal class SMBRewardViewModel : BaseViewModel
     {
         public ICommand? ShowAddOrEditRowCommand { get; }
         public ICommand? AddOrEditRowCommand { get; }
@@ -18,8 +17,8 @@ namespace QuanLyThuongPhongBan.ViewModels
         public ICommand? ReloadDataCommand { get; }
         public ICommand? CalculatorDataCommand { get; }
 
-        private ObservableCollection<TbThuongDuAn>? _list;
-        public ObservableCollection<TbThuongDuAn>? List
+        private ObservableCollection<TbThuongSmb>? _list;
+        public ObservableCollection<TbThuongSmb>? List
         {
             get => _list;
             set
@@ -29,21 +28,21 @@ namespace QuanLyThuongPhongBan.ViewModels
             }
         }
 
-        public TbThuongDuAn? TbThuongDuAn { get; set; }
-        public TbThuongDaiDoanDuAn? TbThuongDaiDoanDuAn { get; set; }
+        public TbThuongSmb? TbThuongSmb { get; set; }
+        public TbThuongDaiDoanSmb? TbThuongDaiDoanSmb { get; set; }
         AddEditProjectRewardWindow? addEditProjectRewardWindow;
 
-        public ProjectRewardViewModel()
+        public SMBRewardViewModel()
         {
-            TbThuongDaiDoanDuAn = new TbThuongDaiDoanDuAn();
-            TbThuongDuAn = new TbThuongDuAn();
+            TbThuongDaiDoanSmb = new TbThuongDaiDoanSmb();
+            TbThuongSmb = new TbThuongSmb();
 
             Load();
 
-            ShowAddOrEditRowCommand = new RelayCommand<TbThuongDuAn>(_ => true, ShowAddOrEditRow);
-            AddOrEditRowCommand = new RelayCommand<TbThuongDuAn>(_ => true, _ => AddOrEditRow());
-            DeleteRowCommand = new RelayCommand<TbThuongDuAn>(_ => true, DeleteRow);
-            CalculatorDataCommand = new RelayCommand<TbThuongDuAn>(_ => true, CalculatorData);
+            ShowAddOrEditRowCommand = new RelayCommand<TbThuongSmb>(_ => true, ShowAddOrEditRow);
+            AddOrEditRowCommand = new RelayCommand<TbThuongSmb>(_ => true, _ => AddOrEditRow());
+            DeleteRowCommand = new RelayCommand<TbThuongSmb>(_ => true, DeleteRow);
+            CalculatorDataCommand = new RelayCommand<TbThuongSmb>(_ => true, CalculatorData);
             ReloadDataCommand = new RelayCommand<object>(_ => true, _ => Load());
         }
 
@@ -52,18 +51,18 @@ namespace QuanLyThuongPhongBan.ViewModels
             _ = RefreshTable();
         }
 
-        private void ShowAddOrEditRow(TbThuongDuAn model)
+        private void ShowAddOrEditRow(TbThuongSmb model)
         {
-            if (TbThuongDuAn == null) return;
+            if (TbThuongSmb == null) return;
 
             if (model == null)
             {
 
-                model = new TbThuongDuAn();
+                model = new TbThuongSmb();
 
                 for (int i = 1; i <= 5; i++)
                 {
-                    TbThuongDaiDoanDuAn detail = new TbThuongDaiDoanDuAn
+                    TbThuongDaiDoanSmb detail = new TbThuongDaiDoanSmb
                     {
                         IdPhongBan = i
                     };
@@ -71,7 +70,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                 }
             }
 
-            TbThuongDuAn = model;
+            TbThuongSmb = model;
 
             addEditProjectRewardWindow = new AddEditProjectRewardWindow();
             addEditProjectRewardWindow.ShowDialog();
@@ -79,64 +78,62 @@ namespace QuanLyThuongPhongBan.ViewModels
             _ = RefreshTable();
         }
 
-        private void CalculatorData(TbThuongDuAn model)
+        private void CalculatorData(TbThuongSmb model)
         {
-            if (TbThuongDuAn == null) return;
+            if (TbThuongSmb == null) return;
 
-            foreach (var detail in TbThuongDuAn.Details)
+            foreach (var detail in TbThuongSmb.Details)
             {
-                detail.GiaTri = (TbThuongDuAn.QuyetToan * detail.TiLeThuong) / 100;
-                detail.GiaTriDieuChinhDot1 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot1) / 100;
-                detail.GiaTriDieuChinhDot2 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot2) / 100;
-                detail.ThuHoiCongNo = detail.GiaTri - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
-                detail.NghiemThu = detail.GiaTriDieuChinhDot1 + detail.GiaTriDieuChinhDot2 + detail.ThuHoiCongNo;
+                //detail.GiaTri = (TbThuongSmb.QuyetToan * detail.TiLeThuong) / 100;
+                //detail.GiaTriDieuChinhDot1 = (TbThuongSmb.GiaTriHopDong * detail.TiLeDieuChinhDot1) / 100;
+                //detail.GiaTriDieuChinhDot2 = (TbThuongSmb.GiaTriHopDong * detail.TiLeDieuChinhDot2) / 100;
+                //detail.ThuHoiCongNo = detail.GiaTri - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
+                //detail.NghiemThu = detail.GiaTriDieuChinhDot1 + detail.GiaTriDieuChinhDot2 + detail.ThuHoiCongNo;
             }
         }
 
         private void AddOrEditRow()
         {
-            if (TbThuongDuAn == null) return;
+            if (TbThuongSmb == null) return;
 
             try
             {
-                if (TbThuongDuAn.Id == 0)
+                if (TbThuongSmb.Id == 0)
                 {
-                    DataProvider.Ins.DB.TbThuongDuAns.Add(TbThuongDuAn);
+                    DataProvider.Ins.DB.TbThuongSmbs.Add(TbThuongSmb);
 
                     DataProvider.Ins.DB.SaveChanges();
                     MessageBox.Show("Tạo mới thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    var exiting = DataProvider.Ins.DB.TbThuongDuAns.FirstOrDefault(x => x.Id == TbThuongDuAn.Id);
+                    var exiting = DataProvider.Ins.DB.TbThuongSmbs.FirstOrDefault(x => x.Id == TbThuongSmb.Id);
 
                     if (exiting == null)
                         return;
 
-                    //DataProvider.Ins.DB.Entry(exiting).State = EntityState.Detached;
-                    //DataProvider.Ins.DB.Entry(TbThuongDuAn).State = EntityState.Modified;
-                    DataProvider.Ins.DB.Entry(exiting).CurrentValues.SetValues(TbThuongDuAn);
+                    DataProvider.Ins.DB.Entry(exiting).State = EntityState.Detached;
+                    DataProvider.Ins.DB.Entry(TbThuongSmb).State = EntityState.Modified;
 
-                    foreach (var detail in TbThuongDuAn.Details.ToList())
+                    foreach (var detail in TbThuongSmb.Details.ToList())
                     {
-                        var exitingDetail = DataProvider.Ins.DB.TbThuongDaiDoanDuAns
-                            .FirstOrDefault(x => x.Id == detail.Id && x.IdThuongDuAnPhongBan == TbThuongDuAn.Id);
+                        var exitingDetail = DataProvider.Ins.DB.TbThuongDaiDoanSmbs
+                            .FirstOrDefault(x => x.Id == detail.Id && x.IdTongThuongSmb == TbThuongSmb.Id);
                         if (exitingDetail != null)
                         {
-                            //DataProvider.Ins.DB.Entry(exitingDetail).State = EntityState.Detached;
-                            //DataProvider.Ins.DB.Entry(detail).State = EntityState.Modified;
-                            DataProvider.Ins.DB.Entry(exitingDetail).CurrentValues.SetValues(detail);
+                            DataProvider.Ins.DB.Entry(exitingDetail).State = EntityState.Detached;
+                            DataProvider.Ins.DB.Entry(detail).State = EntityState.Modified;
                         }
                         else
                         {
-                            detail.IdThuongDuAnPhongBan = TbThuongDuAn.Id;
-                            DataProvider.Ins.DB.TbThuongDaiDoanDuAns.Add(detail);
+                            detail.IdTongThuongSmb = TbThuongSmb.Id;
+                            DataProvider.Ins.DB.TbThuongDaiDoanSmbs.Add(detail);
                         }
                     }
 
-                    TbThuongDuAn.Details = new ObservableCollection<TbThuongDaiDoanDuAn>(
-                        DataProvider.Ins.DB.TbThuongDaiDoanDuAns
-                            .Where(d => d.IdThuongDuAnPhongBan == TbThuongDuAn.Id)
+                    TbThuongSmb.Details = new ObservableCollection<TbThuongDaiDoanSmb>(
+                        DataProvider.Ins.DB.TbThuongDaiDoanSmbs
+                            .Where(d => d.IdTongThuongSmb == TbThuongSmb.Id)
                             .Include(d => d.IdPhongBanNavigation)
                             .ToList()
                     );
@@ -183,17 +180,17 @@ namespace QuanLyThuongPhongBan.ViewModels
             }
         }
 
-        private void DeleteRow(TbThuongDuAn model)
+        private void DeleteRow(TbThuongSmb model)
         {
             try
             {
                 if (MessageBox.Show("Bạn có thật sự muốn xoá không ?", "Xoá", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel) return;
 
-                var data = DataProvider.Ins.DB.TbThuongDaiDoanDuAns.FirstOrDefault(x => x.IdThuongDuAnPhongBan == model.Id);
+                var data = DataProvider.Ins.DB.TbThuongDaiDoanSmbs.FirstOrDefault(x => x.IdTongThuongSmb == model.Id);
                 if (data != null)
-                    DataProvider.Ins.DB.TbThuongDaiDoanDuAns.Remove(data);
+                    DataProvider.Ins.DB.TbThuongDaiDoanSmbs.Remove(data);
 
-                DataProvider.Ins.DB.TbThuongDuAns.Remove(model);
+                DataProvider.Ins.DB.TbThuongSmbs.Remove(model);
 
                 DataProvider.Ins.DB.SaveChanges();
 
@@ -251,12 +248,12 @@ namespace QuanLyThuongPhongBan.ViewModels
                     await Task.Delay(300, cancellationTokenSource.Token);
 
                 // Truy vấn cơ sở dữ liệu với phân trang và tìm kiếm trực tiếp
-                var query = await DataProvider.Ins.DB.TbThuongDuAns
+                var query = await DataProvider.Ins.DB.TbThuongSmbs
                     .AsNoTracking()
                     .AsQueryable()
                     .ToListAsync();
 
-                var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanDuAns
+                var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanSmbs
                     .AsNoTracking()
                     .Include(d => d.IdPhongBanNavigation)
                     .AsQueryable()
@@ -272,24 +269,22 @@ namespace QuanLyThuongPhongBan.ViewModels
                 //    .ToListAsync();
 
                 if (List == null)
-                    List = new ObservableCollection<TbThuongDuAn>();
+                    List = new ObservableCollection<TbThuongSmb>();
                 List.Clear();
 
                 foreach (var item in query)
                 {
                     var details = queryDetails
-                                    .Where(d => d.IdThuongDuAnPhongBan == item.Id)
-                                    .Select(d => new TbThuongDaiDoanDuAn
+                                    .Where(d => d.IdTongThuongSmb == item.Id)
+                                    .Select(d => new TbThuongDaiDoanSmb
                                     {
                                         Id = d.Id,
                                         IdPhongBan = d.IdPhongBan,
-                                        IdThuongDuAnPhongBan = d.IdThuongDuAnPhongBan,
-                                        TiLeThuong = d.TiLeThuong,
-                                        GiaTri = d.GiaTri,
-                                        GiaTriDieuChinhDot1 = d.GiaTriDieuChinhDot1,
-                                        TiLeDieuChinhDot1 = d.TiLeDieuChinhDot1,
-                                        GiaTriDieuChinhDot2 = d.GiaTriDieuChinhDot2,
-                                        TiLeDieuChinhDot2 = d.TiLeDieuChinhDot2,
+                                        IdTongThuongSmb = d.IdTongThuongSmb,
+                                        TiLeSmb = d.TiLeSmb,
+                                        TiLeGiaTri = d.TiLeGiaTri,
+                                        TiLeDot1 = d.TiLeDot1,
+                                        GiaTriDot1 = d.GiaTriDot1,
                                         ThuHoiCongNo = d.ThuHoiCongNo,
                                         NghiemThu = d.NghiemThu,
                                         IdPhongBanNavigation = d.IdPhongBanNavigation

@@ -4,5 +4,6 @@
 
     <viewmodel:MainViewModel x:Key="MainVM"/>
     <viewmodel:ProjectRewardViewModel x:Key="ProjectRewardVM"/>
+    <viewmodel:SMBRewardViewModel x:Key="SMBRewardVM"/>
 
 </ResourceDictionary>

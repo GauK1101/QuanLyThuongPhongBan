@@ -52,5 +52,15 @@ namespace QuanLyThuongPhongBan.Views
             Properties.Settings.Default.ColumnSMBtRewardView = string.Join(",", columnOrder);
             Properties.Settings.Default.Save();
         }
+
+        private void chkExpandAll_Checked(object sender, RoutedEventArgs e)
+        {
+            myDataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Visible;
+        }
+
+        private void chkExpandAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            myDataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+        }
     }
 }
