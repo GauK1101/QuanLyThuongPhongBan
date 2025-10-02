@@ -3,10 +3,285 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLyThuongPhongBan.Views"
+        xmlns:local="clr-namespace:QuanLyThuongPhongBan.CLass" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="AddEditSMBRewardWindow" Height="450" Width="800">
+        DataContext="{StaticResource SMBRewardVM}"
+        Background="#fdfffd"
+        WindowStartupLocation="CenterScreen"
+        Title="AddEditSMBRewardWindow" Height="520" Width="1020">
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Border
+            Grid.Row="0"
+            Margin="20 0 0 0"
+            CornerRadius="10,10,0,0">
+            <Grid>
+
+                <DockPanel>
+
+                    <TextBlock
+                        x:Name="Title_Window"
+                        Width="auto"
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Left"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="Thưởng SMB" />
+
+                </DockPanel>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    Header="1.Tổng dự án"
+                    IsExpanded="True">
+                    <WrapPanel
+                        Margin="24,8,24,16"
+                        Orientation="Horizontal"
+                        TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+
+                        <!-- Tổng giá trị SMB -->
+                        <TextBox
+                            FontSize="18"
+                            Margin="10,5"
+                            VerticalAlignment="Center"
+                            materialDesign:TextFieldAssist.HasClearButton="True"
+                            materialDesign:TextFieldAssist.SuffixText="VND"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding TbThuongSmb.TongGiaTriSmb, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                            <materialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Tổng giá trị SMB" />
+                                </StackPanel>
+                            </materialDesign:HintAssist.Hint>
+                        </TextBox>
+
+                        <!-- Tỉ lệ quyết toán -->
+                        <TextBox
+                            FontSize="18"
+                            Margin="10,5"
+                            VerticalAlignment="Center"
+                            materialDesign:TextFieldAssist.HasClearButton="True"
+                            materialDesign:TextFieldAssist.SuffixText="VND"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding TbThuongSmb.TiLeQuyetToan, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                            <materialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Đã xuất hóa đơn" />
+                                </StackPanel>
+                            </materialDesign:HintAssist.Hint>
+                        </TextBox>
+
+                        <!-- Tổng tỉ lệ SMB -->
+                        <TextBox
+                            FontSize="18"
+                            Margin="10,5"
+                            VerticalAlignment="Center"
+                            materialDesign:TextFieldAssist.HasClearButton="True"
+                            materialDesign:TextFieldAssist.SuffixText="%"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding TbThuongSmb.TongTiLeSmb, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                            <materialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Tổng tỉ lệ SMB" />
+                                </StackPanel>
+                            </materialDesign:HintAssist.Hint>
+                        </TextBox>
+
+                        <!-- Tổng giá trị SMB điều chỉnh -->
+                        <TextBox
+                            FontSize="18"
+                            Margin="10,5"
+                            VerticalAlignment="Center"
+                            materialDesign:TextFieldAssist.HasClearButton="True"
+                            materialDesign:TextFieldAssist.SuffixText="VND"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding TbThuongSmb.TongGiaTriSmbDieuChinh, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                            <materialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Tổng giá trị SMB điều chỉnh" />
+                                </StackPanel>
+                            </materialDesign:HintAssist.Hint>
+                        </TextBox>
+
+                        <!-- Năm thưởng -->
+                        <TextBox
+                            FontSize="18"
+                            Margin="10,5"
+                            VerticalAlignment="Center"
+                            materialDesign:TextFieldAssist.HasClearButton="True"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding TbThuongSmb.NamThuong, UpdateSourceTrigger=PropertyChanged}">
+                            <materialDesign:HintAssist.Hint>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Năm thưởng" />
+                                </StackPanel>
+                            </materialDesign:HintAssist.Hint>
+                        </TextBox>
+
+                    </WrapPanel>
+                </Expander>
+
+                <Expander Header="2.Chi tiết đại/đoàn dự án"
+                          HorizontalAlignment="Stretch"
+                          IsExpanded="True"
+                          Background="Transparent">
+                    <DataGrid
+                        ItemsSource="{Binding TbThuongSmb.Details}"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="True"
+                        IsReadOnly="False"
+                        Margin="8"
+                        HeadersVisibility="Column"
+                        RowHeaderWidth="0"
+                        SelectionUnit="FullRow"
+                        AlternationCount="2"
+                        materialDesign:DataGridAssist.CellPadding="8"
+                        materialDesign:DataGridAssist.ColumnHeaderPadding="10,6"
+                        materialDesign:DataGridAssist.EnableEditBoxAssist="True">
+
+                        <!-- Style mặc định: căn trái cho cả cell text và editing box -->
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                            </Style>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <DataGrid.Columns>
+                            <!-- Phòng ban -->
+                            <DataGridTextColumn Header="Phòng ban"
+                                                Binding="{Binding IdPhongBanNavigation.TenPhongBan}" />
+
+                            <!-- Tỉ lệ thưởng (%) -->
+                            <DataGridTextColumn Header="Tỉ lệ tổng gói (%)"
+                                                Binding="{Binding TiLeThuong, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#####}}"
+                                                />
+
+                            <!-- Giá trị -->
+                            <DataGridTextColumn Header="Giá trị tổng gói"
+                                                Binding="{Binding GiaTri, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                />
+
+                            <!-- Điều chỉnh đợt 1 -->
+                            <DataGridTextColumn Header="Tỉ lệ GD1/Doanh thu (%)"
+                                                Binding="{Binding TiLeDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#####}}"
+                                                />
+                            <DataGridTextColumn Header="Giá trị GD1/Doanh thu"
+                                                Binding="{Binding GiaTriDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                />
+
+                            <!-- Thu hồi công nợ -->
+                            <DataGridTextColumn Header="Quyết toán/Thu hồi công nợ"
+                                                Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                />
+
+                            <!-- Nghiệm thu -->
+                            <DataGridTextColumn Header="Nghiệm thu"
+                                                Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+
+                <Expander
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    Header="3.Kho"
+                    Visibility="Collapsed">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <WrapPanel
+                            Margin="24,8,24,16"
+                            Orientation="Horizontal"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+
+
+                        </WrapPanel>
+                    </ScrollViewer>
+                </Expander>
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Grid.Column="2">
+
+                    <Button
+                        x:Name="closeButton"
+                        Click="closeButton_Click"
+                        Margin="10 0 5 0"
+                        HorizontalAlignment="Right"
+                        Background="#FF6E6E6E"
+                        FontSize="15"
+                        Foreground="White"
+                        materialDesign:ButtonAssist.CornerRadius="10">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 2 5 0"
+                                VerticalAlignment="Center"
+                                Kind="Close" />
+                            <TextBlock>Đóng</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Margin="5 0 5 0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding CalculatorDataCommand}"
+                        FontSize="15"
+                        Foreground="White"
+                        materialDesign:ButtonAssist.CornerRadius="10">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#59a2ff" Offset="0" />
+                                <!-- Xanh lá nhạt -->
+                                <GradientStop Color="#005fda" Offset="1" />
+                                <!-- Xanh lá đậm -->
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 2 5 0"
+                                VerticalAlignment="Center"
+                                Kind="Calculator" />
+                            <TextBlock>Tính toán</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button
+                        Grid.Column="2"
+                        Margin="5 0 10 0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding AddOrEditRowCommand}"
+                        FontSize="15"
+                        Foreground="White"
+                        materialDesign:ButtonAssist.CornerRadius="10">
+                        <WrapPanel>
+                            <materialDesign:PackIcon
+                                Margin="0 2 5 0"
+                                VerticalAlignment="Center"
+                                Kind="ContentSave" />
+                            <TextBlock>Lưu</TextBlock>
+                        </WrapPanel>
+                    </Button>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

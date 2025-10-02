@@ -16,6 +16,8 @@ namespace QuanLyThuongPhongBan.ViewModels
         public ICommand? DeleteRowCommand { get; }
         public ICommand? ReloadDataCommand { get; }
         public ICommand? CalculatorDataCommand { get; }
+        public ICommand? PreviousPageCommand { get; }
+        public ICommand? NextPageCommand { get; }
 
         private ObservableCollection<TbThuongSmb>? _list;
         public ObservableCollection<TbThuongSmb>? List
@@ -30,7 +32,30 @@ namespace QuanLyThuongPhongBan.ViewModels
 
         public TbThuongSmb? TbThuongSmb { get; set; }
         public TbThuongDaiDoanSmb? TbThuongDaiDoanSmb { get; set; }
-        AddEditProjectRewardWindow? addEditProjectRewardWindow;
+        AddEditSMBRewardWindow? aadEditSMBRewardWindow;
+
+        private string? _searchFill = string.Empty;
+        public string? SearchFill
+        {
+            get => _searchFill;
+            set
+            {
+                _searchFill = value;
+                OnPropertyChanged();
+                _ = RefreshTable();
+            }
+        }
+
+        private int _currentPage = 1;
+        public int CurrentPage
+        {
+            get => _currentPage;
+            set
+            {
+                _currentPage = value;
+                OnPropertyChanged();
+            }
+        }
 
         public SMBRewardViewModel()
         {
@@ -72,8 +97,8 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             TbThuongSmb = model;
 
-            addEditProjectRewardWindow = new AddEditProjectRewardWindow();
-            addEditProjectRewardWindow.ShowDialog();
+            aadEditSMBRewardWindow = new AddEditSMBRewardWindow();
+            aadEditSMBRewardWindow.ShowDialog();
 
             _ = RefreshTable();
         }

@@ -43,7 +43,8 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     materialDesign:HintAssist.Hint="Tìm kiếm..."
-                    Text="{Binding SearchFill, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding SearchFill, UpdateSourceTrigger=PropertyChanged}"
+                    />
 
                 <StackPanel
                     Grid.Column="2"
@@ -56,7 +57,6 @@
                         Margin="0 0 10 0"
                         VerticalAlignment="Center"
                         Command="{Binding ReloadDataCommand}"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Style="{StaticResource MaterialDesignIconButton}"
                         ToolTip="Tải lại trang"
                         >

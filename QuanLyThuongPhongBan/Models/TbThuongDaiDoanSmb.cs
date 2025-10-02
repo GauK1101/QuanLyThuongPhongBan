@@ -61,7 +61,7 @@ public partial class TbThuongDaiDoanSmb : BaseViewModel
     }
 
     [ForeignKey(nameof(IdTongThuongSmb))]
-    public TbThuongDuAn? TbThuongDuAn { get; set; }
+    public TbThuongSmb? TbThuongSmb { get; set; }
 
     public virtual TbPhongBan? IdPhongBanNavigation { get; set; }
 }

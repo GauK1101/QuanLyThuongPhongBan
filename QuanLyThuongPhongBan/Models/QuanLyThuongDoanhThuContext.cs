@@ -154,6 +154,11 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
             entity.Property(e => e.TongTiLeSmb)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("tong_ti_le_smb");
+            entity.Property(e => e.NamThuong)
+                .HasMaxLength(4)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("nam_thuong");
         });
 
         OnModelCreatingPartial(modelBuilder);

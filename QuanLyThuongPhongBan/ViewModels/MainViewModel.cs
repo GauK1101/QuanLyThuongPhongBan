@@ -51,7 +51,11 @@ namespace QuanLyThuongPhongBan.ViewModels
         #region Command
         public ICommand ShowProjectRewardViewCommand { get; }
         public ICommand ShowSMBRewardViewCommand { get; }
+        public ICommand LogoutCommand { get; }
+
         #endregion
+
+        public ObservableCollection<string> Notifications { get; set; }
 
         public MainViewModel()
         {
