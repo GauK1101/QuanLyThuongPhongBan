@@ -90,14 +90,15 @@ namespace QuanLyThuongPhongBan.ViewModels
                 {
                     TbThuongDaiDoanDuAn detail = new TbThuongDaiDoanDuAn
                     {
-                        IdPhongBan = i
+                        IdPhongBan = i,
+                        IdPhongBanNavigation = DataProvider.Ins.DB.TbPhongBans.FirstOrDefault(x => x.Id == i)
                     };
                     model.Details.Add(detail);
                 }
             }
 
             TbThuongDuAn = model;
-
+            
             addEditProjectRewardWindow = new AddEditProjectRewardWindow();
             addEditProjectRewardWindow.ShowDialog();
 
@@ -110,10 +111,10 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             foreach (var detail in TbThuongDuAn.Details)
             {
-                detail.GiaTri = (TbThuongDuAn.QuyetToan * detail.TiLeThuong) / 100;
+                detail.GiaTriTongGoi = (TbThuongDuAn.QuyetToan * detail.TiLeTongGoi) / 100;
                 detail.GiaTriDieuChinhDot1 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot1) / 100;
                 detail.GiaTriDieuChinhDot2 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot2) / 100;
-                detail.ThuHoiCongNo = detail.GiaTri - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
+                detail.ThuHoiCongNo = detail.GiaTriTongGoi - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
                 detail.NghiemThu = detail.GiaTriDieuChinhDot1 + detail.GiaTriDieuChinhDot2 + detail.ThuHoiCongNo;
             }
         }
@@ -145,7 +146,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                     foreach (var detail in TbThuongDuAn.Details.ToList())
                     {
                         var exitingDetail = DataProvider.Ins.DB.TbThuongDaiDoanDuAns
-                            .FirstOrDefault(x => x.Id == detail.Id && x.IdThuongDuAnPhongBan == TbThuongDuAn.Id);
+                            .FirstOrDefault(x => x.Id == detail.Id && x.IdThuongDuAn == TbThuongDuAn.Id);
                         if (exitingDetail != null)
                         {
                             //DataProvider.Ins.DB.Entry(exitingDetail).State = EntityState.Detached;
@@ -154,14 +155,14 @@ namespace QuanLyThuongPhongBan.ViewModels
                         }
                         else
                         {
-                            detail.IdThuongDuAnPhongBan = TbThuongDuAn.Id;
+                            detail.IdThuongDuAn = TbThuongDuAn.Id;
                             DataProvider.Ins.DB.TbThuongDaiDoanDuAns.Add(detail);
                         }
                     }
 
                     TbThuongDuAn.Details = new ObservableCollection<TbThuongDaiDoanDuAn>(
                         DataProvider.Ins.DB.TbThuongDaiDoanDuAns
-                            .Where(d => d.IdThuongDuAnPhongBan == TbThuongDuAn.Id)
+                            .Where(d => d.IdThuongDuAn == TbThuongDuAn.Id)
                             .Include(d => d.IdPhongBanNavigation)
                             .ToList()
                     );
@@ -214,7 +215,7 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 if (MessageBox.Show("Bạn có thật sự muốn xoá không ?", "Xoá", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel) return;
 
-                var data = DataProvider.Ins.DB.TbThuongDaiDoanDuAns.FirstOrDefault(x => x.IdThuongDuAnPhongBan == model.Id);
+                var data = DataProvider.Ins.DB.TbThuongDaiDoanDuAns.FirstOrDefault(x => x.IdThuongDuAn == model.Id);
                 if (data != null)
                     DataProvider.Ins.DB.TbThuongDaiDoanDuAns.Remove(data);
 
@@ -266,6 +267,8 @@ namespace QuanLyThuongPhongBan.ViewModels
             cancellationTokenSource = new CancellationTokenSource();
         }
 
+        private static readonly SemaphoreSlim _dbLock = new SemaphoreSlim(1, 1);
+
         private async Task RefreshTable()
         {
             CancelPreviousTask();
@@ -275,59 +278,54 @@ namespace QuanLyThuongPhongBan.ViewModels
                 if (cancellationTokenSource != null)
                     await Task.Delay(300, cancellationTokenSource.Token);
 
-                // Truy vấn cơ sở dữ liệu với phân trang và tìm kiếm trực tiếp
-                var query = await DataProvider.Ins.DB.TbThuongDuAns
-                    .AsNoTracking()
-                    .AsQueryable()
-                    .ToListAsync();
-
-                var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanDuAns
-                    .AsNoTracking()
-                    .Include(d => d.IdPhongBanNavigation)
-                    .AsQueryable()
-                    .ToListAsync();
-
-                //// Áp dụng tìm kiếm trực tiếp trên cơ sở dữ liệu
-                //query = SearchViewModel.Search(query, SearchFill ?? string.Empty); // Cập nhật SearchViewModel để trả về IQueryable
-
-                //// Thực hiện phân trang
-                //var data = await query
-                //    .Skip((currentPage - 1) * pageSize)
-                //    .Take(pageSize)
-                //    .ToListAsync();
-
-                if (List == null)
-                    List = new ObservableCollection<TbThuongDuAn>();
-                List.Clear();
-
-                foreach (var item in query)
+                await _dbLock.WaitAsync(); // 🔒 Chặn truy vấn song song
+                try
                 {
-                    var details = queryDetails
-                                    .Where(d => d.IdThuongDuAnPhongBan == item.Id)
-                                    .Select(d => new TbThuongDaiDoanDuAn
-                                    {
-                                        Id = d.Id,
-                                        IdPhongBan = d.IdPhongBan,
-                                        IdThuongDuAnPhongBan = d.IdThuongDuAnPhongBan,
-                                        TiLeThuong = d.TiLeThuong,
-                                        GiaTri = d.GiaTri,
-                                        GiaTriDieuChinhDot1 = d.GiaTriDieuChinhDot1,
-                                        TiLeDieuChinhDot1 = d.TiLeDieuChinhDot1,
-                                        GiaTriDieuChinhDot2 = d.GiaTriDieuChinhDot2,
-                                        TiLeDieuChinhDot2 = d.TiLeDieuChinhDot2,
-                                        ThuHoiCongNo = d.ThuHoiCongNo,
-                                        NghiemThu = d.NghiemThu,
-                                        IdPhongBanNavigation = d.IdPhongBanNavigation
-                                    });
+                    // Truy vấn cơ sở dữ liệu với phân trang và tìm kiếm trực tiếp
+                    var query = await DataProvider.Ins.DB.TbThuongDuAns
+                        .AsNoTracking()
+                        .ToListAsync();
 
-                    // Gán vào Details của item
-                    foreach (var ct in details)
+                    var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanDuAns
+                        .AsNoTracking()
+                        .Include(d => d.IdPhongBanNavigation)
+                        .ToListAsync();
+
+                    if (List == null)
+                        List = new ObservableCollection<TbThuongDuAn>();
+                    List.Clear();
+
+                    foreach (var item in query)
                     {
-                        item.Details.Add(ct);
-                    }
+                        var details = queryDetails
+                                        .Where(d => d.IdThuongDuAn == item.Id)
+                                        .Select(d => new TbThuongDaiDoanDuAn
+                                        {
+                                            Id = d.Id,
+                                            IdPhongBan = d.IdPhongBan,
+                                            IdThuongDuAn = d.IdThuongDuAn,
+                                            TiLeTongGoi = d.TiLeTongGoi,
+                                            GiaTriTongGoi = d.GiaTriTongGoi,
+                                            GiaTriDieuChinhDot1 = d.GiaTriDieuChinhDot1,
+                                            TiLeDieuChinhDot1 = d.TiLeDieuChinhDot1,
+                                            GiaTriDieuChinhDot2 = d.GiaTriDieuChinhDot2,
+                                            TiLeDieuChinhDot2 = d.TiLeDieuChinhDot2,
+                                            ThuHoiCongNo = d.ThuHoiCongNo,
+                                            NghiemThu = d.NghiemThu,
+                                            IdPhongBanNavigation = d.IdPhongBanNavigation
+                                        });
 
-                    // Thêm item vào List chính
-                    List.Add(item);
+                        foreach (var ct in details)
+                        {
+                            item.Details.Add(ct);
+                        }
+
+                        List.Add(item);
+                    }
+                }
+                finally
+                {
+                    _dbLock.Release(); // 🔓 Giải phóng lock
                 }
             }
             catch (Exception ex)
@@ -335,5 +333,6 @@ namespace QuanLyThuongPhongBan.ViewModels
                 MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
     }
 }

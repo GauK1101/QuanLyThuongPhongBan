@@ -1,6 +1,5 @@
 ﻿using QuanLyThuongPhongBan.ViewModels;
 using System.Collections.ObjectModel;
-using System.Reflection;
 
 namespace QuanLyThuongPhongBan.Models;
 
@@ -12,33 +11,33 @@ public partial class TbThuongDuAn : BaseViewModel
         set => Set(value);
     }
 
-    public decimal GiaTriHopDong
+    public decimal? GiaTriHopDong
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal QuyetToan
+    public decimal? QuyetToan
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal TiLeThuongPhongBan
+    public decimal? TongTiLeThuongDuAn
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal TongGiaTriThuongPhongBan
+    public decimal? TongGiaTriThuongDuAn
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public string NamThuong
+    public string? NamThuong
     {
-        get => Get<string>() ?? string.Empty;
+        get => Get<string?>();
         set => Set(value);
     }
 

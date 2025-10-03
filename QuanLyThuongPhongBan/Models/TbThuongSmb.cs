@@ -11,35 +11,36 @@ public partial class TbThuongSmb : BaseViewModel
         set => Set(value);
     }
 
-    public decimal TongGiaTriSmb
+    public decimal? TongGiaTriSmb
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal TiLeQuyetToan
+    public decimal? XuatHoaDon
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal TongTiLeSmb
+    public decimal? TongTiLeThuongSmb
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal TongGiaTriSmbDieuChinh
+    public decimal? TongGiaTriThuongSmb
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
     public string NamThuong
     {
-        get => Get<string>() ?? string.Empty;
+        get => Get<string>();
         set => Set(value);
     }
+
 
     public ObservableCollection<TbThuongDaiDoanSmb> Details
     {

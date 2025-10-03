@@ -90,7 +90,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:TextFieldAssist.SuffixText="%"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding TbThuongDuAn.TiLeThuongPhongBan, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                            Text="{Binding TbThuongDuAn.TongTiLeThuongDuAn, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
                             <materialDesign:HintAssist.Hint>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Tỉ lệ thưởng phòng ban" />
@@ -106,7 +106,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:TextFieldAssist.SuffixText="VND"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding TbThuongDuAn.TongGiaTriThuongPhongBan, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                            Text="{Binding TbThuongDuAn.TongGiaTriThuongDuAn, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                             <materialDesign:HintAssist.Hint>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Tổng giá trị thưởng phòng ban" />
@@ -169,17 +169,17 @@
 
                             <!-- Tỉ lệ thưởng (%) -->
                             <DataGridTextColumn Header="Tỉ lệ tổng gói (%)"
-                                                Binding="{Binding TiLeThuong, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#####}}"
+                                                Binding="{Binding TiLeTongGoi, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
                                                 />
 
                             <!-- Giá trị -->
                             <DataGridTextColumn Header="Giá trị tổng gói"
-                                                Binding="{Binding GiaTri, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                Binding="{Binding GiaTriTongGoi, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
                                                 />
 
                             <!-- Điều chỉnh đợt 1 -->
                             <DataGridTextColumn Header="Tỉ lệ GD1/Trúng thầu (%)"
-                                                Binding="{Binding TiLeDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#####}}"
+                                                Binding="{Binding TiLeDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
                                                 />
                             <DataGridTextColumn Header="Giá trị GD1/Trúng thầu"
                                                 Binding="{Binding GiaTriDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
@@ -187,7 +187,7 @@
 
                             <!-- Điều chỉnh đợt 2 -->
                             <DataGridTextColumn Header="Tỉ lệ GD2/Triển khai (%)"
-                                                Binding="{Binding TiLeDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#####}}"
+                                                Binding="{Binding TiLeDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
                                                 />
                             <DataGridTextColumn Header="Giá trị GD2/Triển khai"
                                                 Binding="{Binding GiaTriDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"

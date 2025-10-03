@@ -82,14 +82,14 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             if (model == null)
             {
-
                 model = new TbThuongSmb();
 
-                for (int i = 1; i <= 5; i++)
+                for (int i = 3; i <= 5; i++)
                 {
                     TbThuongDaiDoanSmb detail = new TbThuongDaiDoanSmb
                     {
-                        IdPhongBan = i
+                        IdPhongBan = i,
+                        IdPhongBanNavigation = DataProvider.Ins.DB.TbPhongBans.FirstOrDefault(x => x.Id == i)
                     };
                     model.Details.Add(detail);
                 }
@@ -128,7 +128,14 @@ namespace QuanLyThuongPhongBan.ViewModels
                     DataProvider.Ins.DB.TbThuongSmbs.Add(TbThuongSmb);
 
                     DataProvider.Ins.DB.SaveChanges();
-                    MessageBox.Show("Tạo mới thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (MessageBox.Show("Tạo mới thành công!\nBạn thoát khỏi màn hình chinh sửa không?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+                    {
+                        var currentWindow = Application.Current.Windows
+                                             .OfType<Window>()
+                                             .SingleOrDefault(w => w.IsActive);
+
+                        currentWindow?.Close();
+                    }
                 }
                 else
                 {
@@ -143,7 +150,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                     foreach (var detail in TbThuongSmb.Details.ToList())
                     {
                         var exitingDetail = DataProvider.Ins.DB.TbThuongDaiDoanSmbs
-                            .FirstOrDefault(x => x.Id == detail.Id && x.IdTongThuongSmb == TbThuongSmb.Id);
+                            .FirstOrDefault(x => x.Id == detail.Id && x.IdThuongSmb == TbThuongSmb.Id);
                         if (exitingDetail != null)
                         {
                             DataProvider.Ins.DB.Entry(exitingDetail).State = EntityState.Detached;
@@ -151,14 +158,14 @@ namespace QuanLyThuongPhongBan.ViewModels
                         }
                         else
                         {
-                            detail.IdTongThuongSmb = TbThuongSmb.Id;
+                            detail.IdThuongSmb = TbThuongSmb.Id;
                             DataProvider.Ins.DB.TbThuongDaiDoanSmbs.Add(detail);
                         }
                     }
 
                     TbThuongSmb.Details = new ObservableCollection<TbThuongDaiDoanSmb>(
                         DataProvider.Ins.DB.TbThuongDaiDoanSmbs
-                            .Where(d => d.IdTongThuongSmb == TbThuongSmb.Id)
+                            .Where(d => d.IdThuongSmb == TbThuongSmb.Id)
                             .Include(d => d.IdPhongBanNavigation)
                             .ToList()
                     );
@@ -211,7 +218,7 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 if (MessageBox.Show("Bạn có thật sự muốn xoá không ?", "Xoá", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel) return;
 
-                var data = DataProvider.Ins.DB.TbThuongDaiDoanSmbs.FirstOrDefault(x => x.IdTongThuongSmb == model.Id);
+                var data = DataProvider.Ins.DB.TbThuongDaiDoanSmbs.FirstOrDefault(x => x.IdThuongSmb == model.Id);
                 if (data != null)
                     DataProvider.Ins.DB.TbThuongDaiDoanSmbs.Remove(data);
 
@@ -263,6 +270,8 @@ namespace QuanLyThuongPhongBan.ViewModels
             cancellationTokenSource = new CancellationTokenSource();
         }
 
+        private static readonly SemaphoreSlim _dbLock = new SemaphoreSlim(1, 1);
+
         private async Task RefreshTable()
         {
             CancelPreviousTask();
@@ -272,57 +281,63 @@ namespace QuanLyThuongPhongBan.ViewModels
                 if (cancellationTokenSource != null)
                     await Task.Delay(300, cancellationTokenSource.Token);
 
-                // Truy vấn cơ sở dữ liệu với phân trang và tìm kiếm trực tiếp
-                var query = await DataProvider.Ins.DB.TbThuongSmbs
-                    .AsNoTracking()
-                    .AsQueryable()
-                    .ToListAsync();
-
-                var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanSmbs
-                    .AsNoTracking()
-                    .Include(d => d.IdPhongBanNavigation)
-                    .AsQueryable()
-                    .ToListAsync();
-
-                //// Áp dụng tìm kiếm trực tiếp trên cơ sở dữ liệu
-                //query = SearchViewModel.Search(query, SearchFill ?? string.Empty); // Cập nhật SearchViewModel để trả về IQueryable
-
-                //// Thực hiện phân trang
-                //var data = await query
-                //    .Skip((currentPage - 1) * pageSize)
-                //    .Take(pageSize)
-                //    .ToListAsync();
-
-                if (List == null)
-                    List = new ObservableCollection<TbThuongSmb>();
-                List.Clear();
-
-                foreach (var item in query)
+                await _dbLock.WaitAsync(); // 🔒 Chặn các truy vấn song song
+                try
                 {
-                    var details = queryDetails
-                                    .Where(d => d.IdTongThuongSmb == item.Id)
-                                    .Select(d => new TbThuongDaiDoanSmb
-                                    {
-                                        Id = d.Id,
-                                        IdPhongBan = d.IdPhongBan,
-                                        IdTongThuongSmb = d.IdTongThuongSmb,
-                                        TiLeSmb = d.TiLeSmb,
-                                        TiLeGiaTri = d.TiLeGiaTri,
-                                        TiLeDot1 = d.TiLeDot1,
-                                        GiaTriDot1 = d.GiaTriDot1,
-                                        ThuHoiCongNo = d.ThuHoiCongNo,
-                                        NghiemThu = d.NghiemThu,
-                                        IdPhongBanNavigation = d.IdPhongBanNavigation
-                                    });
+                    // Truy vấn dữ liệu chính
+                    var query = await DataProvider.Ins.DB.TbThuongSmbs
+                        .AsNoTracking()
+                        .ToListAsync();
 
-                    // Gán vào Details của item
-                    foreach (var ct in details)
+                    // Truy vấn dữ liệu chi tiết
+                    var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanSmbs
+                        .AsNoTracking()
+                        .Include(d => d.IdPhongBanNavigation)
+                        .ToListAsync();
+
+
+                    //// Áp dụng tìm kiếm trực tiếp trên cơ sở dữ liệu
+                    //query = SearchViewModel.Search(query, SearchFill ?? string.Empty); // Cập nhật SearchViewModel để trả về IQueryable
+
+                    //// Thực hiện phân trang
+                    //var data = await query
+                    //    .Skip((currentPage - 1) * pageSize)
+                    //    .Take(pageSize)
+                    //    .ToListAsync();
+
+                    if (List == null)
+                        List = new ObservableCollection<TbThuongSmb>();
+                    List.Clear();
+
+                    foreach (var item in query)
                     {
-                        item.Details.Add(ct);
-                    }
+                        var details = queryDetails
+                            .Where(d => d.IdThuongSmb == item.Id)
+                            .Select(d => new TbThuongDaiDoanSmb
+                            {
+                                Id = d.Id,
+                                IdPhongBan = d.IdPhongBan,
+                                IdThuongSmb = d.IdThuongSmb,
+                                TiLeTongSmb = d.TiLeTongSmb,
+                                GiaTriTongSmb = d.GiaTriTongSmb,
+                                TiLeDot1 = d.TiLeDot1,
+                                GiaTriDot1 = d.GiaTriDot1,
+                                ThuHoiCongNo = d.ThuHoiCongNo,
+                                NghiemThu = d.NghiemThu,
+                                IdPhongBanNavigation = d.IdPhongBanNavigation
+                            });
 
-                    // Thêm item vào List chính
-                    List.Add(item);
+                        foreach (var ct in details)
+                        {
+                            item.Details.Add(ct);
+                        }
+
+                        List.Add(item);
+                    }
+                }
+                finally
+                {
+                    _dbLock.Release(); // 🔓 Giải phóng lock
                 }
             }
             catch (Exception ex)

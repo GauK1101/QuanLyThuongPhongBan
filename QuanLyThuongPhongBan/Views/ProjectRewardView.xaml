@@ -163,8 +163,8 @@
                     <DataGridTextColumn Binding="{Binding NamThuong}" Header="Năm" />
                     <DataGridTextColumn Binding="{Binding GiaTriHopDong, Converter={StaticResource CurrencyConverter}}" Header="Hợp Đồng" />
                     <DataGridTextColumn Binding="{Binding QuyetToan, Converter={StaticResource CurrencyConverter}}" Header="Quyết Toán" />
-                    <DataGridTextColumn Binding="{Binding TiLeThuongPhongBan, StringFormat={}{0:0.#####}%}" Header="Tổng Tỉ Lệ" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongPhongBan, Converter={StaticResource CurrencyConverter}}" Header="Tổng Giá Trị" />
+                    <DataGridTextColumn Binding="{Binding TongTiLeThuongDuAn, StringFormat={}{0:0.#####}%}" Header="Tổng Tỉ Lệ" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongDuAn, Converter={StaticResource CurrencyConverter}}" Header="Tổng Giá Trị" />
                 </DataGrid.Columns>
 
                 <DataGrid.RowDetailsTemplate>
@@ -179,9 +179,9 @@
                                 <DataGridTextColumn Header="Phòng ban"
                                                     Binding="{Binding IdPhongBanNavigation.TenPhongBan}" />
                                 <DataGridTextColumn Header="Tỉ lệ tổng thưởng"
-                                                    Binding="{Binding TiLeThuong, StringFormat={}{0:0.#####}%}" />
+                                                    Binding="{Binding TiLeTongGoi, StringFormat={}{0:0.#####}%}" />
                                 <DataGridTextColumn Header="Giá trị tổng gói"
-                                                    Binding="{Binding GiaTri, Converter={StaticResource CurrencyConverter}}" />
+                                                    Binding="{Binding GiaTriTongGoi, Converter={StaticResource CurrencyConverter}}" />
                                 <DataGridTextColumn Header="Tỉ lệ GD1 trúng thầu"
                                                     Binding="{Binding TiLeDieuChinhDot1, StringFormat={}{0:0.#####}%}" />
                                 <DataGridTextColumn Header="Giá trị GD1 trúng thầu"

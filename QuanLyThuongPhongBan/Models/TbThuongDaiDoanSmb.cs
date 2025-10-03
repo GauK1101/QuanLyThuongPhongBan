@@ -18,49 +18,49 @@ public partial class TbThuongDaiDoanSmb : BaseViewModel
         set => Set(value);
     }
 
-    public int IdTongThuongSmb
+    public int IdThuongSmb
     {
         get => Get<int>();
         set => Set(value);
     }
 
-    public decimal TiLeSmb
+    public decimal? TiLeTongSmb
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal TiLeGiaTri
+    public decimal? GiaTriTongSmb
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal TiLeDot1
+    public decimal? TiLeDot1
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal GiaTriDot1
+    public decimal? GiaTriDot1
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal ThuHoiCongNo
+    public decimal? ThuHoiCongNo
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    public decimal NghiemThu
+    public decimal? NghiemThu
     {
-        get => Get<decimal>();
+        get => Get<decimal?>();
         set => Set(value);
     }
 
-    [ForeignKey(nameof(IdTongThuongSmb))]
+    [ForeignKey(nameof(IdThuongSmb))]
     public TbThuongSmb? TbThuongSmb { get; set; }
 
     public virtual TbPhongBan? IdPhongBanNavigation { get; set; }

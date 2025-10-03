@@ -161,9 +161,9 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding NamThuong}" Header="Năm" />
                     <DataGridTextColumn Binding="{Binding TongGiaTriSmb, Converter={StaticResource CurrencyConverter}}" Header="Hợp Đồng" />
-                    <DataGridTextColumn Binding="{Binding TiLeQuyetToan, Converter={StaticResource CurrencyConverter}}" Header="Quyết Toán" />
-                    <DataGridTextColumn Binding="{Binding TongTiLeSmb, StringFormat={}{0:0.#####}%}" Header="Tổng Tỉ Lệ" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriSmbDieuChinh, Converter={StaticResource CurrencyConverter}}" Header="Tổng Giá Trị" />
+                    <DataGridTextColumn Binding="{Binding XuatHoaDon, Converter={StaticResource CurrencyConverter}}" Header="Quyết Toán" />
+                    <DataGridTextColumn Binding="{Binding TongTiLeThuongSmb, StringFormat={}{0:0.#####}%}" Header="Tổng Tỉ Lệ" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongSmb, Converter={StaticResource CurrencyConverter}}" Header="Tổng Giá Trị" />
                 </DataGrid.Columns>
 
                 <DataGrid.RowDetailsTemplate>
@@ -179,10 +179,10 @@
                                                     Binding="{Binding IdPhongBanNavigation.TenPhongBan}" />
 
                                 <DataGridTextColumn Header="Tỉ lệ SMB"
-                                                    Binding="{Binding TiLeSmb, StringFormat={}{0:0.#####}%}" />
+                                                    Binding="{Binding TiLeTongSmb, StringFormat={}{0:0.#####}%}" />
 
                                 <DataGridTextColumn Header="Tỉ lệ giá trị"
-                                                    Binding="{Binding TiLeGiaTri, StringFormat={}{0:0.#####}%}" />
+                                                    Binding="{Binding GiaTriTongSmb, StringFormat={}{0:0.#####}%}" />
 
                                 <DataGridTextColumn Header="Tỉ lệ GD1"
                                                     Binding="{Binding TiLeDot1, StringFormat={}{0:0.#####}%}" />
