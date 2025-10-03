@@ -91,7 +91,7 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("gia_tri_dot_1");
             entity.Property(e => e.IdPhongBan).HasColumnName("id_phong_ban");
-            entity.Property(e => e.IdThuongSmb).HasColumnName("id_tong_thuong_smb");
+            entity.Property(e => e.IdThuongSmb).HasColumnName("id_thuong_smb");
             entity.Property(e => e.NghiemThu)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("nghiem_thu");

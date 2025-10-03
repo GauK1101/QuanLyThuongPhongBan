@@ -74,7 +74,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:TextFieldAssist.SuffixText="VND"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding TbThuongSmb.TiLeQuyetToan, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                            Text="{Binding TbThuongSmb.XuatHoaDon, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
                             <materialDesign:HintAssist.Hint>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Đã xuất hóa đơn" />
@@ -90,7 +90,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:TextFieldAssist.SuffixText="%"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding TbThuongSmb.TongTiLeSmb, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                            Text="{Binding TbThuongSmb.TongTiLeThuongSmb, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
                             <materialDesign:HintAssist.Hint>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Tổng tỉ lệ SMB" />
@@ -106,7 +106,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:TextFieldAssist.SuffixText="VND"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding TbThuongSmb.TongGiaTriSmbDieuChinh, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                            Text="{Binding TbThuongSmb.TongGiaTriThuongSmb, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                             <materialDesign:HintAssist.Hint>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Tổng giá trị SMB điều chỉnh" />
@@ -170,12 +170,12 @@
 
                             <!-- Tỉ lệ thưởng (%) -->
                             <DataGridTextColumn Header="Tỉ lệ tổng gói (%)"
-                                                Binding="{Binding TiLeSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
+                                                Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
                                                 />
 
                             <!-- Giá trị -->
                             <DataGridTextColumn Header="Giá trị tổng gói"
-                                                Binding="{Binding TiLeGiaTri, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                Binding="{Binding GiaTriTongSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
                                                 />
 
                             <!-- Điều chỉnh đợt 1 -->
