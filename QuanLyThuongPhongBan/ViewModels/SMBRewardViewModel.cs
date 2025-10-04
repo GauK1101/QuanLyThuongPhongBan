@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
+using static QuanLyThuongPhongBan.CLass.SearchFilter;
 
 namespace QuanLyThuongPhongBan.ViewModels
 {
@@ -286,9 +287,9 @@ namespace QuanLyThuongPhongBan.ViewModels
                 try
                 {
                     // Truy vấn dữ liệu chính
-                    var query = await DataProvider.Ins.DB.TbThuongSmbs
+                    var query = DataProvider.Ins.DB.TbThuongSmbs
                         .AsNoTracking()
-                        .ToListAsync();
+                        .AsQueryable();
 
                     // Truy vấn dữ liệu chi tiết
                     var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanSmbs
@@ -297,14 +298,9 @@ namespace QuanLyThuongPhongBan.ViewModels
                         .ToListAsync();
 
 
-                    //// Áp dụng tìm kiếm trực tiếp trên cơ sở dữ liệu
-                    //query = SearchViewModel.Search(query, SearchFill ?? string.Empty); // Cập nhật SearchViewModel để trả về IQueryable
+                    // Áp dụng tìm kiếm trực tiếp trên cơ sở dữ liệu
+                    query = SearchViewModel.Search(query, SearchFill ?? string.Empty);
 
-                    //// Thực hiện phân trang
-                    //var data = await query
-                    //    .Skip((currentPage - 1) * pageSize)
-                    //    .Take(pageSize)
-                    //    .ToListAsync();
 
                     if (List == null)
                         List = new ObservableCollection<TbThuongSmb>();
@@ -340,6 +336,14 @@ namespace QuanLyThuongPhongBan.ViewModels
                 {
                     _dbLock.Release(); // 🔓 Giải phóng lock
                 }
+            }
+            catch (InvalidOperationException)
+            {
+                // Bỏ qua nếu nếu liên quang đến thông báo DbContext chạy nhiều lệnh
+            }
+            catch (OperationCanceledException)
+            {
+                // Bỏ qua nếu tác vụ bị hủy
             }
             catch (Exception ex)
             {

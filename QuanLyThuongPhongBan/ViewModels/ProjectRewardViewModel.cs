@@ -335,9 +335,17 @@ namespace QuanLyThuongPhongBan.ViewModels
                     _dbLock.Release(); // 🔓 Giải phóng lock
                 }
             }
+            catch (InvalidOperationException)
+            {
+                // Bỏ qua nếu nếu liên quang đến thông báo DbContext chạy nhiều lệnh
+            }
+            catch (OperationCanceledException)
+            {
+                // Bỏ qua nếu tác vụ bị hủy
+            }
             catch (Exception ex)
             {
-                //MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

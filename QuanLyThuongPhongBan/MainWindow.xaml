@@ -16,9 +16,13 @@
     Title="Quản Lý Thưởng Phòng Ban"
     WindowStartupLocation="CenterScreen">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=mainWindow}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
-
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
@@ -26,46 +30,67 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Background="#e5ffe7">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
 
-                    <Button
-                        Height="35"
-                        Margin="5 0 5 0"
-                        VerticalAlignment="Center"
-                        Command="{Binding ShowProjectRewardViewCommand}"
-                        Foreground="Black"
-                        materialDesign:ButtonAssist.CornerRadius="6"
-                        Style="{StaticResource MaterialDesignFlatButton}">
-                        <WrapPanel>
-                            <materialDesign:PackIcon
-                                Margin="0 0 10 0"
+                <TabControl
+                    HorizontalContentAlignment="Center"
+                    materialDesign:NavigationRailAssist.SelectionCornerRadius="10"
+                    materialDesign:NavigationRailAssist.ShowSelectionBackground="True"
+                    Padding="0"
+                    Style="{StaticResource MaterialDesignNavigationRailTabControl}"
+                    TabStripPlacement="Bottom"
+                    >
+                    <TabItem VerticalAlignment="Center" Width="130" Height="35" Margin="0 0 5 0">
+                        <TabItem.Header>
+                            <StackPanel
+                                Orientation="Horizontal"
                                 VerticalAlignment="Center"
-                                Kind="Newspaper" />
-                            <TextBlock>Thưởng dự án</TextBlock>
-                        </WrapPanel>
-                    </Button>
+                                Margin="5,0">
 
-                    <Button
-                        Height="35"
-                        Margin="5 0 5 0"
-                        VerticalAlignment="Center"
-                        Command="{Binding ShowSMBRewardViewCommand}"
-                        Foreground="Black"
-                        materialDesign:ButtonAssist.CornerRadius="6"
-                        Style="{StaticResource MaterialDesignFlatButton}">
-                        <WrapPanel>
-                            <materialDesign:PackIcon
-                                Margin="0 0 10 0"
+                                <!-- Icon bên trái -->
+                                <materialDesign:PackIcon
+                                    Kind="ProjectorScreen"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,5,0"/>
+
+                                <!-- Text bên phải -->
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Text="Thưởng dự án" />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                <i:InvokeCommandAction Command="{Binding ShowProjectRewardViewCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TabItem>
+                    <TabItem VerticalAlignment="Center" Width="130" Height="35" Margin="0 0 5 0" >
+                        <TabItem.Header>
+                            <StackPanel
+                                Orientation="Horizontal"
                                 VerticalAlignment="Center"
-                                Kind="Storage" />
-                            <TextBlock>Thưởng MSB</TextBlock>
-                        </WrapPanel>
-                    </Button>
+                                Margin="5,0">
 
-                </StackPanel>
+                                <!-- Icon bên trái -->
+                                <materialDesign:PackIcon
+                                    Kind="TargetAccount"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,5,0"/>
+
+                                <!-- Text bên phải -->
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Text="Thưởng SMB" />
+                            </StackPanel>
+                        </TabItem.Header>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                                <i:InvokeCommandAction Command="{Binding ShowSMBRewardViewCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TabItem>
+                </TabControl>
+
             </Grid>
 
             <Grid Grid.Row="1">
@@ -193,14 +218,6 @@
                                 Grid.Row="1"
                                 Margin="10"
                                 Content="{Binding CurrentView}" />
-
-                            <TextBlock
-                                Grid.Row="1"
-                                Margin="-8 0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Bottom"
-                                Name="txbVersion"
-                                Text="1.0.0" />
 
                         </Grid>
                     </Grid>

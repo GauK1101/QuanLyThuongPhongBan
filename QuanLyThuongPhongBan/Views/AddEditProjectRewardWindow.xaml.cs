@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace QuanLyThuongPhongBan.Views
 {
@@ -15,6 +16,12 @@ namespace QuanLyThuongPhongBan.Views
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Title_Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+                this.DragMove();
         }
     }
 }

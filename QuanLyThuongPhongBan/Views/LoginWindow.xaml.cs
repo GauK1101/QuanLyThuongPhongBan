@@ -15,18 +15,26 @@ using System.Windows.Shapes;
 namespace QuanLyThuongPhongBan.Views
 {
     /// <summary>
-    /// Interaction logic for AddEditSMBRewardWindow.xaml
+    /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class AddEditSMBRewardWindow : Window
+    public partial class LoginWindow : Window
     {
-        public AddEditSMBRewardWindow()
+        public LoginWindow()
         {
             InitializeComponent();
+
+            this.MaxHeight = SystemParameters.WorkArea.Height; // Giới hạn max bằng chiều cao màn hình làm việc
+            this.MaxWidth = SystemParameters.WorkArea.Width;   // Giới hạn max bằng chiều rộng
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void Btn_Close_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            App.Current.Shutdown();
+        }
+
+        private void Btn_Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
 
         private void Title_Window_MouseDown(object sender, MouseButtonEventArgs e)
