@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLyThuongPhongBan.CLass" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:QuanLyThuongPhongBan.CLass"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         DataContext="{StaticResource SMBRewardVM}"
         Background="#fdfffd"
@@ -74,7 +75,7 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:TextFieldAssist.SuffixText="VND"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding TbThuongSmb.XuatHoaDon, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                            Text="{Binding TbThuongSmb.XuatHoaDon, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                             <materialDesign:HintAssist.Hint>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Đã xuất hóa đơn" />
@@ -109,7 +110,7 @@
                             Text="{Binding TbThuongSmb.TongGiaTriThuongSmb, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                             <materialDesign:HintAssist.Hint>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Tổng giá trị SMB điều chỉnh" />
+                                    <TextBlock Text="Tổng giá trị SMB" />
                                 </StackPanel>
                             </materialDesign:HintAssist.Hint>
                         </TextBox>

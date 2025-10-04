@@ -95,12 +95,11 @@ namespace QuanLyThuongPhongBan.ViewModels
                 }
             }
 
+            model.NamThuong = DateTime.Now.Date.Year.ToString();
             TbThuongSmb = model;
 
             aadEditSMBRewardWindow = new AddEditSMBRewardWindow();
             aadEditSMBRewardWindow.ShowDialog();
-
-            _ = RefreshTable();
         }
 
         private void CalculatorData(TbThuongSmb model)
@@ -109,11 +108,13 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             foreach (var detail in TbThuongSmb.Details)
             {
-                //detail.GiaTri = (TbThuongSmb.QuyetToan * detail.TiLeThuong) / 100;
-                //detail.GiaTriDieuChinhDot1 = (TbThuongSmb.GiaTriHopDong * detail.TiLeDieuChinhDot1) / 100;
-                //detail.GiaTriDieuChinhDot2 = (TbThuongSmb.GiaTriHopDong * detail.TiLeDieuChinhDot2) / 100;
-                //detail.ThuHoiCongNo = detail.GiaTri - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
-                //detail.NghiemThu = detail.GiaTriDieuChinhDot1 + detail.GiaTriDieuChinhDot2 + detail.ThuHoiCongNo;
+                detail.GiaTriTongSmb = (TbThuongSmb.TongGiaTriSmb * detail.TiLeTongSmb) / 100;
+                detail.GiaTriDot1 = (TbThuongSmb.XuatHoaDon * detail.TiLeDot1) / 100;
+                detail.ThuHoiCongNo = detail.GiaTriTongSmb - detail.GiaTriDot1;
+                detail.NghiemThu = detail.GiaTriDot1 + detail.ThuHoiCongNo;
+
+                TbThuongSmb.TongTiLeThuongSmb = TbThuongSmb.Details.Sum(x => x.TiLeTongSmb);
+                TbThuongSmb.TongGiaTriThuongSmb = TbThuongSmb.Details.Sum(x => x.GiaTriTongSmb);
             }
         }
 

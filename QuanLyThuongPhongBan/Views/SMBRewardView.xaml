@@ -175,26 +175,37 @@
                                   Margin="20,5,5,5"
                                   HeadersVisibility="Column">
                             <DataGrid.Columns>
+                                <!-- Phòng ban -->
                                 <DataGridTextColumn Header="Phòng ban"
                                                     Binding="{Binding IdPhongBanNavigation.TenPhongBan}" />
 
-                                <DataGridTextColumn Header="Tỉ lệ SMB"
-                                                    Binding="{Binding TiLeTongSmb, StringFormat={}{0:0.#####}%}" />
+                                <!-- Tỉ lệ thưởng (%) -->
+                                <DataGridTextColumn Header="Tỉ lệ tổng gói (%)"
+                                                    Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
+                                                    />
 
-                                <DataGridTextColumn Header="Tỉ lệ giá trị"
-                                                    Binding="{Binding GiaTriTongSmb, StringFormat={}{0:0.#####}%}" />
+                                <!-- Giá trị -->
+                                <DataGridTextColumn Header="Giá trị tổng gói"
+                                                    Binding="{Binding GiaTriTongSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                    />
 
-                                <DataGridTextColumn Header="Tỉ lệ GD1"
-                                                    Binding="{Binding TiLeDot1, StringFormat={}{0:0.#####}%}" />
+                                <!-- Điều chỉnh đợt 1 -->
+                                <DataGridTextColumn Header="Tỉ lệ GD1/Doanh thu (%)"
+                                                    Binding="{Binding TiLeDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
+                                                    />
+                                <DataGridTextColumn Header="Giá trị GD1/Doanh thu"
+                                                    Binding="{Binding GiaTriDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                    />
 
-                                <DataGridTextColumn Header="Giá trị GD1"
-                                                    Binding="{Binding GiaTriDot1, Converter={StaticResource CurrencyConverter}}" />
+                                <!-- Thu hồi công nợ -->
+                                <DataGridTextColumn Header="Quyết toán/Thu hồi công nợ"
+                                                    Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                    />
 
-                                <DataGridTextColumn Header="Thu hồi công nợ"
-                                                    Binding="{Binding ThuHoiCongNo, Converter={StaticResource CurrencyConverter}}" />
-
+                                <!-- Nghiệm thu -->
                                 <DataGridTextColumn Header="Nghiệm thu"
-                                                    Binding="{Binding NghiemThu, Converter={StaticResource CurrencyConverter}}" />
+                                                    Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}"
+                                                    />
                             </DataGrid.Columns>
 
                         </DataGrid>

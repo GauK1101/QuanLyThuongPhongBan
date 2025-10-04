@@ -7,6 +7,7 @@ using System.Net;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using static QuanLyThuongPhongBan.CLass.SearchFilter;
 
 namespace QuanLyThuongPhongBan.ViewModels
 {
@@ -97,12 +98,11 @@ namespace QuanLyThuongPhongBan.ViewModels
                 }
             }
 
+            model.NamThuong = DateTime.Now.Date.Year.ToString();
             TbThuongDuAn = model;
             
             addEditProjectRewardWindow = new AddEditProjectRewardWindow();
             addEditProjectRewardWindow.ShowDialog();
-
-            _ = RefreshTable();
         }
 
         private void CalculatorData(TbThuongDuAn model)
@@ -116,6 +116,9 @@ namespace QuanLyThuongPhongBan.ViewModels
                 detail.GiaTriDieuChinhDot2 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot2) / 100;
                 detail.ThuHoiCongNo = detail.GiaTriTongGoi - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
                 detail.NghiemThu = detail.GiaTriDieuChinhDot1 + detail.GiaTriDieuChinhDot2 + detail.ThuHoiCongNo;
+            
+                TbThuongDuAn.TongTiLeThuongDuAn = TbThuongDuAn.Details.Sum(d => d.TiLeTongGoi);
+                TbThuongDuAn.TongGiaTriThuongDuAn = TbThuongDuAn.Details.Sum(d => d.GiaTriTongGoi);
             }
         }
 
@@ -282,9 +285,13 @@ namespace QuanLyThuongPhongBan.ViewModels
                 try
                 {
                     // Truy vấn cơ sở dữ liệu với phân trang và tìm kiếm trực tiếp
-                    var query = await DataProvider.Ins.DB.TbThuongDuAns
-                        .AsNoTracking()
-                        .ToListAsync();
+                    var query = DataProvider.Ins.DB.TbThuongDuAns
+                                .AsNoTracking()
+                                .AsQueryable();
+
+                    // Áp dụng tìm kiếm trực tiếp trên cơ sở dữ liệu
+                    query = SearchViewModel.Search(query, SearchFill ?? string.Empty); // Cập nhật SearchViewModel để trả về IQueryable
+
 
                     var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanDuAns
                         .AsNoTracking()
@@ -330,7 +337,7 @@ namespace QuanLyThuongPhongBan.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
