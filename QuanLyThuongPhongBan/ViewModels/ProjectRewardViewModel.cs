@@ -3,10 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using QuanLyThuongPhongBan.Models;
 using QuanLyThuongPhongBan.Views;
 using System.Collections.ObjectModel;
-using System.Net;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using static QuanLyThuongPhongBan.CLass.SearchFilter;
 
 namespace QuanLyThuongPhongBan.ViewModels
@@ -100,7 +99,7 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             model.NamThuong = DateTime.Now.Date.Year.ToString();
             TbThuongDuAn = model;
-            
+
             addEditProjectRewardWindow = new AddEditProjectRewardWindow();
             addEditProjectRewardWindow.ShowDialog();
         }
@@ -116,9 +115,15 @@ namespace QuanLyThuongPhongBan.ViewModels
                 detail.GiaTriDieuChinhDot2 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot2) / 100;
                 detail.ThuHoiCongNo = detail.GiaTriTongGoi - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
                 detail.NghiemThu = detail.GiaTriDieuChinhDot1 + detail.GiaTriDieuChinhDot2 + detail.ThuHoiCongNo;
-            
+
                 TbThuongDuAn.TongTiLeThuongDuAn = TbThuongDuAn.Details.Sum(d => d.TiLeTongGoi);
                 TbThuongDuAn.TongGiaTriThuongDuAn = TbThuongDuAn.Details.Sum(d => d.GiaTriTongGoi);
+                TbThuongDuAn.TongTiLeDieuChinhDot1 = TbThuongDuAn.Details.Sum(d => d.TiLeDieuChinhDot1);
+                TbThuongDuAn.TongGiaTriDieuChinhDot1 = TbThuongDuAn.Details.Sum(d => d.GiaTriDieuChinhDot1);
+                TbThuongDuAn.TongTiLeDieuChinhDot2 = TbThuongDuAn.Details.Sum(d => d.TiLeDieuChinhDot2);
+                TbThuongDuAn.TongGiaTriDieuChinhDot2 = TbThuongDuAn.Details.Sum(d => d.GiaTriDieuChinhDot2);
+                TbThuongDuAn.TongThuHoiCongNo = TbThuongDuAn.Details.Sum(d => d.ThuHoiCongNo);
+                TbThuongDuAn.TongNghiemThu = TbThuongDuAn.Details.Sum(d => d.NghiemThu);
             }
         }
 
@@ -128,50 +133,37 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             try
             {
+                foreach (var entry in DataProvider.Ins.DB.ChangeTracker.Entries().ToList())
+                    entry.State = EntityState.Detached;
+
                 if (TbThuongDuAn.Id == 0)
                 {
                     DataProvider.Ins.DB.TbThuongDuAns.Add(TbThuongDuAn);
 
+                    DataProvider.Ins.DB.TbNhatKies.Add(new TbNhatKy
+                    {
+                        IdTaiKhoan = Properties.Settings.Default.User.Split('|')[0],
+                        ThoiGian = DateTime.Now,
+                        HanhDong = "Thêm thưởng dự án",
+                        MoTa = $"Thêm mới thưởng dự án - Năm: {TbThuongDuAn.NamThuong}"
+                    });
+
                     DataProvider.Ins.DB.SaveChanges();
-                    MessageBox.Show("Tạo mới thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (MessageBox.Show("Tạo mới thành công!\nBạn muốn về màn hình chính không ?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+                    {
+                        var currentWindow = Application.Current.Windows
+                                             .OfType<Window>()
+                                             .SingleOrDefault(w => w.IsActive);
+
+                        currentWindow?.Close();
+                    }
                 }
                 else
                 {
-                    var exiting = DataProvider.Ins.DB.TbThuongDuAns.FirstOrDefault(x => x.Id == TbThuongDuAn.Id);
-
-                    if (exiting == null)
-                        return;
-
-                    //DataProvider.Ins.DB.Entry(exiting).State = EntityState.Detached;
-                    //DataProvider.Ins.DB.Entry(TbThuongDuAn).State = EntityState.Modified;
-                    DataProvider.Ins.DB.Entry(exiting).CurrentValues.SetValues(TbThuongDuAn);
-
-                    foreach (var detail in TbThuongDuAn.Details.ToList())
-                    {
-                        var exitingDetail = DataProvider.Ins.DB.TbThuongDaiDoanDuAns
-                            .FirstOrDefault(x => x.Id == detail.Id && x.IdThuongDuAn == TbThuongDuAn.Id);
-                        if (exitingDetail != null)
-                        {
-                            //DataProvider.Ins.DB.Entry(exitingDetail).State = EntityState.Detached;
-                            //DataProvider.Ins.DB.Entry(detail).State = EntityState.Modified;
-                            DataProvider.Ins.DB.Entry(exitingDetail).CurrentValues.SetValues(detail);
-                        }
-                        else
-                        {
-                            detail.IdThuongDuAn = TbThuongDuAn.Id;
-                            DataProvider.Ins.DB.TbThuongDaiDoanDuAns.Add(detail);
-                        }
-                    }
-
-                    TbThuongDuAn.Details = new ObservableCollection<TbThuongDaiDoanDuAn>(
-                        DataProvider.Ins.DB.TbThuongDaiDoanDuAns
-                            .Where(d => d.IdThuongDuAn == TbThuongDuAn.Id)
-                            .Include(d => d.IdPhongBanNavigation)
-                            .ToList()
-                    );
-
+                    DataProvider.Ins.DB.TbThuongDuAns.Update(TbThuongDuAn);
                     DataProvider.Ins.DB.SaveChanges();
-                    if (MessageBox.Show("Sửa thành công!\nBạn thoát khỏi màn hình chinh sửa không?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+
+                    if (MessageBox.Show("Sửa thành công!\nBạn muốn về màn hình chính không ?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
                     {
                         var currentWindow = Application.Current.Windows
                                              .OfType<Window>()
@@ -206,9 +198,13 @@ namespace QuanLyThuongPhongBan.ViewModels
                     MessageBox.Show("Lỗi không xác định trong quá trình cập nhật dữ liệu.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Lỗi thực hiện thao tác", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                logEx(ex);
             }
         }
 
@@ -218,15 +214,18 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 if (MessageBox.Show("Bạn có thật sự muốn xoá không ?", "Xoá", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel) return;
 
-                var data = DataProvider.Ins.DB.TbThuongDaiDoanDuAns.FirstOrDefault(x => x.IdThuongDuAn == model.Id);
-                if (data != null)
-                    DataProvider.Ins.DB.TbThuongDaiDoanDuAns.Remove(data);
+                DataProvider.Ins.DB.TbNhatKies.Add(new TbNhatKy
+                {
+                    IdTaiKhoan = Properties.Settings.Default.User.Split('|')[0],
+                    ThoiGian = DateTime.Now,
+                    HanhDong = "Xoá thưởng dự án",
+                    MoTa = $"Xoá thưởng dự án - Năm: {model.NamThuong}"
+                });
 
                 DataProvider.Ins.DB.TbThuongDuAns.Remove(model);
-
                 DataProvider.Ins.DB.SaveChanges();
 
-                MessageBox.Show("Xoá đơn hàng và sản phẩm thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Xoá thưởng dự án thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 _ = RefreshTable();
             }
@@ -254,7 +253,7 @@ namespace QuanLyThuongPhongBan.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                logEx(ex);
             }
         }
 
@@ -349,5 +348,24 @@ namespace QuanLyThuongPhongBan.ViewModels
             }
         }
 
+        private void logEx(Exception ex)
+        {
+            // Đường dẫn thư mục Logs (cùng nơi chạy app)
+            string logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            Directory.CreateDirectory(logDir); // Tự tạo nếu chưa có
+
+            // Tên file log (theo ngày)
+            string logFile = Path.Combine(logDir, $"error_{DateTime.Now:yyyyMMdd}.txt");
+
+            // Nội dung log
+            string logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {ex.Message}\n{ex.StackTrace}\n----------------------------------------\n";
+
+            // Ghi log
+            File.AppendAllText(logFile, logMessage);
+
+            // Hiện thông báo cho người dùng
+            MessageBox.Show("Đã xảy ra lỗi. Vui lòng kiểm tra file log để biết thêm chi tiết.",
+                            "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 }

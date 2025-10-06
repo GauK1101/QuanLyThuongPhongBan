@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using QuanLyThuongPhongBan.Models;
 using QuanLyThuongPhongBan.Views;
+using System.ClientModel.Primitives;
 using System.Collections.ObjectModel;
-using System.Net;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using static QuanLyThuongPhongBan.CLass.SearchFilter;
@@ -116,6 +117,10 @@ namespace QuanLyThuongPhongBan.ViewModels
 
                 TbThuongSmb.TongTiLeThuongSmb = TbThuongSmb.Details.Sum(x => x.TiLeTongSmb);
                 TbThuongSmb.TongGiaTriThuongSmb = TbThuongSmb.Details.Sum(x => x.GiaTriTongSmb);
+                TbThuongSmb.TongTiLeDot1 = TbThuongSmb.Details.Sum(x => x.TiLeDot1);
+                TbThuongSmb.TongGiaTriDot1 = TbThuongSmb.Details.Sum(x => x.GiaTriDot1);
+                TbThuongSmb.TongThuHoiCongNo = TbThuongSmb.Details.Sum(x => x.ThuHoiCongNo);
+                TbThuongSmb.TongNghiemThu = TbThuongSmb.Details.Sum(x => x.NghiemThu);
             }
         }
 
@@ -125,12 +130,25 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             try
             {
+                foreach (var entry in DataProvider.Ins.DB.ChangeTracker.Entries().ToList())
+                    entry.State = EntityState.Detached;
+
                 if (TbThuongSmb.Id == 0)
                 {
+
                     DataProvider.Ins.DB.TbThuongSmbs.Add(TbThuongSmb);
 
+                    DataProvider.Ins.DB.TbNhatKies.Add(new TbNhatKy
+                    {
+                        IdTaiKhoan = Properties.Settings.Default.User.Split('|')[0],
+                        ThoiGian = DateTime.Now,
+                        HanhDong = "Thêm SMB",
+                        MoTa = $"Thêm mới SMB - Năm: {TbThuongSmb.NamThuong}"
+                    });
+
                     DataProvider.Ins.DB.SaveChanges();
-                    if (MessageBox.Show("Tạo mới thành công!\nBạn thoát khỏi màn hình chinh sửa không?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+
+                    if (MessageBox.Show("Tạo mới thành công!\nBạn muốn thoát khỏi màn hình tạo mới không?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
                     {
                         var currentWindow = Application.Current.Windows
                                              .OfType<Window>()
@@ -138,42 +156,31 @@ namespace QuanLyThuongPhongBan.ViewModels
 
                         currentWindow?.Close();
                     }
+
+                    _ = RefreshTable();
                 }
                 else
                 {
-                    var exiting = DataProvider.Ins.DB.TbThuongSmbs.FirstOrDefault(x => x.Id == TbThuongSmb.Id);
+                    var existing = DataProvider.Ins.DB.TbThuongSmbs.FirstOrDefault(x => x.Id == TbThuongSmb.Id);
 
-                    if (exiting == null)
-                        return;
+                    var moTa = GetChangeDescription(existing, TbThuongSmb);
 
-                    DataProvider.Ins.DB.Entry(exiting).State = EntityState.Detached;
-                    DataProvider.Ins.DB.Entry(TbThuongSmb).State = EntityState.Modified;
-
-                    foreach (var detail in TbThuongSmb.Details.ToList())
+                    DataProvider.Ins.DB.TbNhatKies.Add(new TbNhatKy
                     {
-                        var exitingDetail = DataProvider.Ins.DB.TbThuongDaiDoanSmbs
-                            .FirstOrDefault(x => x.Id == detail.Id && x.IdThuongSmb == TbThuongSmb.Id);
-                        if (exitingDetail != null)
-                        {
-                            DataProvider.Ins.DB.Entry(exitingDetail).State = EntityState.Detached;
-                            DataProvider.Ins.DB.Entry(detail).State = EntityState.Modified;
-                        }
-                        else
-                        {
-                            detail.IdThuongSmb = TbThuongSmb.Id;
-                            DataProvider.Ins.DB.TbThuongDaiDoanSmbs.Add(detail);
-                        }
-                    }
+                        IdTaiKhoan = Properties.Settings.Default.User.Split('|')[0],
+                        ThoiGian = DateTime.Now,
+                        HanhDong = "Sửa SMB",
+                        MoTa = $"{GetChangeDescription(existing, TbThuongSmb)} - Năm: {TbThuongSmb.NamThuong}"
+                    });
 
-                    TbThuongSmb.Details = new ObservableCollection<TbThuongDaiDoanSmb>(
-                        DataProvider.Ins.DB.TbThuongDaiDoanSmbs
-                            .Where(d => d.IdThuongSmb == TbThuongSmb.Id)
-                            .Include(d => d.IdPhongBanNavigation)
-                            .ToList()
-                    );
+                    foreach (var entry in DataProvider.Ins.DB.ChangeTracker.Entries().ToList())
+                        entry.State = EntityState.Detached;
+
+                    DataProvider.Ins.DB.TbThuongSmbs.Update(TbThuongSmb);
 
                     DataProvider.Ins.DB.SaveChanges();
-                    if (MessageBox.Show("Sửa thành công!\nBạn thoát khỏi màn hình chinh sửa không?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
+
+                    if (MessageBox.Show("Sửa thành công!\nBạn muốn thoát khỏi màn hình chinh sửa không?", "Thành công", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.OK)
                     {
                         var currentWindow = Application.Current.Windows
                                              .OfType<Window>()
@@ -210,8 +217,20 @@ namespace QuanLyThuongPhongBan.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                logEx(ex);
             }
+        }
+        string GetChangeDescription<T>(T oldObj, T newObj)
+        {
+            var changes = new List<string>();
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                var oldVal = prop.GetValue(oldObj)?.ToString() ?? "";
+                var newVal = prop.GetValue(newObj)?.ToString() ?? "";
+                if (oldVal != newVal)
+                    changes.Add($"{prop.Name}: '{oldVal}' → '{newVal}'");
+            }
+            return string.Join(", ", changes);
         }
 
         private void DeleteRow(TbThuongSmb model)
@@ -220,15 +239,24 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 if (MessageBox.Show("Bạn có thật sự muốn xoá không ?", "Xoá", MessageBoxButton.OKCancel, MessageBoxImage.Information) == MessageBoxResult.Cancel) return;
 
-                var data = DataProvider.Ins.DB.TbThuongDaiDoanSmbs.FirstOrDefault(x => x.IdThuongSmb == model.Id);
-                if (data != null)
-                    DataProvider.Ins.DB.TbThuongDaiDoanSmbs.Remove(data);
+                TbThuongSmb = model;
 
-                DataProvider.Ins.DB.TbThuongSmbs.Remove(model);
+                foreach (var entry in DataProvider.Ins.DB.ChangeTracker.Entries().ToList())
+                    entry.State = EntityState.Detached;
+
+                DataProvider.Ins.DB.TbThuongSmbs.Remove(TbThuongSmb);
+
+                DataProvider.Ins.DB.TbNhatKies.Add(new TbNhatKy
+                {
+                    IdTaiKhoan = Properties.Settings.Default.User.Split('|')[0],
+                    ThoiGian = DateTime.Now,
+                    HanhDong = "Xoá SMB",
+                    MoTa = $"Xoá SMB - Năm: {TbThuongSmb.NamThuong}"
+                });
 
                 DataProvider.Ins.DB.SaveChanges();
 
-                MessageBox.Show("Xoá đơn hàng và sản phẩm thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Xoá thành công.", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 _ = RefreshTable();
             }
@@ -242,7 +270,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                     switch (sqlEx.Number)
                     {
                         case 547: // Vi phạm ràng buộc ngoại
-                            errorMessage = "Không thể xóa vì có ràng buộc ngoại. Xin kiểm tra dữ liệu liên quan.";
+                             errorMessage = "Không thể xóa vì có ràng buộc ngoại. Xin kiểm tra dữ liệu liên quan.";
                             break;
                         default:
                             errorMessage = "Lỗi không xác định: " + sqlEx.Message;
@@ -254,9 +282,13 @@ namespace QuanLyThuongPhongBan.ViewModels
                     MessageBox.Show("Lỗi không xác định trong quá trình xóa dữ liệu.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Lỗi thực hiện thao tác" , "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                logEx(ex);
             }
         }
 
@@ -349,6 +381,26 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 MessageBox.Show("Lỗi: " + ex, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void logEx(Exception ex)
+        {
+            // Đường dẫn thư mục Logs (cùng nơi chạy app)
+            string logDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            Directory.CreateDirectory(logDir); // Tự tạo nếu chưa có
+
+            // Tên file log (theo ngày)
+            string logFile = Path.Combine(logDir, $"error_{DateTime.Now:yyyyMMdd}.txt");
+
+            // Nội dung log
+            string logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {ex.Message}\n{ex.StackTrace}\n----------------------------------------\n";
+
+            // Ghi log
+            File.AppendAllText(logFile, logMessage);
+
+            // Hiện thông báo cho người dùng
+            MessageBox.Show("Đã xảy ra lỗi. Vui lòng kiểm tra file log để biết thêm chi tiết.",
+                            "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

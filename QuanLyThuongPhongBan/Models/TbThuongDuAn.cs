@@ -41,6 +41,43 @@ public partial class TbThuongDuAn : BaseViewModel
         set => Set(value);
     }
 
+    public decimal? TongGiaTriDieuChinhDot1
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? TongTiLeDieuChinhDot1
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? TongGiaTriDieuChinhDot2
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? TongTiLeDieuChinhDot2
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? TongThuHoiCongNo
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? TongNghiemThu
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+
     public ObservableCollection<TbThuongDaiDoanDuAn> Details
     {
         get

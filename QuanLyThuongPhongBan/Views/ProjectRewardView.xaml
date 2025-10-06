@@ -18,12 +18,14 @@
         Padding="5"
         Background="#f5f5f5"
         CornerRadius="5">
+
         <Grid>
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition />
-                <RowDefinition Height="35" />
             </Grid.RowDefinitions>
+
             <Grid Margin="10 5 0 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -113,7 +115,7 @@
                 CanUserAddRows="False"
                 CanUserResizeColumns="True"
                 ColumnReordered="DataGrid_ColumnReordered"
-                FrozenColumnCount="1"
+                FrozenColumnCount="2"
                 IsReadOnly="True"
                 ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}"
                 VirtualizingStackPanel.IsVirtualizing="True"
@@ -161,10 +163,30 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding NamThuong}" Header="Năm" />
-                    <DataGridTextColumn Binding="{Binding GiaTriHopDong, Converter={StaticResource CurrencyConverter}}" Header="Hợp Đồng" />
-                    <DataGridTextColumn Binding="{Binding QuyetToan, Converter={StaticResource CurrencyConverter}}" Header="Quyết Toán" />
-                    <DataGridTextColumn Binding="{Binding TongTiLeThuongDuAn, StringFormat={}{0:0.#####}%}" Header="Tổng Tỉ Lệ" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongDuAn, Converter={StaticResource CurrencyConverter}}" Header="Tổng Giá Trị" />
+                    <DataGridTextColumn Binding="{Binding GiaTriHopDong, Converter={StaticResource CurrencyConverter}}"
+                                        Header="Hợp Đồng" />
+                    <DataGridTextColumn Binding="{Binding QuyetToan, Converter={StaticResource CurrencyConverter}}"
+                                        Header="Quyết Toán" />
+                    <DataGridTextColumn Binding="{Binding TongTiLeThuongDuAn, StringFormat={}{0:0.#####}%}"
+                                        Header="Tổng Tỉ Lệ" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongDuAn, Converter={StaticResource CurrencyConverter}}"
+                                        Header="Tổng Giá Trị" />
+
+                    <DataGridTextColumn Binding="{Binding TongTiLeDieuChinhDot1, StringFormat={}{0:0.#####}%}"
+                                        Header="Tổng tỉ lệ GD1 trúng thầu (%)" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriDieuChinhDot1, Converter={StaticResource CurrencyConverter}}"
+                                        Header="Tổng giá trị GD2 triển khai" />
+
+                    <DataGridTextColumn Binding="{Binding TongTiLeDieuChinhDot2, StringFormat={}{0:0.#####}%}"
+                                        Header="Tổng tỉ lệ GD2 trúng thầu (%)" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriDieuChinhDot2, Converter={StaticResource CurrencyConverter}}"
+                                        Header="Tổng giá trị GD2 triển khai" />
+
+                    <DataGridTextColumn Binding="{Binding TongThuHoiCongNo, Converter={StaticResource CurrencyConverter}}"
+                                        Header="Tổng thu hồi công nợ" />
+
+                    <DataGridTextColumn Binding="{Binding TongNghiemThu, Converter={StaticResource CurrencyConverter}}"
+                                        Header="Tổng nghiệm thu" />
                 </DataGrid.Columns>
 
                 <DataGrid.RowDetailsTemplate>
@@ -202,6 +224,7 @@
             </DataGrid>
 
             <StackPanel
+                Visibility="Hidden"
                 Grid.Row="2"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">

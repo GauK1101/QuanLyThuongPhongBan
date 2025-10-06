@@ -1,10 +1,8 @@
 ﻿using MaterialDesignThemes.Wpf;
-using QuanLyThuongPhongBan.ViewForGauK.View;
 using QuanLyThuongPhongBan.Views;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace QuanLyThuongPhongBan.ViewModels
 {
@@ -46,6 +44,72 @@ namespace QuanLyThuongPhongBan.ViewModels
                 OnPropertyChanged();
             }
         }
+        private Visibility _visibilityAdmin = Visibility.Hidden;
+        public Visibility VisibilityAdmin
+        {
+            get => _visibilityAdmin;
+            set
+            {
+                _visibilityAdmin = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _visibilityTVGP = Visibility.Hidden;
+        public Visibility VisibilityTVGP
+        {
+            get => _visibilityTVGP;
+            set
+            {
+                _visibilityTVGP = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _visibilityHSDA = Visibility.Hidden;
+        public Visibility VisibilityHSDA
+        {
+            get => _visibilityHSDA;
+            set
+            {
+                _visibilityHSDA = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _visibilityNP = Visibility.Hidden;
+        public Visibility VisibilityNP
+        {
+            get => _visibilityNP;
+            set
+            {
+                _visibilityNP = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _visibilityKTK = Visibility.Hidden;
+        public Visibility VisibilityKTK
+        {
+            get => _visibilityKTK;
+            set
+            {
+                _visibilityKTK = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility _visibilityKT = Visibility.Hidden;
+        public Visibility VisibilityKT
+        {
+            get => _visibilityKT;
+            set
+            {
+                _visibilityKT = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Command
@@ -66,7 +130,16 @@ namespace QuanLyThuongPhongBan.ViewModels
             ShowSMBRewardViewCommand = new RelayCommand<object>(_ => true, _ => ShowSMBRewardView());
 
             LoadedWindowCommand = new RelayCommand<Window>(_ => true, Load);
-            LogoutCommand = new RelayCommand<Window>(_ => true, Load);
+            LogoutCommand = new RelayCommand<Window>(_ => true, window =>
+            {
+                // Lưu trạng thái RememberLogin
+                Properties.Settings.Default.User = string.Empty;
+                Properties.Settings.Default.RememberLogin = false;
+                Properties.Settings.Default.Save();
+
+                // Gọi logic logout (Load là method của bác)
+                Load(window);
+            });
         }
 
         private async void Load(Window p)
@@ -75,40 +148,51 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 p.Hide();
 
-
-                // Tạo một instance của UpdateViewModel
-                //var updateViewModel = new UpdateViewModel();
-
-                // Kiểm tra cập nhật trong nền
-                //bool isUpdateAvailable = await updateViewModel.CheckAndDownloadUpdate();
-
-                //if (isUpdateAvailable)
-                //{
-                //    // Tạo cửa sổ cập nhật và gán ViewModel
-                //    UpdateWindow updateWindow = new UpdateWindow
-                //    {
-                //        DataContext = updateViewModel
-                //    };
-                //    updateWindow.Show();
-                //    await updateViewModel.DownloadFile();
-                //}
-                //else
                 LoginWindow lg = new LoginWindow();
                 lg.ShowDialog();
-
-                //var loginVM = lg.DataContext as LoginWindow;
-
-                //if (loginVM.Authorization == "Admin")
-                //    VisibilityAdmin = Visibility.Visible;
-                //else
-                //    VisibilityAdmin = Visibility.Collapsed;
-
-                //if (loginVM == null || !loginVM.IsLogin)
-                //    return;
 
                 if (p == null)
                     return;
                 p.Show();
+
+
+                if (Properties.Settings.Default.User == string.Empty)
+                    return;
+
+                if (Properties.Settings.Default.User.Split('|')[2] == "0")
+                {
+                    VisibilityAdmin = Visibility.Visible;
+                    VisibilityTVGP = Visibility.Visible;
+                    VisibilityHSDA = Visibility.Visible;
+                    VisibilityNP = Visibility.Visible;
+                    VisibilityKTK = Visibility.Visible;
+                    VisibilityKT = Visibility.Visible;
+                }
+                else if (Properties.Settings.Default.User.Split('|')[2] == "1")
+                {
+                    VisibleAuthem();
+                    VisibilityTVGP = Visibility.Visible;
+                }
+                else if (Properties.Settings.Default.User.Split('|')[2] == "2")
+                {
+                    VisibleAuthem();
+                    VisibilityHSDA = Visibility.Visible;
+                }
+                else if (Properties.Settings.Default.User.Split('|')[2] == "3")
+                {
+                    VisibleAuthem();
+                    VisibilityNP = Visibility.Visible;
+                }
+                else if (Properties.Settings.Default.User.Split('|')[2] == "4")
+                {
+                    VisibleAuthem();
+                    VisibilityKTK = Visibility.Visible;
+                }
+                else if (Properties.Settings.Default.User.Split('|')[2] == "5")
+                {
+                    VisibleAuthem();
+                    VisibilityKT = Visibility.Visible;
+                }
             }
             catch (InvalidOperationException)
             {
@@ -118,6 +202,16 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 MessageBox.Show("Lỗi: " + ex.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void VisibleAuthem()
+        {
+            VisibilityAdmin = Visibility.Hidden;
+            VisibilityTVGP = Visibility.Hidden;
+            VisibilityHSDA = Visibility.Hidden;
+            VisibilityNP = Visibility.Hidden;
+            VisibilityKTK = Visibility.Hidden;
+            VisibilityKT = Visibility.Hidden;
         }
 
         private void ShowProjectRewardView()

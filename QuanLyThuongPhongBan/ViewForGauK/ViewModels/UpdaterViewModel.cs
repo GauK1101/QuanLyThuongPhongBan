@@ -1,10 +1,11 @@
-﻿using System.Diagnostics;
+﻿using Newtonsoft.Json.Linq;
+using QuanLyThuongPhongBan.ViewForGauK.View;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Text;
 using System.Windows;
-using Newtonsoft.Json.Linq;
-using QuanLyThuongPhongBan.ViewForGauK.View;
 
 namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
 {
@@ -14,8 +15,6 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
         private readonly string currentVersion;
         private readonly HttpClient httpClient;
 
-        private bool isShowVersion = true;
-
         private string tempZipFile = Path.Combine(Path.GetTempPath(), "update.zip");
         private string extractPath = Path.Combine(Path.GetTempPath(), "update");
         private string batchScript = Path.Combine(Path.GetTempPath(), "update.bat");
@@ -24,17 +23,9 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
 
         public Updater()
         {
-            currentVersion = "1.0.0";
-            newVersionUrl = "https://github.com/GauK1101/QuanLyThuongPhongBan/releases/download/QuanLyThuongPhongBan/QuanLyThuongPhongBan.zip";
+            currentVersion = Properties.SettingsUpdate.Default.CurrentVersion;
+            newVersionUrl = "https://github.com/GauK1101/QuanLyThuongPhongBan/releases/download/project/QuanLyThuongPhongBan.zip";
             httpClient = new HttpClient();
-
-            if (Properties.SettingsUpdate.Default.IsShowVersion)
-            {
-                MessageBox.Show($"Phiên bản hiện tại: {currentVersion}");
-
-                Properties.SettingsUpdate.Default.IsShowVersion = false;
-                Properties.SettingsUpdate.Default.Save();
-            }
         }
 
         private async Task<string> LoadReleasesAsync()
@@ -75,11 +66,8 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
                 Version onlineVersion = new Version(await LoadReleasesAsync());
                 Version current = new Version(currentVersion);
 
-                if (onlineVersion != current && Properties.SettingsUpdate.Default.IsCheckMessageShow)
+                if (onlineVersion != current)
                 {
-                    Properties.SettingsUpdate.Default.IsCheckMessageShow = false;
-                    Properties.SettingsUpdate.Default.Save();
-
                     MessageBoxResult msg = MessageBox.Show("Đang có 1 phiên bản cập nhật mới, bạn có muốn cập nhất không?", "Thông tin", MessageBoxButton.YesNo, MessageBoxImage.Information);
                     if (msg == MessageBoxResult.Yes)
                     {
@@ -91,14 +79,8 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
 
                         await DownloadAndUpdate(updateProgressWindow);
 
-                        Properties.SettingsUpdate.Default.IsShowVersion = true;
-                        Properties.SettingsUpdate.Default.Save();
-
                         updateProgressWindow.Close();
                     }
-
-                    Properties.SettingsUpdate.Default.IsCheckMessageShow = true;
-                    Properties.SettingsUpdate.Default.Save();
                 }
             }
             catch (Exception)
@@ -166,20 +148,19 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
                 ZipFile.ExtractToDirectory(tempZipFile, extractPath);
 
                 // Xác định thư mục con trong tệp nén (thư mục con đầu tiên)
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-                string innerFolderPath = Directory.GetDirectories(extractPath).FirstOrDefault();
+                string? innerFolderPath = Directory.GetDirectories(extractPath).FirstOrDefault();
                 if (innerFolderPath == null)
                 {
                     throw new Exception("Thư mục con trong tệp nén không được tìm thấy.");
                 }
 
-                string appDirectory = Path.GetDirectoryName(Environment.ProcessPath);
+                string? appDirectory = Path.GetDirectoryName(Environment.ProcessPath);
                 if (Directory.Exists(appDirectory))
                 {
                     foreach (var file in Directory.GetFiles(appDirectory, "*", SearchOption.AllDirectories))
                     {
                         string backupFile = Path.Combine(backupPath, Path.GetRelativePath(appDirectory, file));
-                        string backupDir = Path.GetDirectoryName(backupFile);
+                        string? backupDir = Path.GetDirectoryName(backupFile);
 
                         if (!string.IsNullOrEmpty(backupDir) && !Directory.Exists(backupDir))
                         {
@@ -193,24 +174,18 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
 
                     // Tạo script để thay thế các tệp sau khi ứng dụng đã đóng
                     string batchScriptTemp = Path.Combine(Path.GetTempPath(), "update.bat");
+
                     if (result == MessageBoxResult.Yes)
                     {
-                        using (StreamWriter writer = new StreamWriter(batchScriptTemp))
+                        using (var writer = new StreamWriter(batchScriptTemp, false, Encoding.UTF8)) // ✅ Ghi UTF-8 để hỗ trợ Unicode
                         {
-                            writer.WriteLine("timeout /t 1 /nobreak"); // Chờ 3 giây để đảm bảo ứng dụng hiện tại đã đóng
-                            foreach (var file in Directory.GetFiles(innerFolderPath, "*", SearchOption.AllDirectories))
-                            {
-                                string relativePath = file.Substring(innerFolderPath.Length + 1);
-                                string destFile = Path.Combine(appDirectory, relativePath);
-                                string destDir = Path.GetDirectoryName(destFile);
+                            writer.WriteLine("@echo off");
+                            writer.WriteLine("chcp 65001 >nul"); // ✅ Chuyển mã cmd sang UTF-8
+                            writer.WriteLine("timeout /t 1 /nobreak");
 
-                                if (!string.IsNullOrEmpty(destDir) && !Directory.Exists(destDir))
-                                {
-                                    Directory.CreateDirectory(destDir);
-                                }
+                            // Dùng robocopy để copy toàn bộ thư mục (kể cả tiếng Việt)
+                            writer.WriteLine($"robocopy \"{innerFolderPath}\" \"{appDirectory}\" /E /IS /IT /MOVE >nul");
 
-                                writer.WriteLine($"move /y \"{file}\" \"{destFile}\"");
-                            }
                             writer.WriteLine($"start \"\" \"{Environment.ProcessPath}\"");
                         }
 
@@ -227,6 +202,7 @@ namespace QuanLyThuongPhongBan.ViewForGauK.ViewModels
                     {
                         Application.Current.Shutdown();
                     }
+
                 }
             }
             catch (Exception ex)

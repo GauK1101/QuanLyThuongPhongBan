@@ -26,7 +26,7 @@ namespace QuanLyThuongPhongBan.ViewModels
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
@@ -47,11 +47,11 @@ namespace QuanLyThuongPhongBan.ViewModels
             _execute = execute;
         }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             try
             {
-                return _canExecute == null ? true : _canExecute((T)parameter);
+                return _canExecute == null ? true : _canExecute((T)parameter!);
             }
             catch
             {
@@ -59,9 +59,15 @@ namespace QuanLyThuongPhongBan.ViewModels
             }
         }
 
-        public void Execute(object parameter) => _execute((T)parameter);
+        public void Execute(object? parameter)
+        {
+            if (parameter is null && typeof(T).IsValueType && Nullable.GetUnderlyingType(typeof(T)) == null)
+                throw new ArgumentNullException(nameof(parameter), "Parameter cannot be null for non-nullable value types.");
 
-        public event EventHandler CanExecuteChanged
+            _execute((T)parameter!);
+        }
+
+        public event EventHandler? CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }

@@ -24,7 +24,7 @@
                     <!--<ImageBrush ImageSource="G:\My Drive\Loli\119769609_p02.jpg" x:Name="imageBrush" Stretch="UniformToFill" />-->
                     <ImageBrush
                         x:Name="imageBrush"
-                        ImageSource="G:\My Drive\Loli\121541665_p03.jpg"
+                        ImageSource="https://wallpapersok.com/images/hd/dive-into-the-story-of-rain-anime-dy1bf6mh71zw8s4t.jpg"
                         Stretch="UniformToFill" />
                 </Border.Background>
             </Border>

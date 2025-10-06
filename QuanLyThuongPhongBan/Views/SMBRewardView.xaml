@@ -22,7 +22,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition />
-                <RowDefinition Height="35" />
             </Grid.RowDefinitions>
             <Grid Margin="10 5 0 0">
                 <Grid.ColumnDefinitions>
@@ -112,7 +111,7 @@
                 CanUserAddRows="False"
                 CanUserResizeColumns="True"
                 ColumnReordered="DataGrid_ColumnReordered"
-                FrozenColumnCount="1"
+                FrozenColumnCount="2"
                 IsReadOnly="True"
                 ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}"
                 VirtualizingStackPanel.IsVirtualizing="True"
@@ -160,10 +159,14 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding NamThuong}" Header="Năm" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriSmb, Converter={StaticResource CurrencyConverter}}" Header="Hợp Đồng" />
-                    <DataGridTextColumn Binding="{Binding XuatHoaDon, Converter={StaticResource CurrencyConverter}}" Header="Quyết Toán" />
-                    <DataGridTextColumn Binding="{Binding TongTiLeThuongSmb, StringFormat={}{0:0.#####}%}" Header="Tổng Tỉ Lệ" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongSmb, Converter={StaticResource CurrencyConverter}}" Header="Tổng Giá Trị" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriSmb, Converter={StaticResource CurrencyConverter}}" Header="Hợp đồng" />
+                    <DataGridTextColumn Binding="{Binding XuatHoaDon, Converter={StaticResource CurrencyConverter}}" Header="Quyết toán" />
+                    <DataGridTextColumn Binding="{Binding TongTiLeThuongSmb, StringFormat={}{0:0.#####}%}" Header="Tổng tỉ lệ" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongSmb, Converter={StaticResource CurrencyConverter}}" Header="Tổng giá trị" />
+                    <DataGridTextColumn Binding="{Binding TongTiLeDot1, StringFormat={}{0:0.#####}%}" Header="Tổng tỉ lệ GD1/Doanh thu (%)" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriDot1, Converter={StaticResource CurrencyConverter}}" Header="Tổng giá trị GD1/Doanh thu" />
+                    <DataGridTextColumn Binding="{Binding TongThuHoiCongNo, Converter={StaticResource CurrencyConverter}}" Header="Tổng quyết toán/Thu hồi công nợ" />
+                    <DataGridTextColumn Binding="{Binding TongNghiemThu, Converter={StaticResource CurrencyConverter}}" Header="Tổng nghiệm thu" />
                 </DataGrid.Columns>
 
                 <DataGrid.RowDetailsTemplate>
@@ -180,7 +183,7 @@
                                                     Binding="{Binding IdPhongBanNavigation.TenPhongBan}" />
 
                                 <!-- Tỉ lệ thưởng (%) -->
-                                <DataGridTextColumn Header="Tỉ lệ tổng gói (%)"
+                                <DataGridTextColumn Header="Tỉ lệ tổng gói"
                                                     Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
                                                     />
 
@@ -190,7 +193,7 @@
                                                     />
 
                                 <!-- Điều chỉnh đợt 1 -->
-                                <DataGridTextColumn Header="Tỉ lệ GD1/Doanh thu (%)"
+                                <DataGridTextColumn Header="Tỉ lệ GD1/Doanh thu"
                                                     Binding="{Binding TiLeDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}"
                                                     />
                                 <DataGridTextColumn Header="Giá trị GD1/Doanh thu"
@@ -214,6 +217,7 @@
             </DataGrid>
 
             <StackPanel
+                Visibility="Hidden"
                 Grid.Row="2"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">

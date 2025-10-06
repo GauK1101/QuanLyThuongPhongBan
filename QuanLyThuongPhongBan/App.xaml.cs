@@ -7,5 +7,6 @@ namespace QuanLyThuongPhongBan
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

@@ -129,6 +129,103 @@
                                 </materialDesign:HintAssist.Hint>
                             </TextBox>
 
+                            <!-- Tổng tỉ lệ GD1 trúng thầu (%) -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="%"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongDuAn.TongTiLeDieuChinhDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng tỉ lệ GD1 trúng thầu" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <!-- Tổng giá trị GD1 triển khai -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="VND"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongDuAn.TongGiaTriDieuChinhDot1, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng giá trị GD1 triển khai" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <!-- Tổng tỉ lệ GD2 trúng thầu (%) -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="%"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongDuAn.TongTiLeDieuChinhDot2, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng tỉ lệ GD2 trúng thầu" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <!-- Tổng giá trị GD2 triển khai -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="VND"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongDuAn.TongGiaTriDieuChinhDot2, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng giá trị GD2 triển khai" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <!-- Tổng thu hồi công nợ -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="VND"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongDuAn.TongThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng thu hồi công nợ" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <!-- Tổng nghiệm thu -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="VND"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongDuAn.TongNghiemThu, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng nghiệm thu" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+
                             <!-- Năm thưởng -->
                             <TextBox
                                 FontSize="18"

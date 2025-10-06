@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:QuanLyThuongPhongBan"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="1400"
+    Width="1500"
     Height="720"
     mc:Ignorable="d"
     Name="mainWindow"
@@ -23,203 +23,211 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="35" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Background="#e5ffe7">
+        <Grid Grid.Row="0" Background="#e5ffe7">
 
-                <TabControl
-                    HorizontalContentAlignment="Center"
-                    materialDesign:NavigationRailAssist.SelectionCornerRadius="10"
-                    materialDesign:NavigationRailAssist.ShowSelectionBackground="True"
-                    Padding="0"
-                    Style="{StaticResource MaterialDesignNavigationRailTabControl}"
-                    TabStripPlacement="Bottom"
-                    >
-                    <TabItem VerticalAlignment="Center" Width="130" Height="35" Margin="0 0 5 0">
-                        <TabItem.Header>
-                            <StackPanel
-                                Orientation="Horizontal"
+            <TabControl
+                HorizontalContentAlignment="Center"
+                materialDesign:NavigationRailAssist.SelectionCornerRadius="10"
+                materialDesign:NavigationRailAssist.ShowSelectionBackground="True"
+                Padding="0"
+                Style="{StaticResource MaterialDesignNavigationRailTabControl}"
+                TabStripPlacement="Bottom"
+                >
+                <TabItem VerticalAlignment="Center" Width="130" Height="35" Margin="0 0 5 0">
+                    <TabItem.Header>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="5,0">
+
+                            <!-- Icon bên trái -->
+                            <materialDesign:PackIcon
+                                Kind="ProjectorScreen"
                                 VerticalAlignment="Center"
-                                Margin="5,0">
+                                Margin="0,0,5,0"/>
 
-                                <!-- Icon bên trái -->
-                                <materialDesign:PackIcon
-                                    Kind="ProjectorScreen"
-                                    VerticalAlignment="Center"
-                                    Margin="0,0,5,0"/>
-
-                                <!-- Text bên phải -->
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    Text="Thưởng dự án" />
-                            </StackPanel>
-                        </TabItem.Header>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                <i:InvokeCommandAction Command="{Binding ShowProjectRewardViewCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </TabItem>
-                    <TabItem VerticalAlignment="Center" Width="130" Height="35" Margin="0 0 5 0" >
-                        <TabItem.Header>
-                            <StackPanel
-                                Orientation="Horizontal"
+                            <!-- Text bên phải -->
+                            <TextBlock
                                 VerticalAlignment="Center"
-                                Margin="5,0">
+                                Text="Thưởng dự án" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding ShowProjectRewardViewCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TabItem>
+                <TabItem VerticalAlignment="Center" Width="130" Height="35" Margin="0 0 5 0" >
+                    <TabItem.Header>
+                        <StackPanel
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="5,0">
 
-                                <!-- Icon bên trái -->
+                            <!-- Icon bên trái -->
+                            <materialDesign:PackIcon
+                                Kind="TargetAccount"
+                                VerticalAlignment="Center"
+                                Margin="0,0,5,0"/>
+
+                            <!-- Text bên phải -->
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Thưởng SMB" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding ShowSMBRewardViewCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TabItem>
+            </TabControl>
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+
+            <Grid.Background>
+                <ImageBrush ImageSource="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRFcoRoOy-EzrJ3MET_RdUYeay0PQ36DBYCNK6pWh18CFyFSEMR"
+                            TileMode="Tile"
+                            Viewport="0,0,0.3,0.3"
+                            ViewportUnits="RelativeToBoundingBox"
+                            Stretch="UniformToFill">
+                </ImageBrush>
+            </Grid.Background>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1">
+
+                    <Border CornerRadius="10">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{x:Null}" Stretch="UniformToFill" />
+                        </Border.Background>
+                    </Border>
+
+                    <Grid Margin="10 0 10 0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <WrapPanel Margin="10 10 0 0">
                                 <materialDesign:PackIcon
-                                    Kind="TargetAccount"
+                                    Width="30"
+                                    Height="25"
+                                    Margin="0 0 5 0"
                                     VerticalAlignment="Center"
-                                    Margin="0,0,5,0"/>
-
-                                <!-- Text bên phải -->
+                                    Foreground="{DynamicResource MaterialDesignBody}"
+                                    Kind="{Binding Icon, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock
-                                    VerticalAlignment="Center"
-                                    Text="Thưởng SMB" />
-                            </StackPanel>
-                        </TabItem.Header>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
-                                <i:InvokeCommandAction Command="{Binding ShowSMBRewardViewCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </TabItem>
-                </TabControl>
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Text="{Binding Caption}" />
+                            </WrapPanel>
 
-            </Grid>
 
-            <Grid Grid.Row="1">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="1">
+                            <Grid
+                                Grid.Column="1"
+                                Margin="0 10 0 0"
+                                HorizontalAlignment="Right">
 
-                        <Border CornerRadius="10">
-                            <Border.Background>
-                                <ImageBrush ImageSource="{x:Null}" Stretch="UniformToFill" />
-                            </Border.Background>
-                        </Border>
+                                <StackPanel Orientation="Horizontal">
 
-                        <Grid Margin="10 0 10 0">
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <WrapPanel Margin="10 10 0 0">
-                                    <materialDesign:PackIcon
-                                        Width="30"
-                                        Height="25"
-                                        Margin="0 0 5 0"
-                                        VerticalAlignment="Center"
+                                    <Button
+                                        Height="35"
+                                        Margin="0 0 10 0"
                                         Foreground="{DynamicResource MaterialDesignBody}"
-                                        Kind="{Binding Icon, UpdateSourceTrigger=PropertyChanged}" />
-                                    <TextBlock
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Text="{Binding Caption}" />
-                                </WrapPanel>
+                                        materialDesign:ButtonAssist.CornerRadius="6"
+                                        materialDesign:RippleAssist.Feedback="White"
+                                        Style="{StaticResource MaterialDesignFlatButton}">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon
+                                                Width="20"
+                                                Height="20"
+                                                VerticalAlignment="Center"
+                                                Kind="Bell" />
+                                        </WrapPanel>
+                                    </Button>
 
+                                    <Button
+                                        Height="35"
+                                        Command="{Binding LogoutCommand}"
+                                        CommandParameter="{Binding ElementName=mainWindow}"
+                                        Foreground="{DynamicResource MaterialDesignBody}"
+                                        materialDesign:ButtonAssist.CornerRadius="6"
+                                        materialDesign:RippleAssist.Feedback="White"
+                                        Style="{StaticResource MaterialDesignFlatButton}">
+                                        <WrapPanel>
+                                            <materialDesign:PackIcon
+                                                Width="20"
+                                                Height="20"
+                                                VerticalAlignment="Center"
+                                                Kind="Logout" />
+                                        </WrapPanel>
+                                    </Button>
+                                </StackPanel>
 
-                                <Grid
-                                    Grid.Column="1"
-                                    Margin="0 10 0 0"
-                                    HorizontalAlignment="Right">
+                                <Popup
+                                    x:Name="NotificationPopup"
+                                    AllowsTransparency="True"
+                                    Placement="Bottom"
+                                    StaysOpen="False">
+                                    <Border
+                                        Margin="20"
+                                        HorizontalAlignment="Stretch"
+                                        Background="#FFE8FFE0"
+                                        CornerRadius="8"
+                                        Padding="10">
+                                        <ScrollViewer
+                                            Width="600"
+                                            MaxHeight="300"
+                                            HorizontalScrollBarVisibility="Auto">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    Margin="0,0,0,10"
+                                                    FontSize="16"
+                                                    FontWeight="Bold"
+                                                    Text="Thông báo!" />
+                                                <ItemsControl ItemsSource="{Binding Notifications,UpdateSourceTrigger=PropertyChanged}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock
+                                                                Margin="0,5,0,5"
+                                                                Text="{Binding}"
+                                                                TextWrapping="Wrap" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
 
-                                    <StackPanel Orientation="Horizontal">
-
-                                        <Button
-                                            Height="35"
-                                            Margin="0 0 10 0"
-                                            Foreground="{DynamicResource MaterialDesignBody}"
-                                            materialDesign:ButtonAssist.CornerRadius="6"
-                                            materialDesign:RippleAssist.Feedback="White"
-                                            Style="{StaticResource MaterialDesignFlatButton}">
-                                            <WrapPanel>
-                                                <materialDesign:PackIcon
-                                                    Width="20"
-                                                    Height="20"
-                                                    VerticalAlignment="Center"
-                                                    Kind="Bell" />
-                                            </WrapPanel>
-                                        </Button>
-
-                                        <Button
-                                            Height="35"
-                                            Command="{Binding LogoutCommand}"
-                                            CommandParameter="{Binding ElementName=mainWindow}"
-                                            Foreground="{DynamicResource MaterialDesignBody}"
-                                            materialDesign:ButtonAssist.CornerRadius="6"
-                                            materialDesign:RippleAssist.Feedback="White"
-                                            Style="{StaticResource MaterialDesignFlatButton}">
-                                            <WrapPanel>
-                                                <materialDesign:PackIcon
-                                                    Width="20"
-                                                    Height="20"
-                                                    VerticalAlignment="Center"
-                                                    Kind="Logout" />
-                                            </WrapPanel>
-                                        </Button>
-                                    </StackPanel>
-
-                                    <Popup
-                                        x:Name="NotificationPopup"
-                                        AllowsTransparency="True"
-                                        Placement="Bottom"
-                                        StaysOpen="False">
-                                        <Border
-                                            Margin="20"
-                                            HorizontalAlignment="Stretch"
-                                            Background="#FFE8FFE0"
-                                            CornerRadius="8"
-                                            Padding="10">
-                                            <ScrollViewer
-                                                Width="600"
-                                                MaxHeight="300"
-                                                HorizontalScrollBarVisibility="Auto">
-                                                <StackPanel>
-                                                    <TextBlock
-                                                        Margin="0,0,0,10"
-                                                        FontSize="16"
-                                                        FontWeight="Bold"
-                                                        Text="Thông báo!" />
-                                                    <ItemsControl ItemsSource="{Binding Notifications,UpdateSourceTrigger=PropertyChanged}">
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock
-                                                                    Margin="0,5,0,5"
-                                                                    Text="{Binding}"
-                                                                    TextWrapping="Wrap" />
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                </StackPanel>
-                                            </ScrollViewer>
-                                        </Border>
-                                    </Popup>
-
-                                </Grid>
                             </Grid>
-
-                            <ContentControl
-                                Grid.Row="1"
-                                Margin="10"
-                                Content="{Binding CurrentView}" />
-
                         </Grid>
+
+                        <ContentControl
+                            Grid.Row="1"
+                            Margin="10"
+                            Content="{Binding CurrentView}" />
+
                     </Grid>
                 </Grid>
             </Grid>

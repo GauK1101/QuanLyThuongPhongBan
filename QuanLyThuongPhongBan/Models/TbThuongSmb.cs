@@ -41,6 +41,29 @@ public partial class TbThuongSmb : BaseViewModel
         set => Set(value);
     }
 
+    public decimal? TongTiLeDot1
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? TongGiaTriDot1
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? TongThuHoiCongNo
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? TongNghiemThu
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
 
     public ObservableCollection<TbThuongDaiDoanSmb> Details
     {

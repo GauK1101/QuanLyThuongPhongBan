@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="True"
-        Title="AddEditSMBRewardWindow" Height="520" Width="1020">
+        Title="AddEditSMBRewardWindow" Height="520" Width="1250">
 
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome
@@ -128,6 +128,71 @@
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
                             </TextBox>
+
+                            <!-- Tổng tỉ lệ GD1 / Doanh thu (%) -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="%"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongSmb.TongTiLeDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng tỉ lệ GD1 / Doanh thu (%)" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <!-- Tổng giá trị GD1 / Doanh thu -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="VND"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongSmb.TongGiaTriDot1, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng giá trị GD1 / Doanh thu" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <!-- Tổng thu hồi công nợ -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="VND"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongSmb.TongThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng thu hồi công nợ" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
+                            <!-- Tổng nghiệm thu -->
+                            <TextBox
+                                FontSize="18"
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                materialDesign:TextFieldAssist.SuffixText="VND"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongSmb.TongNghiemThu, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Tổng nghiệm thu" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
 
                             <!-- Năm thưởng -->
                             <TextBox

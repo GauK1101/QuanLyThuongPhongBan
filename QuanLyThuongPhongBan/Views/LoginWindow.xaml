@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:QuanLyThuongPhongBan.Views"
+        xmlns:local="clr-namespace:QuanLyThuongPhongBan.Views" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Login"
         DataContext="{StaticResource LoginVM}"
@@ -14,7 +14,18 @@
         Name="loginWindow"
         WindowStyle="None"
         ResizeMode="NoResize"
+        FocusManager.FocusedElement="{Binding ElementName=txtUsername}"
         Height="500" Width="350">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoginCheckCommand}"
+                                   CommandParameter="{Binding ElementName=chkRemember}"/>
+            <i:InvokeCommandAction Command="{Binding LoginCommand}"
+                                   CommandParameter="{Binding ElementName=loginWindow}"
+                                   IsEnabled="{Binding IsFirstLaunch}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Border
         BorderThickness="1"
@@ -103,6 +114,8 @@
 
                     <StackPanel Grid.Row="2" VerticalAlignment="Center">
                         <TextBox
+                            x:Name="txtUsername"
+                            Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                             Width="250"
                             Margin="0 10"
                             FontSize="18"
@@ -115,6 +128,7 @@
                             materialDesign:TextFieldAssist.LeadingIcon="Account"/>
 
                         <PasswordBox
+                            x:Name="FloatingPasswordBox"
                             Width="250"
                             Margin="0 10"
                             FontSize="18"
@@ -124,9 +138,17 @@
                             materialDesign:TextFieldAssist.HasClearButton="True"
                             materialDesign:TextFieldAssist.HasLeadingIcon="True"
                             materialDesign:TextFieldAssist.UnderlineBrush="White"
-                            materialDesign:TextFieldAssist.LeadingIcon="Key" />
+                            materialDesign:TextFieldAssist.LeadingIcon="Key" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PasswordChanged">
+                                    <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}"
+                                                           CommandParameter="{Binding ElementName=FloatingPasswordBox}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </PasswordBox>
 
                         <CheckBox
+                            x:Name="chkRemember"
                             Width="250"
                             Content="Tự động đăng nhập"
                             Foreground="White"
@@ -138,6 +160,9 @@
                             FontSize="11"
                             Margin="0 5"
                             Padding="4,0,0,0"
+                            IsChecked="{Binding IsLogin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Command="{Binding LoginCheckCommand}"
+                            CommandParameter="{Binding ElementName=chkRemember}"
                             Style="{StaticResource MaterialDesignCheckBox}"
                             />
 
@@ -158,18 +183,19 @@
                             CommandParameter="{Binding ElementName=loginWindow}"
                             Foreground="White"
                             materialDesign:ButtonAssist.CornerRadius="5"
+                            IsDefault="True"
                             Style="{StaticResource MaterialDesignFlatMidBgButton}" />
 
                     </StackPanel>
 
                     <TextBlock
+                        x:Name="TxtVersion"
                         Grid.Row="4"
                         Margin="20 0"
                         Foreground="White"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
-                        FontSize="14"
-                        Text="v1.0.0" />
+                        FontSize="14"/>
                 </Grid>
             </Border>
 

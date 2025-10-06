@@ -8,52 +8,30 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QuanLyThuongPhongBan.Properties
-{
-
-
+namespace QuanLyThuongPhongBan.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
-    internal sealed partial class SettingsUpdate : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
+    internal sealed partial class SettingsUpdate : global::System.Configuration.ApplicationSettingsBase {
+        
         private static SettingsUpdate defaultInstance = ((SettingsUpdate)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new SettingsUpdate())));
-
-        public static SettingsUpdate Default
-        {
-            get
-            {
+        
+        public static SettingsUpdate Default {
+            get {
                 return defaultInstance;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsShowVersion
-        {
-            get
-            {
-                return ((bool)(this["IsShowVersion"]));
+        [global::System.Configuration.DefaultSettingValueAttribute("1.0.1")]
+        public string CurrentVersion {
+            get {
+                return ((string)(this["CurrentVersion"]));
             }
-            set
-            {
-                this["IsShowVersion"] = value;
-            }
-        }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsCheckMessageShow
-        {
-            get
-            {
-                return ((bool)(this["IsCheckMessageShow"]));
-            }
-            set
-            {
-                this["IsCheckMessageShow"] = value;
+            set {
+                this["CurrentVersion"] = value;
             }
         }
     }
