@@ -1,4 +1,5 @@
 ﻿using QuanLyThuongPhongBan.ViewModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuanLyThuongPhongBan.Models;
 
@@ -33,4 +34,6 @@ public partial class TbNhatKy : BaseViewModel
         get => Get<string?>();
         set => Set(value);
     }
+
+    //public virtual TbTaiKhoan? IdTaiKhoanNavigation { get; set; }
 }

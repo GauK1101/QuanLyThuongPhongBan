@@ -153,6 +153,7 @@
                                     <Button
                                         Height="35"
                                         Margin="0 0 10 0"
+                                        Click="ShowPopup_Click"
                                         Foreground="{DynamicResource MaterialDesignBody}"
                                         materialDesign:ButtonAssist.CornerRadius="6"
                                         materialDesign:RippleAssist.Feedback="White"
@@ -163,6 +164,7 @@
                                                 Height="20"
                                                 VerticalAlignment="Center"
                                                 Kind="Bell" />
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Thông báo"/>
                                         </WrapPanel>
                                     </Button>
 
@@ -180,6 +182,7 @@
                                                 Height="20"
                                                 VerticalAlignment="Center"
                                                 Kind="Logout" />
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Thoát"/>
                                         </WrapPanel>
                                     </Button>
                                 </StackPanel>
@@ -192,30 +195,85 @@
                                     <Border
                                         Margin="20"
                                         HorizontalAlignment="Stretch"
-                                        Background="#FFE8FFE0"
+                                        BorderBrush="Green"
+                                        BorderThickness="2"
                                         CornerRadius="8"
                                         Padding="10">
+
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRFcoRoOy-EzrJ3MET_RdUYeay0PQ36DBYCNK6pWh18CFyFSEMR" Stretch="UniformToFill" />
+                                        </Border.Background>
+
                                         <ScrollViewer
                                             Width="600"
                                             MaxHeight="300"
                                             HorizontalScrollBarVisibility="Auto">
-                                            <StackPanel>
+                                            <StackPanel Margin="10">
                                                 <TextBlock
                                                     Margin="0,0,0,10"
-                                                    FontSize="16"
+                                                    FontSize="18"
                                                     FontWeight="Bold"
                                                     Text="Thông báo!" />
-                                                <ItemsControl ItemsSource="{Binding Notifications,UpdateSourceTrigger=PropertyChanged}">
+
+                                                <ItemsControl ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock
+                                                            <Border
                                                                 Margin="0,5,0,5"
-                                                                Text="{Binding}"
-                                                                TextWrapping="Wrap" />
+                                                                Padding="10"
+                                                                CornerRadius="8"
+                                                                Background="{DynamicResource MaterialDesignPaper}"
+                                                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                                                BorderThickness="1"
+                                                                MinHeight="80"
+                                                                Effect="{DynamicResource MaterialDesignElevation3}">
+
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Style.Triggers>
+                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                <Setter Property="Background" Value="#FFEEEEEE"/>
+                                                                            </Trigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+
+                                                                <StackPanel>
+
+                                                                    <!-- ID tài khoản -->
+                                                                    <TextBlock
+                                                                        Text="{Binding IdTaiKhoan, StringFormat='ID tài khoản: {0}'}"
+                                                                        FontSize="12"
+                                                                        Foreground="Gray"
+                                                                        Margin="0,0,0,2" />
+
+                                                                    <!-- Hành động -->
+                                                                    <TextBlock
+                                                                        Text="{Binding HanhDong, StringFormat='Hành động: {0}'}"
+                                                                        FontSize="12"
+                                                                        Foreground="Gray"
+                                                                        Margin="0,0,0,5" />
+
+                                                                    <!-- Mô tả -->
+                                                                    <TextBlock
+                                                                        Text="{Binding MoTa}"
+                                                                        FontSize="14"
+                                                                        FontWeight="SemiBold"
+                                                                        TextWrapping="Wrap"
+                                                                        Margin="0,0,0,5" />
+
+                                                                    <!-- Thời gian -->
+                                                                    <TextBlock
+                                                                        Text="{Binding ThoiGian, StringFormat='Thời gian: {0:dd/MM/yyyy HH:mm}'}"
+                                                                        FontSize="12"
+                                                                        Foreground="Gray" />
+                                                                </StackPanel>
+                                                            </Border>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>
                                             </StackPanel>
+
                                         </ScrollViewer>
                                     </Border>
                                 </Popup>

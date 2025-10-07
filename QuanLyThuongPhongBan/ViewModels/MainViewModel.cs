@@ -1,14 +1,30 @@
 ﻿using MaterialDesignThemes.Wpf;
+using Microsoft.EntityFrameworkCore;
+using QuanLyThuongPhongBan.Models;
 using QuanLyThuongPhongBan.Views;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Input;
+using static QuanLyThuongPhongBan.CLass.SearchFilter;
 
 namespace QuanLyThuongPhongBan.ViewModels
 {
     internal class MainViewModel : BaseViewModel
     {
         #region Properties
+        private ObservableCollection<TbNhatKy>? _list;
+        public ObservableCollection<TbNhatKy>? List
+        {
+            get => _list;
+            set
+            {
+                _list = value;
+                OnPropertyChanged();
+            }
+        }
+
         private object _currentView = null!;
 
         public object CurrentView
@@ -193,12 +209,35 @@ namespace QuanLyThuongPhongBan.ViewModels
                     VisibleAuthem();
                     VisibilityKT = Visibility.Visible;
                 }
+
+                try
+                {
+                    // Truy vấn cơ sở dữ liệu với phân trang và tìm kiếm trực tiếp
+                    var query = DataProvider.Ins.DB.TbNhatKies
+                        .AsNoTracking() // chỉ gọi 1 lần
+                        .ToList();       // bắt buộc thực thi query
+
+                    if (List == null)
+                        List = new ObservableCollection<TbNhatKy>();
+                    else
+                        List.Clear();
+
+                    foreach (var item in query)
+                    {
+                        List.Add(item);
+                    }
+                }
+                catch (Exception)
+                {
+                    //Không báo lỗi khi tắt màn login đột ngột
+                }
+
             }
             catch (InvalidOperationException)
             {
                 //Không báo lỗi khi tắt màn login đột ngột
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Lỗi: " + ex.Message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
