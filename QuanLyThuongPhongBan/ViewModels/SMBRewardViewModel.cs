@@ -86,12 +86,17 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 model = new TbThuongSmb();
 
+                decimal[] tiLeTongSmb = { 0.03m, 0.10m, 0.10m };
+                decimal[] tiLeDot1 = { 0.08m, 0.25m, 0.40m };
+
                 for (int i = 3; i <= 5; i++)
                 {
                     TbThuongDaiDoanSmb detail = new TbThuongDaiDoanSmb
                     {
                         IdPhongBan = i,
-                        IdPhongBanNavigation = DataProvider.Ins.DB.TbPhongBans.FirstOrDefault(x => x.Id == i)
+                        IdPhongBanNavigation = DataProvider.Ins.DB.TbPhongBans.FirstOrDefault(x => x.Id == i),
+                        TiLeTongSmb = tiLeTongSmb[i - 3],
+                        TiLeDot1 = tiLeDot1[i - 3]
                     };
                     model.Details.Add(detail);
                 }
@@ -110,17 +115,17 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             foreach (var detail in TbThuongSmb.Details)
             {
-                detail.GiaTriTongSmb = (TbThuongSmb.TongGiaTriSmb * detail.TiLeTongSmb) / 100;
-                detail.GiaTriDot1 = (TbThuongSmb.XuatHoaDon * detail.TiLeDot1) / 100;
-                detail.ThuHoiCongNo = detail.GiaTriTongSmb - detail.GiaTriDot1;
-                detail.NghiemThu = detail.GiaTriDot1 + detail.ThuHoiCongNo;
+                detail.GiaTriTongSmb = ((TbThuongSmb.TongGiaTriSmb ?? 0) * (detail.TiLeTongSmb ?? 0)) / 100;
+                detail.GiaTriDot1 = ((TbThuongSmb.XuatHoaDon ?? 0) * (detail.TiLeDot1 ?? 0)) / 100;
+                detail.DaThuHoiCongNo = detail.GiaTriTongSmb - detail.GiaTriDot1;
+                detail.NghiemThu = detail.GiaTriDot1 + detail.DaThuHoiCongNo;
 
-                TbThuongSmb.TongTiLeThuongSmb = TbThuongSmb.Details.Sum(x => x.TiLeTongSmb);
-                TbThuongSmb.TongGiaTriThuongSmb = TbThuongSmb.Details.Sum(x => x.GiaTriTongSmb);
-                TbThuongSmb.TongTiLeDot1 = TbThuongSmb.Details.Sum(x => x.TiLeDot1);
-                TbThuongSmb.TongGiaTriDot1 = TbThuongSmb.Details.Sum(x => x.GiaTriDot1);
-                TbThuongSmb.TongThuHoiCongNo = TbThuongSmb.Details.Sum(x => x.ThuHoiCongNo);
-                TbThuongSmb.TongNghiemThu = TbThuongSmb.Details.Sum(x => x.NghiemThu);
+                TbThuongSmb.TongTiLeThuongSmb = TbThuongSmb.Details.Sum(x => x.TiLeTongSmb ?? 0);
+                TbThuongSmb.TongGiaTriThuongSmb = TbThuongSmb.Details.Sum(x => x.GiaTriTongSmb ?? 0);
+                TbThuongSmb.TongTiLeDot1 = TbThuongSmb.Details.Sum(x => x.TiLeDot1 ?? 0);
+                TbThuongSmb.TongGiaTriDot1 = TbThuongSmb.Details.Sum(x => x.GiaTriDot1 ?? 0);
+                TbThuongSmb.TongThuHoiCongNo = TbThuongSmb.Details.Sum(x => x.DaThuHoiCongNo ?? 0);
+                TbThuongSmb.TongNghiemThu = TbThuongSmb.Details.Sum(x => x.NghiemThu ?? 0);
             }
         }
 
@@ -220,6 +225,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                 logEx(ex);
             }
         }
+
         string GetChangeDescription<T>(T oldObj, T newObj)
         {
             var changes = new List<string>();

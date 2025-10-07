@@ -147,9 +147,12 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
             entity.Property(e => e.NghiemThu)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("nghiem_thu");
-            entity.Property(e => e.ThuHoiCongNo)
+            entity.Property(e => e.DaThuHoiCongNo)
                 .HasColumnType("decimal(18, 6)")
-                .HasColumnName("thu_hoi_cong_no");
+                .HasColumnName("da_thu_hoi_cong_no");
+            entity.Property(e => e.ChuaThuHoiCongNo)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("chua_thu_hoi_cong_no");
             entity.Property(e => e.TiLeDot1)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("ti_le_dot_1");

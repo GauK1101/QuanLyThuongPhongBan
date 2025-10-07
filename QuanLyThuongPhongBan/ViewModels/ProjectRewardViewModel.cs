@@ -91,13 +91,14 @@ namespace QuanLyThuongPhongBan.ViewModels
                     TbThuongDaiDoanDuAn detail = new TbThuongDaiDoanDuAn
                     {
                         IdPhongBan = i,
-                        IdPhongBanNavigation = DataProvider.Ins.DB.TbPhongBans.FirstOrDefault(x => x.Id == i)
+                        IdPhongBanNavigation = DataProvider.Ins.DB.TbPhongBans.FirstOrDefault(x => x.Id == i),
                     };
                     model.Details.Add(detail);
                 }
+
+                model.NamThuong = DateTime.Now.Date.Year.ToString();
             }
 
-            model.NamThuong = DateTime.Now.Date.Year.ToString();
             TbThuongDuAn = model;
 
             addEditProjectRewardWindow = new AddEditProjectRewardWindow();

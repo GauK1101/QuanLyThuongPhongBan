@@ -215,8 +215,10 @@ namespace QuanLyThuongPhongBan.ViewModels
                     // Truy vấn cơ sở dữ liệu với phân trang và tìm kiếm trực tiếp
                     var query = DataProvider.Ins.DB.TbNhatKies
                         .AsNoTracking() // chỉ gọi 1 lần
+                        .OrderByDescending(x => x.Id)
+                        .Take(5)
                         .ToList();       // bắt buộc thực thi query
-
+                    
                     if (List == null)
                         List = new ObservableCollection<TbNhatKy>();
                     else
