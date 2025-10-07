@@ -72,7 +72,7 @@
                     <Expander
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        Header="1.Tổng dự án"
+                        Header="1.Tổng SMB"
                         IsExpanded="True">
                         <WrapPanel
                             Margin="24,8,24,16"
@@ -149,7 +149,7 @@
                     <Expander
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        Header="1.Tổng dự án"
+                        Header="2.Tổng quan"
                         IsExpanded="True">
                         <WrapPanel
                             Margin="24,8,24,16"
@@ -242,7 +242,7 @@
                     <Expander
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        Header="2.Chi tiết đại/đoàn dự án"
+                        Header="3.Chi tiết SMB"
                         IsExpanded="True">
                         <DataGrid
                             Margin="8"

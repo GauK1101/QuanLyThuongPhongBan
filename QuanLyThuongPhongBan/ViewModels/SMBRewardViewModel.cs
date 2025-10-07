@@ -117,14 +117,14 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 detail.GiaTriTongSmb = ((TbThuongSmb.TongGiaTriSmb ?? 0) * (detail.TiLeTongSmb ?? 0)) / 100;
                 detail.GiaTriDot1 = ((TbThuongSmb.XuatHoaDon ?? 0) * (detail.TiLeDot1 ?? 0)) / 100;
-                detail.DaThuHoiCongNo = detail.GiaTriTongSmb - detail.GiaTriDot1;
-                detail.NghiemThu = detail.GiaTriDot1 + detail.DaThuHoiCongNo;
+                detail.ThuHoiCongNo = detail.GiaTriTongSmb - detail.GiaTriDot1;
+                detail.NghiemThu = detail.GiaTriDot1 + detail.ThuHoiCongNo;
 
                 TbThuongSmb.TongTiLeThuongSmb = TbThuongSmb.Details.Sum(x => x.TiLeTongSmb ?? 0);
                 TbThuongSmb.TongGiaTriThuongSmb = TbThuongSmb.Details.Sum(x => x.GiaTriTongSmb ?? 0);
                 TbThuongSmb.TongTiLeDot1 = TbThuongSmb.Details.Sum(x => x.TiLeDot1 ?? 0);
                 TbThuongSmb.TongGiaTriDot1 = TbThuongSmb.Details.Sum(x => x.GiaTriDot1 ?? 0);
-                TbThuongSmb.TongThuHoiCongNo = TbThuongSmb.Details.Sum(x => x.DaThuHoiCongNo ?? 0);
+                TbThuongSmb.TongThuHoiCongNo = TbThuongSmb.Details.Sum(x => x.ThuHoiCongNo ?? 0);
                 TbThuongSmb.TongNghiemThu = TbThuongSmb.Details.Sum(x => x.NghiemThu ?? 0);
             }
         }

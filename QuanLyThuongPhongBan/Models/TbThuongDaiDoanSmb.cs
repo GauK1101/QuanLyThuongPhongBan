@@ -48,13 +48,7 @@ public partial class TbThuongDaiDoanSmb : BaseViewModel
         set => Set(value);
     }
 
-    public decimal? DaThuHoiCongNo
-    {
-        get => Get<decimal?>();
-        set => Set(value);
-    }
-
-    public decimal? ChuaThuHoiCongNo
+    public decimal? ThuHoiCongNo
     {
         get => Get<decimal?>();
         set => Set(value);
