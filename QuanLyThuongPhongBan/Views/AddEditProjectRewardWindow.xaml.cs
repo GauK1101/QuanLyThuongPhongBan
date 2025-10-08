@@ -23,5 +23,13 @@ namespace QuanLyThuongPhongBan.Views
             if (e.ButtonState == MouseButtonState.Pressed)
                 this.DragMove();
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+            }
+        }
     }
 }

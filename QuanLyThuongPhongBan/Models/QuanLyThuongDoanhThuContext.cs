@@ -180,6 +180,9 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
             entity.ToTable("tb_thuong_dai_doan_smb");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.TiLeThuHoiCongNo)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("ti_le_thu_hoi_cong_no");
             entity.Property(e => e.ThuHoiCongNo)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("thu_hoi_cong_no");
@@ -251,9 +254,9 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
             entity.ToTable("tb_thuong_smb");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.NamThuong)
+            entity.Property(e => e.QuyNamThuong)
                 .HasMaxLength(50)
-                .HasColumnName("nam_thuong");
+                .HasColumnName("quy_nam_thuong");
             entity.Property(e => e.TongGiaTriDot1)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_gia_tri_dot_1");

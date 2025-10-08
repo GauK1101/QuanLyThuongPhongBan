@@ -13,6 +13,7 @@
     AllowsTransparency="True"
     Background="Transparent"
     DataContext="{StaticResource SMBRewardVM}"
+    KeyDown="Window_KeyDown"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -143,6 +144,22 @@
                                 </materialDesign:HintAssist.Hint>
                             </TextBox>
 
+
+                            <!--  Năm thưởng  -->
+                            <TextBox
+                                Margin="10,5"
+                                VerticalAlignment="Center"
+                                materialDesign:TextFieldAssist.HasClearButton="True"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding TbThuongSmb.QuyNamThuong, UpdateSourceTrigger=PropertyChanged}">
+                                <materialDesign:HintAssist.Hint>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Quý năm thưởng" />
+                                    </StackPanel>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+
                         </WrapPanel>
                     </Expander>
 
@@ -220,22 +237,6 @@
                                 </materialDesign:HintAssist.Hint>
                             </TextBox>
 
-
-                            <!--  Năm thưởng  -->
-                            <TextBox
-                                Margin="10,5"
-                                VerticalAlignment="Center"
-                                materialDesign:TextFieldAssist.HasClearButton="True"
-                                FontSize="18"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                Text="{Binding TbThuongSmb.NamThuong, UpdateSourceTrigger=PropertyChanged}">
-                                <materialDesign:HintAssist.Hint>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Năm thưởng" />
-                                    </StackPanel>
-                                </materialDesign:HintAssist.Hint>
-                            </TextBox>
-
                         </WrapPanel>
                     </Expander>
 
@@ -286,7 +287,8 @@
                                 <DataGridTextColumn Binding="{Binding GiaTriDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Giá trị GD1/Doanh thu" />
 
                                 <!--  Thu hồi công nợ  -->
-                                <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Quyết toán/Thu hồi công nợ" />
+                                <DataGridTextColumn Binding="{Binding TiLeThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}" Header="Tỉ lệ Thu hồi công nợ" />
+                                <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Thu hồi công nợ" />
 
                                 <!--  Nghiệm thu  -->
                                 <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Nghiệm thu" />

@@ -62,5 +62,12 @@ namespace QuanLyThuongPhongBan.Views
         {
             myDataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
         }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+            }
+        }
     }
 }

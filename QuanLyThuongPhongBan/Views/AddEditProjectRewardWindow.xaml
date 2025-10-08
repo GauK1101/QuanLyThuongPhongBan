@@ -13,6 +13,7 @@
     AllowsTransparency="True"
     Background="Transparent"
     DataContext="{StaticResource ProjectRewardVM}"
+    KeyDown="Window_KeyDown"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">

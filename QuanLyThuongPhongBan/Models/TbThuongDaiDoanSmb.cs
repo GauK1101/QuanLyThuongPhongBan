@@ -48,6 +48,12 @@ public partial class TbThuongDaiDoanSmb : BaseViewModel
         set => Set(value);
     }
 
+    public decimal? TiLeThuHoiCongNo
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
     public decimal? ThuHoiCongNo
     {
         get => Get<decimal?>();

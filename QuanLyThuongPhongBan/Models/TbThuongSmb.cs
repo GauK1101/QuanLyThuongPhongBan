@@ -35,7 +35,7 @@ public partial class TbThuongSmb : BaseViewModel
         set => Set(value);
     }
 
-    public string? NamThuong
+    public string? QuyNamThuong
     {
         get => Get<string?>();
         set => Set(value);

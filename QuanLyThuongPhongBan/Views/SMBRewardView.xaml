@@ -10,6 +10,7 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     DataContext="{StaticResource SMBRewardVM}"
+    KeyDown="UserControl_KeyDown"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -107,24 +108,24 @@
                 ColumnReordered="DataGrid_ColumnReordered"
                 FrozenColumnCount="2"
                 IsReadOnly="True"
-                ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}"
+                ItemsSource="{Binding ListMonth, UpdateSourceTrigger=PropertyChanged}"
                 VirtualizingStackPanel.IsVirtualizing="True"
                 VirtualizingStackPanel.VirtualizationMode="Recycling">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Nam}" Header="Năm" />
-                    <DataGridTextColumn Binding="{Binding Thang1, Converter={StaticResource CurrencyConverter}}" Header="Tháng 1" />
-                    <DataGridTextColumn Binding="{Binding Thang2, Converter={StaticResource CurrencyConverter}}" Header="Tháng 2" />
-                    <DataGridTextColumn Binding="{Binding Thang3, Converter={StaticResource CurrencyConverter}}" Header="Tháng 3" />
-                    <DataGridTextColumn Binding="{Binding Thang4, Converter={StaticResource CurrencyConverter}}" Header="Tháng 4" />
-                    <DataGridTextColumn Binding="{Binding Thang5, Converter={StaticResource CurrencyConverter}}" Header="Tháng 5" />
-                    <DataGridTextColumn Binding="{Binding Thang6, Converter={StaticResource CurrencyConverter}}" Header="Tháng 6" />
-                    <DataGridTextColumn Binding="{Binding Thang7, Converter={StaticResource CurrencyConverter}}" Header="Tháng 7" />
-                    <DataGridTextColumn Binding="{Binding Thang8, Converter={StaticResource CurrencyConverter}}" Header="Tháng 8" />
-                    <DataGridTextColumn Binding="{Binding Thang9, Converter={StaticResource CurrencyConverter}}" Header="Tháng 9" />
-                    <DataGridTextColumn Binding="{Binding Thang10, Converter={StaticResource CurrencyConverter}}" Header="Tháng 10" />
-                    <DataGridTextColumn Binding="{Binding Thang11, Converter={StaticResource CurrencyConverter}}" Header="Tháng 11" />
-                    <DataGridTextColumn Binding="{Binding Thang12, Converter={StaticResource CurrencyConverter}}" Header="Tháng 12" />
+                    <DataGridTextColumn Binding="{Binding Thang1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 1" />
+                    <DataGridTextColumn Binding="{Binding Thang2, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 2" />
+                    <DataGridTextColumn Binding="{Binding Thang3, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 3" />
+                    <DataGridTextColumn Binding="{Binding Thang4, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 4" />
+                    <DataGridTextColumn Binding="{Binding Thang5, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 5" />
+                    <DataGridTextColumn Binding="{Binding Thang6, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 6" />
+                    <DataGridTextColumn Binding="{Binding Thang7, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 7" />
+                    <DataGridTextColumn Binding="{Binding Thang8, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 8" />
+                    <DataGridTextColumn Binding="{Binding Thang9, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 9" />
+                    <DataGridTextColumn Binding="{Binding Thang10, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 10" />
+                    <DataGridTextColumn Binding="{Binding Thang11, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 11" />
+                    <DataGridTextColumn Binding="{Binding Thang12, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 12" />
                 </DataGrid.Columns>
 
             </DataGrid>
@@ -180,15 +181,15 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Binding="{Binding NamThuong}" Header="Năm" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriSmb, Converter={StaticResource CurrencyConverter}}" Header="Hợp đồng" />
-                    <DataGridTextColumn Binding="{Binding XuatHoaDon, Converter={StaticResource CurrencyConverter}}" Header="Quyết toán" />
-                    <DataGridTextColumn Binding="{Binding TongTiLeThuongSmb, StringFormat={}{0:0.#####}%}" Header="Tổng tỉ lệ" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongSmb, Converter={StaticResource CurrencyConverter}}" Header="Tổng giá trị" />
-                    <DataGridTextColumn Binding="{Binding TongTiLeDot1, StringFormat={}{0:0.#####}%}" Header="Tổng tỉ lệ GD1/Doanh thu (%)" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriDot1, Converter={StaticResource CurrencyConverter}}" Header="Tổng giá trị GD1/Doanh thu" />
-                    <DataGridTextColumn Binding="{Binding TongThuHoiCongNo, Converter={StaticResource CurrencyConverter}}" Header="Tổng quyết toán/Thu hồi công nợ" />
-                    <DataGridTextColumn Binding="{Binding TongNghiemThu, Converter={StaticResource CurrencyConverter}}" Header="Tổng nghiệm thu" />
+                    <DataGridTextColumn Binding="{Binding QuyNamThuong, UpdateSourceTrigger=PropertyChanged}" Header="Quý năm thưởng" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Hợp đồng" />
+                    <DataGridTextColumn Binding="{Binding XuatHoaDon, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Quyết toán" />
+                    <DataGridTextColumn Binding="{Binding TongTiLeThuongSmb, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}" Header="Tổng tỉ lệ" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng giá trị" />
+                    <DataGridTextColumn Binding="{Binding TongTiLeDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}" Header="Tổng tỉ lệ GD1/Doanh thu (%)" />
+                    <DataGridTextColumn Binding="{Binding TongGiaTriDot1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng giá trị GD1/Doanh thu" />
+                    <DataGridTextColumn Binding="{Binding TongThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng quyết toán/Thu hồi công nợ" />
+                    <DataGridTextColumn Binding="{Binding TongNghiemThu, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng nghiệm thu" />
                 </DataGrid.Columns>
 
                 <DataGrid.RowDetailsTemplate>
@@ -202,23 +203,24 @@
                             ItemsSource="{Binding Details}">
                             <DataGrid.Columns>
                                 <!--  Phòng ban  -->
-                                <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan}" Header="Phòng ban" />
+                                <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan, UpdateSourceTrigger=PropertyChanged}" Header="Phòng ban" />
 
                                 <!--  Tỉ lệ thưởng (%)  -->
-                                <DataGridTextColumn Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}" Header="Tỉ lệ tổng gói" />
+                                <DataGridTextColumn Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Tỉ lệ tổng gói" />
 
                                 <!--  Giá trị  -->
-                                <DataGridTextColumn Binding="{Binding GiaTriTongSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Giá trị tổng gói" />
+                                <DataGridTextColumn Binding="{Binding GiaTriTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Giá trị tổng gói" />
 
                                 <!--  Điều chỉnh đợt 1  -->
-                                <DataGridTextColumn Binding="{Binding TiLeDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}" Header="Tỉ lệ GD1/Doanh thu" />
-                                <DataGridTextColumn Binding="{Binding GiaTriDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Giá trị GD1/Doanh thu" />
+                                <DataGridTextColumn Binding="{Binding TiLeDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Tỉ lệ GD1/Doanh thu" />
+                                <DataGridTextColumn Binding="{Binding GiaTriDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Giá trị GD1/Doanh thu" />
 
                                 <!--  Thu hồi công nợ  -->
-                                <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Quyết toán/Thu hồi công nợ" />
+                                <DataGridTextColumn Binding="{Binding TiLeThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Tỉ lẹ thu hồi công nợ" />
+                                <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Thu hồi công nợ" />
 
                                 <!--  Nghiệm thu  -->
-                                <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Nghiệm thu" />
+                                <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Nghiệm thu" />
                             </DataGrid.Columns>
 
                         </DataGrid>
