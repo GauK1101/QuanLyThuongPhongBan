@@ -65,7 +65,7 @@ public partial class TbThuongSmb : BaseViewModel
         set => Set(value);
     }
 
-    public ObservableCollection<TbThuongDaiDoanSmb> Details
+    public ObservableCollection<TbThuongDaiDoanSmb> TbThuongDaiDoanSmbs
     {
         get
         {

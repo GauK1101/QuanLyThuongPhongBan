@@ -10,7 +10,6 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     DataContext="{StaticResource SMBRewardVM}"
-    KeyDown="UserControl_KeyDown"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -99,7 +98,6 @@
             </Grid>
 
             <DataGrid
-                x:Name="myDataGrid1"
                 Grid.Row="1"
                 AutoGenerateColumns="False"
                 Background="Transparent"
@@ -141,6 +139,7 @@
                 FrozenColumnCount="2"
                 IsReadOnly="True"
                 ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}"
+                MouseLeftButtonUp="myDataGrid_MouseLeftButtonUp"
                 VirtualizingStackPanel.IsVirtualizing="True"
                 VirtualizingStackPanel.VirtualizationMode="Recycling">
 
@@ -200,7 +199,7 @@
                             CanUserAddRows="False"
                             HeadersVisibility="Column"
                             IsReadOnly="True"
-                            ItemsSource="{Binding Details}">
+                            ItemsSource="{Binding TbThuongDaiDoanSmbs}">
                             <DataGrid.Columns>
                                 <!--  Phòng ban  -->
                                 <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan, UpdateSourceTrigger=PropertyChanged}" Header="Phòng ban" />

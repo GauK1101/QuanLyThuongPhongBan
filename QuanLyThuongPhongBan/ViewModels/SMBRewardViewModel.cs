@@ -128,7 +128,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                     };
 
                     // Thêm chi tiết này vào danh sách Details của model
-                    model.Details.Add(detail);
+                    model.TbThuongDaiDoanSmbs.Add(detail);
                 }
 
                 // Gán giá trị chuỗi thể hiện quý và năm hiện tại cho thuộc tính QuyNamThuong.
@@ -150,7 +150,7 @@ namespace QuanLyThuongPhongBan.ViewModels
             if (TbThuongSmb == null) return;
 
             // Lặp qua từng chi tiết thưởng trong danh sách
-            foreach (var detail in TbThuongSmb.Details)
+            foreach (var detail in TbThuongSmb.TbThuongDaiDoanSmbs)
             {
                 // Tính giá trị tổng SMB cho chi tiết = (Tổng giá trị SMB * Tỷ lệ thưởng) / 100
                 detail.GiaTriTongSmb = ((TbThuongSmb.TongGiaTriSmb ?? 0) * (detail.TiLeTongSmb ?? 0)) / 100;
@@ -168,22 +168,22 @@ namespace QuanLyThuongPhongBan.ViewModels
                 detail.TiLeThuHoiCongNo = detail.TiLeTongSmb - detail.TiLeDot1;
 
                 // Cập nhật tổng tỷ lệ thưởng SMB (cộng tất cả tỷ lệ từ chi tiết)
-                TbThuongSmb.TongTiLeThuongSmb = TbThuongSmb.Details.Sum(x => x.TiLeTongSmb ?? 0);
+                TbThuongSmb.TongTiLeThuongSmb = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(x => x.TiLeTongSmb ?? 0);
 
                 // Cập nhật tổng giá trị thưởng SMB
-                TbThuongSmb.TongGiaTriThuongSmb = TbThuongSmb.Details.Sum(x => x.GiaTriTongSmb ?? 0);
+                TbThuongSmb.TongGiaTriThuongSmb = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(x => x.GiaTriTongSmb ?? 0);
 
                 // Cập nhật tổng tỷ lệ đợt 1
-                TbThuongSmb.TongTiLeDot1 = TbThuongSmb.Details.Sum(x => x.TiLeDot1 ?? 0);
+                TbThuongSmb.TongTiLeDot1 = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(x => x.TiLeDot1 ?? 0);
 
                 // Cập nhật tổng giá trị đợt 1
-                TbThuongSmb.TongGiaTriDot1 = TbThuongSmb.Details.Sum(x => x.GiaTriDot1 ?? 0);
+                TbThuongSmb.TongGiaTriDot1 = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(x => x.GiaTriDot1 ?? 0);
 
                 // Cập nhật tổng thu hồi công nợ
-                TbThuongSmb.TongThuHoiCongNo = TbThuongSmb.Details.Sum(x => x.ThuHoiCongNo ?? 0);
+                TbThuongSmb.TongThuHoiCongNo = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(x => x.ThuHoiCongNo ?? 0);
 
                 // Cập nhật tổng nghiệm thu
-                TbThuongSmb.TongNghiemThu = TbThuongSmb.Details.Sum(x => x.NghiemThu ?? 0);
+                TbThuongSmb.TongNghiemThu = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(x => x.NghiemThu ?? 0);
             }
         }
 
@@ -325,7 +325,7 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             // Tính tổng thay đổi giữa dữ liệu mới và cũ
             // Với mỗi item: (giá trị mới - giá trị cũ)
-            decimal? totalDifference = TbThuongSmb.Details.Sum(newItem =>
+            decimal? totalDifference = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(newItem =>
             {
                 decimal newValue = newItem.ThuHoiCongNo ?? 0;
                 decimal oldValue = oldDict.TryGetValue(newItem.Id, out var val) ? val : 0;
@@ -536,7 +536,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                         .AsQueryable();
 
                     // Truy vấn dữ liệu chi tiết (TbThuongDaiDoanSmbs) kèm theo dữ liệu phòng ban (Include)
-                    var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanSmbs
+                    var queryDaiDoan = await DataProvider.Ins.DB.TbThuongDaiDoanSmbs
                         .AsNoTracking()
                         .Include(d => d.IdPhongBanNavigation)
                         .ToListAsync();
@@ -561,28 +561,13 @@ namespace QuanLyThuongPhongBan.ViewModels
                     foreach (var item in query)
                     {
                         // Lấy chi tiết tương ứng theo IdThuongSmb
-                        var details = queryDetails
+                        var tbThuongDaiDoanDuAn = queryDaiDoan
                             .Where(d => d.IdThuongSmb == item.Id)
-                            .Select(d => new TbThuongDaiDoanSmb
-                            {
-                                // Tạo mới đối tượng chi tiết để tránh lỗi tracking Entity Framework
-                                Id = d.Id,
-                                IdPhongBan = d.IdPhongBan,
-                                IdThuongSmb = d.IdThuongSmb,
-                                TiLeTongSmb = d.TiLeTongSmb,
-                                GiaTriTongSmb = d.GiaTriTongSmb,
-                                TiLeDot1 = d.TiLeDot1,
-                                GiaTriDot1 = d.GiaTriDot1,
-                                ThuHoiCongNo = d.ThuHoiCongNo,
-                                NghiemThu = d.NghiemThu,
-                                IdPhongBanNavigation = d.IdPhongBanNavigation
-                            });
+                            .ToList();
 
                         // Thêm từng chi tiết vào chi tiết của bản ghi chính
-                        foreach (var ct in details)
-                        {
-                            item.Details.Add(ct);
-                        }
+                        foreach (var ct in tbThuongDaiDoanDuAn)
+                            item.TbThuongDaiDoanSmbs.Add(ct);
 
                         // Thêm bản ghi chính (kèm chi tiết) vào List dùng binding UI
                         List.Add(item);

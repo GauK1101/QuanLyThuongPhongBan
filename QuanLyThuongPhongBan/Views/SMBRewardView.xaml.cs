@@ -23,7 +23,6 @@ namespace QuanLyThuongPhongBan.Views
         public SMBRewardView()
         {
             InitializeComponent();
-
             Loading();
         }
 
@@ -63,11 +62,16 @@ namespace QuanLyThuongPhongBan.Views
             myDataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
         }
 
-        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        private void myDataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.Key == Key.Escape)
-            {
-            }
+            var row = ItemsControl.ContainerFromElement((DataGrid)sender, e.OriginalSource as DependencyObject) as DataGridRow;
+            if (row == null) return;
+
+            // Toggle trạng thái hiển thị chi tiết
+            if (row.DetailsVisibility == Visibility.Visible)
+                row.DetailsVisibility = Visibility.Collapsed;
+            else
+                row.DetailsVisibility = Visibility.Visible;
         }
     }
 }

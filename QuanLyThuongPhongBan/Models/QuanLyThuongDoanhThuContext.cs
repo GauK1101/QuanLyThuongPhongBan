@@ -29,6 +29,8 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
 
     public virtual DbSet<TbThuongDuAn> TbThuongDuAns { get; set; }
 
+    public virtual DbSet<TbThuongDuAnChiTiet> TbThuongDuAnChiTiets { get; set; }
+
     public virtual DbSet<TbThuongSmb> TbThuongSmbs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -146,29 +148,37 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.GiaTriDieuChinhDot1)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("gia_tri_dieu_chinh_dot_1");
             entity.Property(e => e.GiaTriDieuChinhDot2)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("gia_tri_dieu_chinh_dot_2");
             entity.Property(e => e.GiaTriTongGoi)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("gia_tri_tong_goi");
             entity.Property(e => e.IdPhongBan).HasColumnName("id_phong_ban");
             entity.Property(e => e.IdThuongDuAn).HasColumnName("id_thuong_du_an");
             entity.Property(e => e.NghiemThu)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("nghiem_thu");
             entity.Property(e => e.ThuHoiCongNo)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("thu_hoi_cong_no");
             entity.Property(e => e.TiLeDieuChinhDot1)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("ti_le_dieu_chinh_dot_1");
             entity.Property(e => e.TiLeDieuChinhDot2)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("ti_le_dieu_chinh_dot_2");
             entity.Property(e => e.TiLeTongGoi)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("ti_le_tong_goi");
         });
@@ -180,16 +190,12 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
             entity.ToTable("tb_thuong_dai_doan_smb");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.TiLeThuHoiCongNo)
-                .HasColumnType("decimal(18, 6)")
-                .HasColumnName("ti_le_thu_hoi_cong_no");
-            entity.Property(e => e.ThuHoiCongNo)
-                .HasColumnType("decimal(18, 6)")
-                .HasColumnName("thu_hoi_cong_no");
             entity.Property(e => e.GiaTriDot1)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("gia_tri_dot_1");
             entity.Property(e => e.GiaTriTongSmb)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("gia_tri_tong_smb");
             entity.Property(e => e.IdPhongBan).HasColumnName("id_phong_ban");
@@ -197,10 +203,19 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
             entity.Property(e => e.NghiemThu)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("nghiem_thu");
+            entity.Property(e => e.ThuHoiCongNo)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("thu_hoi_cong_no");
             entity.Property(e => e.TiLeDot1)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("ti_le_dot_1");
+            entity.Property(e => e.TiLeThuHoiCongNo)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("ti_le_thu_hoi_cong_no");
             entity.Property(e => e.TiLeTongSmb)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("ti_le_tong_smb");
         });
@@ -213,38 +228,111 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.GiaTriHopDong)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("gia_tri_hop_dong");
             entity.Property(e => e.NamThuong)
                 .HasMaxLength(4)
                 .HasColumnName("nam_thuong");
             entity.Property(e => e.QuyetToan)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("quyet_toan");
             entity.Property(e => e.TongGiaTriDieuChinhDot1)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_gia_tri_dieu_chinh_dot_1");
             entity.Property(e => e.TongGiaTriDieuChinhDot2)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_gia_tri_dieu_chinh_dot_2");
             entity.Property(e => e.TongGiaTriThuongDuAn)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_gia_tri_thuong_du_an");
             entity.Property(e => e.TongNghiemThu)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_nghiem_thu");
             entity.Property(e => e.TongThuHoiCongNo)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_thu_hoi_cong_no");
             entity.Property(e => e.TongTiLeDieuChinhDot1)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_ti_le_dieu_chinh_dot_1");
             entity.Property(e => e.TongTiLeDieuChinhDot2)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_ti_le_dieu_chinh_dot_2");
             entity.Property(e => e.TongTiLeThuongDuAn)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_ti_le_thuong_du_an");
+        });
+
+        modelBuilder.Entity<TbThuongDuAnChiTiet>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__tb_thuon__3213E83F61FFE193");
+
+            entity.ToTable("tb_thuong_du_an_chi_tiet");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IdThuongDuAn).HasColumnName("id_thuong_du_an");
+            entity.Property(e => e.ChuDauTu)
+                .HasMaxLength(255)
+                .HasColumnName("chu_dau_tu");
+            entity.Property(e => e.DaThanhToan)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("da_thanh_toan");
+            entity.Property(e => e.DoanhThuChuaXuatHoaDon)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("doanh_thu_chua_xuat_hoa_don");
+            entity.Property(e => e.DoanhThuDaXuatHoaDon)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("doanh_thu_da_xuat_hoa_don");
+            entity.Property(e => e.DoanhThuHopDong)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("doanh_thu_hop_dong");
+            entity.Property(e => e.DoanhThuQuyetToan)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("doanh_thu_quyet_toan");
+            entity.Property(e => e.DuAn)
+                .HasMaxLength(255)
+                .HasColumnName("du_an");
+            entity.Property(e => e.GhiChu)
+                .HasMaxLength(500)
+                .HasColumnName("ghi_chu");
+            entity.Property(e => e.HopDongSo)
+                .HasMaxLength(100)
+                .HasColumnName("hop_dong_so");
+            entity.Property(e => e.Hsda)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("hsda");
+            entity.Property(e => e.Ktk)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("ktk");
+            entity.Property(e => e.NgayThang).HasColumnName("ngay_thang");
+            entity.Property(e => e.Po)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("po");
+            entity.Property(e => e.Ttdvkt)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("ttdvkt");
+            entity.Property(e => e.Tvgp)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("tvgp");
         });
 
         modelBuilder.Entity<TbThuongSmb>(entity =>
@@ -258,27 +346,35 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("quy_nam_thuong");
             entity.Property(e => e.TongGiaTriDot1)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_gia_tri_dot_1");
             entity.Property(e => e.TongGiaTriSmb)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_gia_tri_smb");
             entity.Property(e => e.TongGiaTriThuongSmb)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_gia_tri_thuong_smb");
             entity.Property(e => e.TongNghiemThu)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_nghiem_thu");
             entity.Property(e => e.TongThuHoiCongNo)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_thu_hoi_cong_no");
             entity.Property(e => e.TongTiLeDot1)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_ti_le_dot_1");
             entity.Property(e => e.TongTiLeThuongSmb)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("tong_ti_le_thuong_smb");
             entity.Property(e => e.XuatHoaDon)
+                .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("xuat_hoa_don");
         });

@@ -77,8 +77,7 @@ public partial class TbThuongDuAn : BaseViewModel
         set => Set(value);
     }
 
-
-    public ObservableCollection<TbThuongDaiDoanDuAn> Details
+    public ObservableCollection<TbThuongDaiDoanDuAn> TbThuongDaiDoanDuAns
     {
         get
         {
@@ -86,6 +85,21 @@ public partial class TbThuongDuAn : BaseViewModel
             if (v == null)
             {
                 v = new ObservableCollection<TbThuongDaiDoanDuAn>();
+                Set(v); // QUAN TRỌNG: lưu lại, để các lần sau không tạo mới
+            }
+            return v;
+        }
+        set => Set(value);
+    }
+
+    public ObservableCollection<TbThuongDuAnChiTiet> TbThuongDuAnChiTiets
+    {
+        get
+        {
+            var v = Get<ObservableCollection<TbThuongDuAnChiTiet>>();
+            if (v == null)
+            {
+                v = new ObservableCollection<TbThuongDuAnChiTiet>();
                 Set(v); // QUAN TRỌNG: lưu lại, để các lần sau không tạo mới
             }
             return v;

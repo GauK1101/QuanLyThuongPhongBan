@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace QuanLyThuongPhongBan.Views
 {
@@ -48,6 +49,18 @@ namespace QuanLyThuongPhongBan.Views
         private void chkExpandAll_Unchecked(object sender, RoutedEventArgs e)
         {
             myDataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+        }
+
+        private void myDataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var row = ItemsControl.ContainerFromElement((DataGrid)sender, e.OriginalSource as DependencyObject) as DataGridRow;
+            if (row == null) return;
+
+            // Toggle trạng thái hiển thị chi tiết
+            if (row.DetailsVisibility == Visibility.Visible)
+                row.DetailsVisibility = Visibility.Collapsed;
+            else
+                row.DetailsVisibility = Visibility.Visible;
         }
     }
 }

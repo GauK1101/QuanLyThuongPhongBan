@@ -110,6 +110,7 @@
                 FrozenColumnCount="2"
                 IsReadOnly="True"
                 ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}"
+                MouseLeftButtonUp="myDataGrid_MouseLeftButtonUp"
                 VirtualizingStackPanel.IsVirtualizing="True"
                 VirtualizingStackPanel.VirtualizationMode="Recycling">
 
@@ -169,28 +170,71 @@
 
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <DataGrid
-                            Margin="20,5,5,5"
-                            AutoGenerateColumns="False"
-                            CanUserAddRows="False"
-                            HeadersVisibility="Column"
-                            IsReadOnly="True"
-                            ItemsSource="{Binding Details}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan, UpdateSourceTrigger=PropertyChanged}" Header="Phòng ban" />
-                                <DataGridTextColumn Binding="{Binding TiLeTongGoi, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}" Header="Tỉ lệ tổng thưởng" />
-                                <DataGridTextColumn Binding="{Binding GiaTriTongGoi, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Giá trị tổng gói" />
-                                <DataGridTextColumn Binding="{Binding TiLeDieuChinhDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}" Header="Tỉ lệ GD1 trúng thầu" />
-                                <DataGridTextColumn Binding="{Binding GiaTriDieuChinhDot1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Giá trị GD1 trúng thầu" />
-                                <DataGridTextColumn Binding="{Binding TiLeDieuChinhDot2, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}" Header="Tỉ lệ GD2 triển khai" />
-                                <DataGridTextColumn Binding="{Binding GiaTriDieuChinhDot2, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Giá trị GD2 triển khai" />
-                                <DataGridTextColumn Binding="{Binding ThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Thu hồi công nợ" />
-                                <DataGridTextColumn Binding="{Binding NghiemThu, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng cộng" />
+                        <StackPanel Margin="20,5,5,5">
 
-                            </DataGrid.Columns>
-                        </DataGrid>
+                            <!-- DataGrid tầng 2 (bảng chi tiết chính) -->
+                            <TextBlock Text="Chi tiết thưởng theo phòng ban"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,5" />
+                            <DataGrid
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                HeadersVisibility="Column"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding TbThuongDaiDoanDuAns}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan}" Header="Phòng ban" />
+                                    <DataGridTextColumn Binding="{Binding TiLeTongGoi, StringFormat={}{0:0.#####}%}" Header="Tỉ lệ tổng thưởng" />
+                                    <DataGridTextColumn Binding="{Binding GiaTriTongGoi, Converter={StaticResource CurrencyConverter}}" Header="Giá trị tổng gói" />
+                                    <DataGridTextColumn Binding="{Binding GiaTriDieuChinhDot1, Converter={StaticResource CurrencyConverter}}" Header="Giá trị GD1" />
+                                    <DataGridTextColumn Binding="{Binding GiaTriDieuChinhDot2, Converter={StaticResource CurrencyConverter}}" Header="Giá trị GD2" />
+                                    <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Converter={StaticResource CurrencyConverter}}" Header="Thu hồi công nợ" />
+                                    <DataGridTextColumn Binding="{Binding NghiemThu, Converter={StaticResource CurrencyConverter}}" Header="Tổng cộng" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <!-- DataGrid tầng 2 khác (bằng cấp, nằm riêng biệt) -->
+                            <TextBlock Text="Chi tiết khác (ví dụ tổng hợp nhân viên)"
+                                       FontWeight="Bold"
+                                       Margin="0,10,0,5" />
+                            <DataGrid
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                HeadersVisibility="Column"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding TbThuongDuAnChiTiets}">
+                                <DataGrid.Columns>
+                                    <!-- Thông tin cơ bản -->
+                                    <DataGridTextColumn Binding="{Binding ChuDauTu}" Header="Chủ đầu tư" />
+                                    <DataGridTextColumn Binding="{Binding HopDongSo}" Header="Hợp đồng số" />
+                                    <DataGridTextColumn Binding="{Binding DuAn}" Header="Dự án" />
+
+                                    <!-- Ngày tháng -->
+                                    <DataGridTextColumn Binding="{Binding NgayThang}" Header="Ngày tháng" />
+
+                                    <!-- Doanh thu -->
+                                    <DataGridTextColumn Binding="{Binding DoanhThuHopDong, StringFormat={}{0:N0}}" Header="Doanh thu HĐ" />
+                                    <DataGridTextColumn Binding="{Binding DoanhThuQuyetToan, StringFormat={}{0:N0}}" Header="Doanh thu QT" />
+                                    <DataGridTextColumn Binding="{Binding DoanhThuDaXuatHoaDon, StringFormat={}{0:N0}}" Header="Đã xuất HĐ" />
+                                    <DataGridTextColumn Binding="{Binding DoanhThuChuaXuatHoaDon, StringFormat={}{0:N0}}" Header="Chưa xuất HĐ" />
+                                    <DataGridTextColumn Binding="{Binding DaThanhToan, StringFormat={}{0:N0}}" Header="Đã thanh toán" />
+
+                                    <!-- Ghi chú -->
+                                    <DataGridTextColumn Binding="{Binding GhiChu}" Header="Ghi chú" />
+
+                                    <!-- Các tỷ lệ -->
+                                    <DataGridTextColumn Binding="{Binding Tvgp, StringFormat={}{0:0.#####}%}" Header="TVGP" />
+                                    <DataGridTextColumn Binding="{Binding Hsda, StringFormat={}{0:0.#####}%}" Header="HSDA" />
+                                    <DataGridTextColumn Binding="{Binding Po, StringFormat={}{0:0.#####}%}" Header="PO" />
+                                    <DataGridTextColumn Binding="{Binding Ktk, StringFormat={}{0:0.#####}%}" Header="KTK" />
+                                    <DataGridTextColumn Binding="{Binding Ttdvkt, StringFormat={}{0:0.#####}%}" Header="TTDVKT" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </StackPanel>
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
+
             </DataGrid>
 
             <StackPanel

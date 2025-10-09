@@ -93,7 +93,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                         IdPhongBan = i,
                         IdPhongBanNavigation = DataProvider.Ins.DB.TbPhongBans.FirstOrDefault(x => x.Id == i),
                     };
-                    model.Details.Add(detail);
+                    model.TbThuongDaiDoanDuAns.Add(detail);
                 }
 
                 model.NamThuong = DateTime.Now.Date.Year.ToString();
@@ -109,7 +109,7 @@ namespace QuanLyThuongPhongBan.ViewModels
         {
             if (TbThuongDuAn == null) return;
 
-            foreach (var detail in TbThuongDuAn.Details)
+            foreach (var detail in TbThuongDuAn.TbThuongDaiDoanDuAns)
             {
                 detail.GiaTriTongGoi = (TbThuongDuAn.QuyetToan * detail.TiLeTongGoi) / 100;
                 detail.GiaTriDieuChinhDot1 = (TbThuongDuAn.GiaTriHopDong * detail.TiLeDieuChinhDot1) / 100;
@@ -117,14 +117,14 @@ namespace QuanLyThuongPhongBan.ViewModels
                 detail.ThuHoiCongNo = detail.GiaTriTongGoi - detail.GiaTriDieuChinhDot1 - detail.GiaTriDieuChinhDot2;
                 detail.NghiemThu = detail.GiaTriDieuChinhDot1 + detail.GiaTriDieuChinhDot2 + detail.ThuHoiCongNo;
 
-                TbThuongDuAn.TongTiLeThuongDuAn = TbThuongDuAn.Details.Sum(d => d.TiLeTongGoi);
-                TbThuongDuAn.TongGiaTriThuongDuAn = TbThuongDuAn.Details.Sum(d => d.GiaTriTongGoi);
-                TbThuongDuAn.TongTiLeDieuChinhDot1 = TbThuongDuAn.Details.Sum(d => d.TiLeDieuChinhDot1);
-                TbThuongDuAn.TongGiaTriDieuChinhDot1 = TbThuongDuAn.Details.Sum(d => d.GiaTriDieuChinhDot1);
-                TbThuongDuAn.TongTiLeDieuChinhDot2 = TbThuongDuAn.Details.Sum(d => d.TiLeDieuChinhDot2);
-                TbThuongDuAn.TongGiaTriDieuChinhDot2 = TbThuongDuAn.Details.Sum(d => d.GiaTriDieuChinhDot2);
-                TbThuongDuAn.TongThuHoiCongNo = TbThuongDuAn.Details.Sum(d => d.ThuHoiCongNo);
-                TbThuongDuAn.TongNghiemThu = TbThuongDuAn.Details.Sum(d => d.NghiemThu);
+                TbThuongDuAn.TongTiLeThuongDuAn = TbThuongDuAn.TbThuongDaiDoanDuAns.Sum(d => d.TiLeTongGoi);
+                TbThuongDuAn.TongGiaTriThuongDuAn = TbThuongDuAn.TbThuongDaiDoanDuAns.Sum(d => d.GiaTriTongGoi);
+                TbThuongDuAn.TongTiLeDieuChinhDot1 = TbThuongDuAn.TbThuongDaiDoanDuAns.Sum(d => d.TiLeDieuChinhDot1);
+                TbThuongDuAn.TongGiaTriDieuChinhDot1 = TbThuongDuAn.TbThuongDaiDoanDuAns.Sum(d => d.GiaTriDieuChinhDot1);
+                TbThuongDuAn.TongTiLeDieuChinhDot2 = TbThuongDuAn.TbThuongDaiDoanDuAns.Sum(d => d.TiLeDieuChinhDot2);
+                TbThuongDuAn.TongGiaTriDieuChinhDot2 = TbThuongDuAn.TbThuongDaiDoanDuAns.Sum(d => d.GiaTriDieuChinhDot2);
+                TbThuongDuAn.TongThuHoiCongNo = TbThuongDuAn.TbThuongDaiDoanDuAns.Sum(d => d.ThuHoiCongNo);
+                TbThuongDuAn.TongNghiemThu = TbThuongDuAn.TbThuongDaiDoanDuAns.Sum(d => d.NghiemThu);
             }
         }
 
@@ -290,12 +290,14 @@ namespace QuanLyThuongPhongBan.ViewModels
                                 .AsQueryable();
 
                     // Áp dụng tìm kiếm trực tiếp trên cơ sở dữ liệu
-                    query = SearchViewModel.Search(query, SearchFill ?? string.Empty); // Cập nhật SearchViewModel để trả về IQueryable
 
-
-                    var queryDetails = await DataProvider.Ins.DB.TbThuongDaiDoanDuAns
+                    var queryDaiDoan = await DataProvider.Ins.DB.TbThuongDaiDoanDuAns
                         .AsNoTracking()
                         .Include(d => d.IdPhongBanNavigation)
+                        .ToListAsync();
+
+                    var queryDuAnChiTiet = await DataProvider.Ins.DB.TbThuongDuAnChiTiets
+                        .AsNoTracking()
                         .ToListAsync();
 
                     if (List == null)
@@ -304,28 +306,19 @@ namespace QuanLyThuongPhongBan.ViewModels
 
                     foreach (var item in query)
                     {
-                        var details = queryDetails
-                                        .Where(d => d.IdThuongDuAn == item.Id)
-                                        .Select(d => new TbThuongDaiDoanDuAn
-                                        {
-                                            Id = d.Id,
-                                            IdPhongBan = d.IdPhongBan,
-                                            IdThuongDuAn = d.IdThuongDuAn,
-                                            TiLeTongGoi = d.TiLeTongGoi,
-                                            GiaTriTongGoi = d.GiaTriTongGoi,
-                                            GiaTriDieuChinhDot1 = d.GiaTriDieuChinhDot1,
-                                            TiLeDieuChinhDot1 = d.TiLeDieuChinhDot1,
-                                            GiaTriDieuChinhDot2 = d.GiaTriDieuChinhDot2,
-                                            TiLeDieuChinhDot2 = d.TiLeDieuChinhDot2,
-                                            ThuHoiCongNo = d.ThuHoiCongNo,
-                                            NghiemThu = d.NghiemThu,
-                                            IdPhongBanNavigation = d.IdPhongBanNavigation
-                                        });
+                        var tbThuongDaiDoanDuAn = queryDaiDoan
+                            .Where(d => d.IdThuongDuAn == item.Id)
+                            .ToList();
 
-                        foreach (var ct in details)
-                        {
-                            item.Details.Add(ct);
-                        }
+                        foreach (var t in tbThuongDaiDoanDuAn)
+                            item.TbThuongDaiDoanDuAns.Add(t);
+
+                        var tbThuongDuAnChiTiet = queryDuAnChiTiet
+                            .Where(d => d.IdThuongDuAn == item.Id)
+                            .ToList();
+
+                        foreach (var t in tbThuongDuAnChiTiet)
+                            item.TbThuongDuAnChiTiets.Add(t);
 
                         List.Add(item);
                     }
