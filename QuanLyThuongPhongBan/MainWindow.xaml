@@ -16,6 +16,29 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+    <Window.Resources>
+        <Style x:Key="HoverableMaterialToggleButton"
+               TargetType="ToggleButton"
+               BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+
+            <Style.Triggers>
+                <!-- Hover -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFE0E0E0"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+
+                <!-- Checked -->
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="#FFB0BEC5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=mainWindow}" />
@@ -38,7 +61,7 @@
                 Style="{StaticResource MaterialDesignNavigationRailTabControl}"
                 TabStripPlacement="Bottom">
                 <TabItem
-                    Width="130"
+                    Width="150"
                     Height="35"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center">
@@ -65,7 +88,7 @@
                     </i:Interaction.Triggers>
                 </TabItem>
                 <TabItem
-                    Width="130"
+                    Width="150"
                     Height="35"
                     Margin="0,0,5,0"
                     VerticalAlignment="Center">
@@ -88,6 +111,32 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
                             <i:InvokeCommandAction Command="{Binding ShowSMBRewardViewCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TabItem>
+                <TabItem
+                    Width="150"
+                    Height="35"
+                    VerticalAlignment="Center">
+                    <TabItem.Header>
+                        <StackPanel
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <!--  Icon bên trái  -->
+                            <materialDesign:PackIcon
+                                Margin="0,0,5,0"
+                                VerticalAlignment="Center"
+                                Kind="Diary" />
+
+                            <!--  Text bên phải  -->
+                            <TextBlock VerticalAlignment="Center" Text="Nhật ký" />
+                        </StackPanel>
+                    </TabItem.Header>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <i:InvokeCommandAction Command="{Binding RecordLogViewCommand}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TabItem>
@@ -153,26 +202,124 @@
 
                                 <StackPanel Orientation="Horizontal">
 
-                                    <Button
-                                        Height="35"
-                                        Margin="0,0,10,0"
-                                        materialDesign:ButtonAssist.CornerRadius="6"
-                                        materialDesign:RippleAssist.Feedback="White"
-                                        Click="ShowPopup_Click"
-                                        Foreground="{DynamicResource MaterialDesignBody}"
-                                        Style="{StaticResource MaterialDesignFlatButton}">
-                                        <WrapPanel>
-                                            <materialDesign:PackIcon
-                                                Width="20"
-                                                Height="20"
-                                                VerticalAlignment="Center"
-                                                Kind="Bell" />
-                                            <TextBlock
-                                                Margin="5,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="Thông báo" />
-                                        </WrapPanel>
-                                    </Button>
+                                    <StackPanel HorizontalAlignment="Center">
+
+                                        <ToggleButton
+                                            Height="35"
+                                            Style="{StaticResource HoverableMaterialToggleButton}"
+                                            materialDesign:RippleAssist.IsCentered="True"
+                                            materialDesign:ButtonAssist.CornerRadius="6"
+                                            x:Name="MenuToggle">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon
+                                                    Kind="Bell"
+                                                    Width="20"
+                                                    Height="20"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,0,5,0" />
+                                                <TextBlock
+                                                    Text="Thông báo"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="14"
+                                                    Foreground="{DynamicResource MaterialDesignBody}" />
+                                            </StackPanel>
+                                        </ToggleButton>
+
+                                        <!-- Popup menu -->
+                                        <Popup
+                                            PlacementTarget="{Binding ElementName=MenuToggle}"
+                                            Placement="Bottom"
+                                            StaysOpen="False"
+                                            AllowsTransparency="True"
+                                            PopupAnimation="Fade"
+                                            IsOpen="{Binding IsChecked, ElementName=MenuToggle, Mode=TwoWay}">
+                                            <Border
+                                                Margin="20"
+                                                Padding="10"
+                                                HorizontalAlignment="Stretch"
+                                                Effect="{DynamicResource MaterialDesignElevationShadow2}"
+                                                BorderBrush="Black"
+                                                BorderThickness="1"
+                                                CornerRadius="8">
+
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRFcoRoOy-EzrJ3MET_RdUYeay0PQ36DBYCNK6pWh18CFyFSEMR" Stretch="UniformToFill" />
+                                                </Border.Background>
+
+                                                <ScrollViewer
+                                                    Width="600"
+                                                    MaxHeight="300"
+                                                    HorizontalScrollBarVisibility="Auto">
+                                                    <StackPanel Margin="10">
+                                                        <TextBlock
+                                                            Margin="0,0,0,10"
+                                                            FontSize="18"
+                                                            FontWeight="Bold"
+                                                            Text="Thông báo!" />
+
+                                                        <ItemsControl ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border
+                                                                        MinHeight="80"
+                                                                        Margin="0,5,0,5"
+                                                                        Padding="10"
+                                                                        Background="{DynamicResource MaterialDesignPaper}"
+                                                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                                                        BorderThickness="1"
+                                                                        CornerRadius="8"
+                                                                        Effect="{DynamicResource MaterialDesignElevationShadow1}">
+
+                                                                        <Border.Style>
+                                                                            <Style TargetType="Border">
+                                                                                <Style.Triggers>
+                                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                                        <Setter Property="Background" Value="#FFEEEEEE" />
+                                                                                    </Trigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </Border.Style>
+
+                                                                        <StackPanel>
+
+                                                                            <!--  ID tài khoản  -->
+                                                                            <TextBlock
+                                                                                Margin="0,0,0,2"
+                                                                                FontSize="12"
+                                                                                Foreground="Gray"
+                                                                                Text="{Binding IdTaiKhoan, StringFormat='ID tài khoản: {0}'}" />
+
+                                                                            <!--  Hành động  -->
+                                                                            <TextBlock
+                                                                                Margin="0,0,0,5"
+                                                                                FontSize="12"
+                                                                                Foreground="Gray"
+                                                                                Text="{Binding HanhDong, StringFormat='Hành động: {0}'}" />
+
+                                                                            <!--  Mô tả  -->
+                                                                            <TextBlock
+                                                                                Margin="0,0,0,5"
+                                                                                FontSize="14"
+                                                                                FontWeight="SemiBold"
+                                                                                Text="{Binding MoTa}"
+                                                                                TextWrapping="Wrap" />
+
+                                                                            <!--  Thời gian  -->
+                                                                            <TextBlock
+                                                                                FontSize="12"
+                                                                                Foreground="Gray"
+                                                                                Text="{Binding ThoiGian, StringFormat='Thời gian: {0:dd/MM/yyyy HH:mm}'}" />
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+
+                                                </ScrollViewer>
+                                            </Border>
+                                        </Popup>
+                                    </StackPanel>
 
                                     <Button
                                         Height="35"
@@ -195,98 +342,6 @@
                                         </WrapPanel>
                                     </Button>
                                 </StackPanel>
-
-                                <Popup
-                                    x:Name="NotificationPopup"
-                                    AllowsTransparency="True"
-                                    Placement="Bottom"
-                                    StaysOpen="False">
-                                    <Border
-                                        Margin="20"
-                                        Padding="10"
-                                        HorizontalAlignment="Stretch"
-                                        BorderBrush="Green"
-                                        BorderThickness="2"
-                                        CornerRadius="8">
-
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRFcoRoOy-EzrJ3MET_RdUYeay0PQ36DBYCNK6pWh18CFyFSEMR" Stretch="UniformToFill" />
-                                        </Border.Background>
-
-                                        <ScrollViewer
-                                            Width="600"
-                                            MaxHeight="300"
-                                            HorizontalScrollBarVisibility="Auto">
-                                            <StackPanel Margin="10">
-                                                <TextBlock
-                                                    Margin="0,0,0,10"
-                                                    FontSize="18"
-                                                    FontWeight="Bold"
-                                                    Text="Thông báo!" />
-
-                                                <ItemsControl ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Border
-                                                                MinHeight="80"
-                                                                Margin="0,5,0,5"
-                                                                Padding="10"
-                                                                Background="{DynamicResource MaterialDesignPaper}"
-                                                                BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                                                BorderThickness="1"
-                                                                CornerRadius="8"
-                                                                Effect="{DynamicResource MaterialDesignElevation3}">
-
-                                                                <Border.Style>
-                                                                    <Style TargetType="Border">
-                                                                        <Style.Triggers>
-                                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                                <Setter Property="Background" Value="#FFEEEEEE" />
-                                                                            </Trigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </Border.Style>
-
-                                                                <StackPanel>
-
-                                                                    <!--  ID tài khoản  -->
-                                                                    <TextBlock
-                                                                        Margin="0,0,0,2"
-                                                                        FontSize="12"
-                                                                        Foreground="Gray"
-                                                                        Text="{Binding IdTaiKhoan, StringFormat='ID tài khoản: {0}'}" />
-
-                                                                    <!--  Hành động  -->
-                                                                    <TextBlock
-                                                                        Margin="0,0,0,5"
-                                                                        FontSize="12"
-                                                                        Foreground="Gray"
-                                                                        Text="{Binding HanhDong, StringFormat='Hành động: {0}'}" />
-
-                                                                    <!--  Mô tả  -->
-                                                                    <TextBlock
-                                                                        Margin="0,0,0,5"
-                                                                        FontSize="14"
-                                                                        FontWeight="SemiBold"
-                                                                        Text="{Binding MoTa}"
-                                                                        TextWrapping="Wrap" />
-
-                                                                    <!--  Thời gian  -->
-                                                                    <TextBlock
-                                                                        FontSize="12"
-                                                                        Foreground="Gray"
-                                                                        Text="{Binding ThoiGian, StringFormat='Thời gian: {0:dd/MM/yyyy HH:mm}'}" />
-                                                                </StackPanel>
-                                                            </Border>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
-
-                                        </ScrollViewer>
-                                    </Border>
-                                </Popup>
-
                             </Grid>
                         </Grid>
 

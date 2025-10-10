@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace QuanLyThuongPhongBan.Views
 {
@@ -62,16 +51,15 @@ namespace QuanLyThuongPhongBan.Views
             myDataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
         }
 
-        private void myDataGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void BtnDetails_Click(object sender, RoutedEventArgs e)
         {
-            var row = ItemsControl.ContainerFromElement((DataGrid)sender, e.OriginalSource as DependencyObject) as DataGridRow;
+            var row = ItemsControl.ContainerFromElement(myDataGrid, (DependencyObject)sender) as DataGridRow;
             if (row == null) return;
 
-            // Toggle trạng thái hiển thị chi tiết
-            if (row.DetailsVisibility == Visibility.Visible)
-                row.DetailsVisibility = Visibility.Collapsed;
-            else
-                row.DetailsVisibility = Visibility.Visible;
+            row.DetailsVisibility = row.DetailsVisibility == Visibility.Visible
+                ? Visibility.Collapsed
+                : Visibility.Visible;
         }
+
     }
 }

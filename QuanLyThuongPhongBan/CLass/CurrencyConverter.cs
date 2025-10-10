@@ -8,7 +8,7 @@ namespace QuanLyThuongPhongBan.CLass
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var vnCulture = new CultureInfo("vi-VN");
-            string symbol = "₫";
+            string symbol = " ₫";
 
             if (value is decimal decimalValue)
                 return decimalValue.ToString("N0", vnCulture) + symbol;

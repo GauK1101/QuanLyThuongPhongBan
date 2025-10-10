@@ -287,6 +287,10 @@ public partial class QuanLyThuongDoanhThuContext : DbContext
                 .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")
                 .HasColumnName("da_thanh_toan");
+            entity.Property(e => e.ChuaThanhToan)
+                .HasDefaultValue(0m)
+                .HasColumnType("decimal(18, 6)")
+                .HasColumnName("chua_thanh_toan");
             entity.Property(e => e.DoanhThuChuaXuatHoaDon)
                 .HasDefaultValue(0m)
                 .HasColumnType("decimal(18, 6)")

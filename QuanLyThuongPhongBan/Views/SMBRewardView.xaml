@@ -128,130 +128,263 @@
 
             </DataGrid>
 
-            <DataGrid
-                x:Name="myDataGrid"
-                Grid.Row="2"
-                AutoGenerateColumns="False"
-                Background="Transparent"
-                CanUserAddRows="False"
-                CanUserResizeColumns="True"
-                ColumnReordered="DataGrid_ColumnReordered"
-                FrozenColumnCount="2"
-                IsReadOnly="True"
-                ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}"
-                MouseLeftButtonUp="myDataGrid_MouseLeftButtonUp"
-                VirtualizingStackPanel.IsVirtualizing="True"
-                VirtualizingStackPanel.VirtualizationMode="Recycling">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          Grid.Row="2">
+                <DataGrid
+                    x:Name="myDataGrid"
+                    AutoGenerateColumns="False"
+                    Background="Transparent"
+                    CanUserAddRows="False"
+                    CanUserResizeColumns="True"
+                    ColumnReordered="DataGrid_ColumnReordered"
+                    FrozenColumnCount="3"
+                    RowDetailsVisibilityMode="Collapsed"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding List, UpdateSourceTrigger=PropertyChanged}"
+                    VirtualizingStackPanel.IsVirtualizing="True"
+                    VirtualizingStackPanel.VirtualizationMode="Recycling">
 
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Hành động">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button
-                                        Margin="2,0"
-                                        HorizontalAlignment="Right"
-                                        materialDesign:ButtonAssist.CornerRadius="6"
-                                        Command="{Binding DataContext.ShowAddOrEditRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"
-                                        FontSize="15"
-                                        Foreground="White"
-                                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
-                                        <WrapPanel>
-                                            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Edit" />
-                                        </WrapPanel>
-                                    </Button>
-                                    <Button
-                                        Margin="2,0"
-                                        HorizontalAlignment="Right"
-                                        materialDesign:ButtonAssist.CornerRadius="6"
-                                        Background="Red"
-                                        BorderBrush="Red"
-                                        Command="{Binding DataContext.DeleteRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"
-                                        FontSize="15"
-                                        Foreground="White"
-                                        Style="{StaticResource MaterialDesignFlatMidBgButton}">
-                                        <WrapPanel>
-                                            <materialDesign:PackIcon VerticalAlignment="Center" Kind="Delete" />
-                                        </WrapPanel>
-                                    </Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Binding="{Binding QuyNamThuong, UpdateSourceTrigger=PropertyChanged}" Header="Quý năm thưởng" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Hợp đồng" />
-                    <DataGridTextColumn Binding="{Binding XuatHoaDon, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Quyết toán" />
-                    <DataGridTextColumn Binding="{Binding TongTiLeThuongSmb, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}" Header="Tổng tỉ lệ" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriThuongSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng giá trị" />
-                    <DataGridTextColumn Binding="{Binding TongTiLeDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}" Header="Tổng tỉ lệ GD1/Doanh thu (%)" />
-                    <DataGridTextColumn Binding="{Binding TongGiaTriDot1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng giá trị GD1/Doanh thu" />
-                    <DataGridTextColumn Binding="{Binding TongThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng quyết toán/Thu hồi công nợ" />
-                    <DataGridTextColumn Binding="{Binding TongNghiemThu, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tổng nghiệm thu" />
-                </DataGrid.Columns>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Hành động" Visibility="Collapsed">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <ToggleButton
+                                            Height="30"
+                                            materialDesign:ButtonAssist.CornerRadius="5"
+                                            Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                            materialDesign:RippleAssist.IsCentered="True"
+                                            x:Name="MenuToggle">
+                                            <materialDesign:PackIcon Kind="DotsVertical" Width="18" Height="18" />
+                                        </ToggleButton>
 
-                <DataGrid.RowDetailsTemplate>
-                    <DataTemplate>
-                        <DataGrid
-                            Margin="20,5,5,5"
-                            AutoGenerateColumns="False"
-                            CanUserAddRows="False"
-                            HeadersVisibility="Column"
-                            IsReadOnly="True"
-                            ItemsSource="{Binding TbThuongDaiDoanSmbs}">
-                            <DataGrid.Columns>
-                                <!--  Phòng ban  -->
-                                <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan, UpdateSourceTrigger=PropertyChanged}" Header="Phòng ban" />
+                                        <!-- Popup menu -->
+                                        <Popup
+                                            PlacementTarget="{Binding ElementName=MenuToggle}"
+                                            Placement="Bottom"
+                                            StaysOpen="False"
+                                            AllowsTransparency="True"
+                                            PopupAnimation="Slide"
+                                            IsOpen="{Binding IsChecked, ElementName=MenuToggle, Mode=TwoWay}">
+                                            <Border
+                                                Background="{DynamicResource MaterialDesignPaper}"
+                                                CornerRadius="6"
+                                                Padding="4"
+                                                SnapsToDevicePixels="True"
+                                                Effect="{DynamicResource MaterialDesignElevation2}">
+                                                <StackPanel>
+                                                    <Button
+                                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                                        Command="{Binding DataContext.ShowAddOrEditRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <materialDesign:PackIcon Kind="Pencil" Width="16" Margin="0,0,4,0"/>
+                                                            <TextBlock Text="Sửa"/>
+                                                        </StackPanel>
+                                                    </Button>
 
-                                <!--  Tỉ lệ thưởng (%)  -->
-                                <DataGridTextColumn Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Tỉ lệ tổng gói" />
+                                                    <Button
+                                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                                        Foreground="Red"
+                                                        Command="{Binding DataContext.DeleteRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                        CommandParameter="{Binding}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <materialDesign:PackIcon Kind="Delete" Width="16" Margin="0,0,4,0" Foreground="Red"/>
+                                                            <TextBlock Text="Xóa"/>
+                                                        </StackPanel>
+                                                    </Button>
 
-                                <!--  Giá trị  -->
-                                <DataGridTextColumn Binding="{Binding GiaTriTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Giá trị tổng gói" />
+                                                    <Button
+                                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                                        Click="BtnDetails_Click"
+                                                        Foreground="Green">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <materialDesign:PackIcon Kind="Eye" Width="16" Margin="0,0,4,0" Foreground="Red"/>
+                                                            <TextBlock Text="Xem"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                </StackPanel>
+                                            </Border>
+                                        </Popup>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                                <!--  Điều chỉnh đợt 1  -->
-                                <DataGridTextColumn Binding="{Binding TiLeDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Tỉ lệ GD1/Doanh thu" />
-                                <DataGridTextColumn Binding="{Binding GiaTriDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Giá trị GD1/Doanh thu" />
+                        <DataGridTemplateColumn Header="Hành động">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button
+                                            Margin="2,0"
+                                            HorizontalAlignment="Right"
+                                            materialDesign:ButtonAssist.CornerRadius="6"
+                                            Command="{Binding DataContext.ShowAddOrEditRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            Foreground="White"
+                                            Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                                            <WrapPanel>
+                                                <materialDesign:PackIcon VerticalAlignment="Center" Kind="Edit" Width="18" Height="18" />
+                                            </WrapPanel>
+                                        </Button>
+                                        <Button
+                                            Margin="2,0"
+                                            HorizontalAlignment="Right"
+                                            materialDesign:ButtonAssist.CornerRadius="6"
+                                            Background="Red"
+                                            BorderBrush="Red"
+                                            Command="{Binding DataContext.DeleteRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            Foreground="White"
+                                            Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                                            <WrapPanel>
+                                                <materialDesign:PackIcon VerticalAlignment="Center" Kind="Delete" Width="18" Height="18" />
+                                            </WrapPanel>
+                                        </Button>
+                                        <Button
+                                            Margin="2,0"
+                                            HorizontalAlignment="Right"
+                                            materialDesign:ButtonAssist.CornerRadius="6"
+                                            Background="Green"
+                                            BorderBrush="Green"
+                                            Foreground="White"
+                                            Click="BtnDetails_Click"
+                                            Style="{StaticResource MaterialDesignFlatMidBgButton}">
+                                            <WrapPanel>
+                                                <materialDesign:PackIcon VerticalAlignment="Center" Kind="Eye" Width="18" Height="18" />
+                                            </WrapPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                                <!--  Thu hồi công nợ  -->
-                                <DataGridTextColumn Binding="{Binding TiLeThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Tỉ lẹ thu hồi công nợ" />
-                                <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Thu hồi công nợ" />
+                        <DataGridTextColumn Header="Quý năm thưởng"
+                                            Binding="{Binding QuyNamThuong, UpdateSourceTrigger=PropertyChanged}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
-                                <!--  Nghiệm thu  -->
-                                <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Nghiệm thu" />
-                            </DataGrid.Columns>
+                        <DataGridTextColumn Header="Hợp đồng"
+                                            Binding="{Binding TongGiaTriSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
-                        </DataGrid>
-                    </DataTemplate>
-                </DataGrid.RowDetailsTemplate>
-            </DataGrid>
+                        <DataGridTextColumn Header="Quyết toán"
+                                            Binding="{Binding XuatHoaDon, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
-            <StackPanel
-                Grid.Row="2"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal"
-                Visibility="Hidden">
-                <Button
-                    materialDesign:ButtonAssist.CornerRadius="6"
-                    materialDesign:RippleAssist.Feedback="White"
-                    Command="{Binding PreviousPageCommand}"
-                    Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                    Style="{StaticResource MaterialDesignFlatButton}">
-                    <materialDesign:PackIcon VerticalAlignment="Center" Kind="ArrowLeft" />
-                </Button>
+                        <DataGridTextColumn Header="Tổng tỉ lệ"
+                                            Binding="{Binding TongTiLeThuongSmb, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
-                <TextBlock VerticalAlignment="Center" Text="{Binding CurrentPage}" />
+                        <DataGridTextColumn Header="Tổng giá trị"
+                                            Binding="{Binding TongGiaTriThuongSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
-                <Button
-                    materialDesign:ButtonAssist.CornerRadius="6"
-                    materialDesign:RippleAssist.Feedback="White"
-                    Command="{Binding NextPageCommand}"
-                    Foreground="{DynamicResource PrimaryHueDarkBrush}"
-                    Style="{StaticResource MaterialDesignFlatButton}">
-                    <materialDesign:PackIcon VerticalAlignment="Center" Kind="ArrowRight" />
-                </Button>
-            </StackPanel>
+                        <DataGridTextColumn Header="Tổng tỉ lệ GD1/Doanh thu (%)"
+                                            Binding="{Binding TongTiLeDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="Tổng giá trị GD1/Doanh thu"
+                                            Binding="{Binding TongGiaTriDot1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="Tổng quyết toán/Thu hồi công nợ"
+                                            Binding="{Binding TongThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="Tổng nghiệm thu"
+                                            Binding="{Binding TongNghiemThu, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <DataGrid
+                                Margin="20,5,5,5"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                HeadersVisibility="Column"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding TbThuongDaiDoanSmbs}">
+                                <DataGrid.Columns>
+                                    <!--  Phòng ban  -->
+                                    <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan, UpdateSourceTrigger=PropertyChanged}" Header="Phòng ban" />
+
+                                    <!--  Tỉ lệ thưởng (%)  -->
+                                    <DataGridTextColumn Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Tỉ lệ tổng gói" />
+
+                                    <!--  Giá trị  -->
+                                    <DataGridTextColumn Binding="{Binding GiaTriTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Giá trị tổng gói" />
+
+                                    <!--  Điều chỉnh đợt 1  -->
+                                    <DataGridTextColumn Binding="{Binding TiLeDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Tỉ lệ GD1/Doanh thu" />
+                                    <DataGridTextColumn Binding="{Binding GiaTriDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Giá trị GD1/Doanh thu" />
+
+                                    <!--  Thu hồi công nợ  -->
+                                    <DataGridTextColumn Binding="{Binding TiLeThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Tỉ lẹ thu hồi công nợ" />
+                                    <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Thu hồi công nợ" />
+
+                                    <!--  Nghiệm thu  -->
+                                    <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Nghiệm thu" />
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </ScrollViewer>
         </Grid>
     </Border>
 </UserControl>

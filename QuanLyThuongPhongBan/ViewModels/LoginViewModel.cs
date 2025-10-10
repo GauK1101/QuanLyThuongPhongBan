@@ -2,6 +2,7 @@
 using QuanLyThuongPhongBan.ViewForGauK.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace QuanLyThuongPhongBan.ViewModels
@@ -41,24 +42,34 @@ namespace QuanLyThuongPhongBan.ViewModels
             await update.CheckForUpdates();
         }
 
-        private void Login(Window p)
+        private static readonly SemaphoreSlim _dbLock = new SemaphoreSlim(1, 1);
+        private async void Login(Window p)
         {
             if (p == null) return;
-            var accCount = DataProvider.Ins.DB.TbTaiKhoans.Where(x => x.TenDangNhap == Username && x.MatKhau == Password).Count();
 
-
-            if ((IsFirstLaunch && IsLogin) || accCount > 0)
+            await _dbLock.WaitAsync(); // 🔒 Chặn truy vấn song song
+            try
             {
-                var user = DataProvider.Ins.DB.TbTaiKhoans.FirstOrDefault(x => x.TenDangNhap == Username);
-                Properties.Settings.Default.User = user == null ? string.Empty : user.TenDangNhap + "|" + user.HoTen + "|" + user.IdPhongBan;
+                var accCount = DataProvider.Ins.DB.TbTaiKhoans.Where(x => x.TenDangNhap == Username && x.MatKhau == Password).Count();
 
-                IsFirstLaunch = false;
-                Password = string.Empty;
-                p.Close();
-            }
-            else if (!IsFirstLaunch)
+
+                if ((IsFirstLaunch && IsLogin) || accCount > 0)
+                {
+                    var user = DataProvider.Ins.DB.TbTaiKhoans.FirstOrDefault(x => x.TenDangNhap == Username);
+                    Properties.Settings.Default.User = user == null ? string.Empty : user.TenDangNhap + "|" + user.HoTen + "|" + user.IdPhongBan;
+
+                    IsFirstLaunch = false;
+                    Password = string.Empty;
+                    p.Close();
+                }
+                else if (!IsFirstLaunch)
+                {
+                    MessageBox.Show("Tài khoản hoặc mật khẩu không chính xác, vui lòng kiểm tra lại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            finally
             {
-                MessageBox.Show("Tài khoản hoặc mật khẩu không chính xác, vui lòng kiểm tra lại.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dbLock.Release(); // 🔓 Giải phóng lock
             }
 
             Properties.Settings.Default.RememberLogin = IsLogin;

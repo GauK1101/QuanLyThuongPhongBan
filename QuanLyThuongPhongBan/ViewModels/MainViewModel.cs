@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuanLyThuongPhongBan.Models;
 using QuanLyThuongPhongBan.Views;
 using System.Collections.ObjectModel;
-using System.Threading;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using static QuanLyThuongPhongBan.CLass.SearchFilter;
 
@@ -14,6 +12,7 @@ namespace QuanLyThuongPhongBan.ViewModels
     internal class MainViewModel : BaseViewModel
     {
         #region Properties
+
         private ObservableCollection<TbNhatKy>? _list;
         public ObservableCollection<TbNhatKy>? List
         {
@@ -129,8 +128,10 @@ namespace QuanLyThuongPhongBan.ViewModels
         #endregion
 
         #region Command
+        
         public ICommand ShowProjectRewardViewCommand { get; }
         public ICommand ShowSMBRewardViewCommand { get; }
+        public ICommand RecordLogViewCommand { get; }
         public ICommand LogoutCommand { get; }
         public ICommand LoadedWindowCommand { get; }
 
@@ -144,6 +145,7 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             ShowProjectRewardViewCommand = new RelayCommand<object>(_ => true, _ => ShowProjectRewardView());
             ShowSMBRewardViewCommand = new RelayCommand<object>(_ => true, _ => ShowSMBRewardView());
+            RecordLogViewCommand = new RelayCommand<object>(_ => true, _ => ShowRecordLogView());
 
             LoadedWindowCommand = new RelayCommand<Window>(_ => true, Load);
             LogoutCommand = new RelayCommand<Window>(_ => true, window =>
@@ -158,7 +160,7 @@ namespace QuanLyThuongPhongBan.ViewModels
             });
         }
 
-        private async void Load(Window p)
+        private void Load(Window p)
         {
             try
             {
@@ -218,7 +220,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                         .OrderByDescending(x => x.Id)
                         .Take(5)
                         .ToList();       // bắt buộc thực thi query
-                    
+
                     if (List == null)
                         List = new ObservableCollection<TbNhatKy>();
                     else
@@ -267,6 +269,13 @@ namespace QuanLyThuongPhongBan.ViewModels
             CurrentView = new SMBRewardView();
             Caption = "Thưởng SMB";
             Icon = PackIconKind.Storage;
+        }
+
+        private void ShowRecordLogView()
+        {
+            CurrentView = new RecordLogView();
+            Caption = "Nhật ký";
+            Icon = PackIconKind.Diary;
         }
     }
 }

@@ -12,10 +12,5 @@ namespace QuanLyThuongPhongBan
         {
             InitializeComponent();
         }
-
-        private void ShowPopup_Click(object sender, RoutedEventArgs e)
-        {
-            NotificationPopup.IsOpen = true;
-        }
     }
 }

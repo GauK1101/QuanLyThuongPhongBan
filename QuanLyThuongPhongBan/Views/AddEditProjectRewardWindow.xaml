@@ -8,22 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
     Title="AddEditProjectRewardWindow"
-    Width="1400"
-    Height="720"
-    AllowsTransparency="True"
-    Background="Transparent"
+    Width="1500"
+    Height="900"
     DataContext="{StaticResource ProjectRewardVM}"
+    WindowStyle="SingleBorderWindow"
     KeyDown="Window_KeyDown"
     WindowStartupLocation="CenterScreen"
-    WindowStyle="None"
     mc:Ignorable="d">
-
-    <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome
-            CaptionHeight="30"
-            CornerRadius="8"
-            GlassFrameThickness="0" />
-    </shell:WindowChrome.WindowChrome>
 
     <Border
         Padding="5"
@@ -277,7 +268,7 @@
                             CanUserDeleteRows="True"
                             HeadersVisibility="Column"
                             IsReadOnly="False"
-                            ItemsSource="{Binding TbThuongDuAn.Details}"
+                            ItemsSource="{Binding TbThuongDuAn.TbThuongDaiDoanDuAns}"
                             RowHeaderWidth="0"
                             SelectionUnit="FullRow">
 
@@ -320,6 +311,102 @@
                         </DataGrid>
                     </Expander>
 
+
+                    <Expander
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent"
+                        Header="3.Chi tiết dự án"
+                        IsExpanded="True">
+
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto"
+                                      CanContentScroll="True"
+                                      Margin="8">
+
+                            <DataGrid
+                                Name="MyDataGrid"
+                                Margin="8"
+                                MaxHeight="300"
+                                materialDesign:DataGridAssist.CellPadding="8"
+                                materialDesign:DataGridAssist.ColumnHeaderPadding="10,6"
+                                materialDesign:DataGridAssist.EnableEditBoxAssist="True"
+                                PreviewKeyDown="MyDataGrid_PreviewKeyDown"
+                                AlternationCount="2"
+                                AutoGenerateColumns="False"
+                                CanUserDeleteRows="True"
+                                HeadersVisibility="Column"
+                                ItemsSource="{Binding TbThuongDuAn.TbThuongDuAnChiTiets}"
+                                RowHeaderWidth="0"
+                                SelectionUnit="FullRow">
+
+                                <DataGrid.Columns>
+                                    <!-- Chủ đầu tư -->
+                                    <DataGridTextColumn Header="Chủ đầu tư"
+                                                        Binding="{Binding ChuDauTu, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+
+                                    <!-- Hợp đồng số -->
+                                    <DataGridTextColumn Header="Hợp đồng số"
+                                                        Binding="{Binding HopDongSo, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+
+                                    <!-- Dự án -->
+                                    <DataGridTextColumn Header="Dự án"
+                                                        Binding="{Binding DuAn, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+
+                                    <!-- Ngày tháng -->
+                                    <DataGridTextColumn Header="Ngày tháng"
+                                                        Binding="{Binding NgayThang, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=\{0:dd/MM/yyyy\}}" />
+
+                                    <!-- Doanh thu hợp đồng -->
+                                    <DataGridTextColumn Header="Doanh thu hợp đồng"
+                                                        Binding="{Binding DoanhThuHopDong, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+
+                                    <!-- Doanh thu quyết toán -->
+                                    <DataGridTextColumn Header="Doanh thu quyết toán"
+                                                        Binding="{Binding DoanhThuQuyetToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+
+                                    <!-- Doanh thu đã xuất hóa đơn -->
+                                    <DataGridTextColumn Header="Doanh thu đã xuất hóa đơn"
+                                                        Binding="{Binding DoanhThuDaXuatHoaDon, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+
+                                    <!-- Doanh thu chưa xuất hóa đơn -->
+                                    <DataGridTextColumn Header="Doanh thu chưa xuất hóa đơn"
+                                                        Binding="{Binding DoanhThuChuaXuatHoaDon, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+
+                                    <!-- Đã thanh toán -->
+                                    <DataGridTextColumn Header="Đã thanh toán"
+                                                        Binding="{Binding DaThanhToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+
+                                    <!-- Chưa thanh toán -->
+                                    <DataGridTextColumn Header="Chưa thanh toán"
+                                                        Binding="{Binding ChuaThanhToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+
+                                    <!-- Ghi chú -->
+                                    <DataGridTextColumn Header="Ghi chú"
+                                                        Binding="{Binding GhiChu, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+
+                                    <!-- TVGP -->
+                                    <DataGridTextColumn Header="Tỉ lệ TVGP (%)"
+                                                        Binding="{Binding Tvgp, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+
+                                    <!-- HSDA -->
+                                    <DataGridTextColumn Header="Tỉ lệ HSDA (%)"
+                                                        Binding="{Binding Hsda, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+
+                                    <!-- PO -->
+                                    <DataGridTextColumn Header="Tỉ lệ PO (%)"
+                                                        Binding="{Binding Po, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+
+                                    <!-- KTK -->
+                                    <DataGridTextColumn Header="Tỉ lệ KTK (%)"
+                                                        Binding="{Binding Ktk, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+
+                                    <!-- TTDVKT -->
+                                    <DataGridTextColumn Header="Tỉ lệ TTDVKT (%)"
+                                                        Binding="{Binding Ttdvkt, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                    </Expander>
 
                     <Expander
                         HorizontalAlignment="Stretch"

@@ -318,7 +318,10 @@ namespace QuanLyThuongPhongBan.ViewModels
                             .ToList();
 
                         foreach (var t in tbThuongDuAnChiTiet)
+                        {
+                            t.ChuaThanhToan = (t.DoanhThuQuyetToan ?? 0) - (t.DaThanhToan ?? 0);
                             item.TbThuongDuAnChiTiets.Add(t);
+                        }
 
                         List.Add(item);
                     }

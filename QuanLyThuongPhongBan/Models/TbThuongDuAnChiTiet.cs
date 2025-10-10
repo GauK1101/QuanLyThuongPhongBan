@@ -71,6 +71,12 @@ public partial class TbThuongDuAnChiTiet : BaseViewModel
         set => Set(value);
     }
 
+    public decimal? ChuaThanhToan
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
     public string? GhiChu
     {
         get => Get<string?>();
