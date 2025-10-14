@@ -30,6 +30,18 @@ public partial class TbThuongDaiDoanSmb : BaseViewModel
         set => Set(value);
     }
 
+    public decimal? DoanhThuXuatHoaDon
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
+    public decimal? DoanhThuHopDong
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
+
     public decimal? GiaTriTongSmb
     {
         get => Get<decimal?>();

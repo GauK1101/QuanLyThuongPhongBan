@@ -7,20 +7,16 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-    Title="AddEditProjectRewardWindow"
     Width="1500"
     Height="900"
     DataContext="{StaticResource ProjectRewardVM}"
     WindowStyle="SingleBorderWindow"
-    KeyDown="Window_KeyDown"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
     <Border
-        Padding="5"
-        Background="#fdfffd"
-        BorderThickness="1"
-        CornerRadius="15">
+        Padding="5">
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
@@ -43,7 +39,6 @@
                             FontSize="20"
                             FontWeight="Bold"
                             Foreground="Black"
-                            MouseDown="Title_Window_MouseDown"
                             Text="Thưởng dự án" />
 
                     </DockPanel>
@@ -70,9 +65,11 @@
                                 materialDesign:TextFieldAssist.SuffixText="VND"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng giá trị của hợp đồng đã ký kết (VNĐ)"
                                 Text="{Binding TbThuongDuAn.GiaTriHopDong, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="FileDocumentOutline" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng giá trị hợp đồng" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
@@ -86,9 +83,11 @@
                                 materialDesign:TextFieldAssist.SuffixText="VND"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Giá trị quyết toán cuối cùng của hợp đồng (VNĐ)"
                                 Text="{Binding TbThuongDuAn.QuyetToan, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ClipboardCheckOutline" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Quyết toán" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
@@ -102,9 +101,11 @@
                                 materialDesign:TextFieldAssist.SuffixText="%"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng tỉ lệ phần thưởng được chia cho phòng ban (%)"
                                 Text="{Binding TbThuongDuAn.TongTiLeThuongDuAn, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="PercentOutline" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng tỉ lệ thưởng phòng ban" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
@@ -118,13 +119,16 @@
                                 materialDesign:TextFieldAssist.SuffixText="VND"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng giá trị thưởng mà phòng ban được nhận (VNĐ)"
                                 Text="{Binding TbThuongDuAn.TongGiaTriThuongDuAn, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CashMultiple" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng giá trị thưởng phòng ban" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
                             </TextBox>
+
                         </WrapPanel>
                     </Expander>
 
@@ -146,9 +150,11 @@
                                 materialDesign:TextFieldAssist.SuffixText="%"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng tỉ lệ phần thưởng của giai đoạn 1 sau khi trúng thầu (%)"
                                 Text="{Binding TbThuongDuAn.TongTiLeDieuChinhDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="TrendingUp" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng tỉ lệ GD1 trúng thầu" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
@@ -162,9 +168,11 @@
                                 materialDesign:TextFieldAssist.SuffixText="VND"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng giá trị thưởng của giai đoạn 1 sau khi triển khai (VNĐ)"
                                 Text="{Binding TbThuongDuAn.TongGiaTriDieuChinhDot1, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Finance" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng giá trị GD1 triển khai" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
@@ -178,9 +186,11 @@
                                 materialDesign:TextFieldAssist.SuffixText="%"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng tỉ lệ phần thưởng của giai đoạn 2 sau khi trúng thầu (%)"
                                 Text="{Binding TbThuongDuAn.TongTiLeDieuChinhDot2, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ChartLine" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng tỉ lệ GD2 trúng thầu" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
@@ -194,9 +204,11 @@
                                 materialDesign:TextFieldAssist.SuffixText="VND"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng giá trị thưởng của giai đoạn 2 sau khi triển khai (VNĐ)"
                                 Text="{Binding TbThuongDuAn.TongGiaTriDieuChinhDot2, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CashMultiple" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng giá trị GD2 triển khai" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
@@ -210,9 +222,11 @@
                                 materialDesign:TextFieldAssist.SuffixText="VND"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng giá trị công nợ đã được thu hồi (VNĐ)"
                                 Text="{Binding TbThuongDuAn.TongThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="AccountCash" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng thu hồi công nợ" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
@@ -226,14 +240,15 @@
                                 materialDesign:TextFieldAssist.SuffixText="VND"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Tổng giá trị nghiệm thu của dự án (VNĐ)"
                                 Text="{Binding TbThuongDuAn.TongNghiemThu, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ClipboardCheckOutline" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Tổng nghiệm thu" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
                             </TextBox>
-
 
                             <!--  Năm thưởng  -->
                             <TextBox
@@ -242,87 +257,201 @@
                                 materialDesign:TextFieldAssist.HasClearButton="True"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                ToolTip="Năm áp dụng khoản thưởng cho dự án"
                                 Text="{Binding TbThuongDuAn.NamThuong, UpdateSourceTrigger=PropertyChanged}">
                                 <materialDesign:HintAssist.Hint>
                                     <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CalendarMonth" Width="20" Height="20" Margin="0,0,5,0"/>
                                         <TextBlock Text="Năm thưởng" />
                                     </StackPanel>
                                 </materialDesign:HintAssist.Hint>
                             </TextBox>
+
                         </WrapPanel>
                     </Expander>
 
                     <Expander
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        Header="3.Chi tiết dự án"
+                        Header="3.Chi tiết dai đoạn"
                         IsExpanded="True">
-                        <DataGrid
-                            Margin="8"
-                            materialDesign:DataGridAssist.CellPadding="8"
-                            materialDesign:DataGridAssist.ColumnHeaderPadding="10,6"
-                            materialDesign:DataGridAssist.EnableEditBoxAssist="True"
-                            AlternationCount="2"
-                            AutoGenerateColumns="False"
-                            CanUserAddRows="False"
-                            CanUserDeleteRows="True"
-                            HeadersVisibility="Column"
-                            IsReadOnly="False"
-                            ItemsSource="{Binding TbThuongDuAn.TbThuongDaiDoanDuAns}"
-                            RowHeaderWidth="0"
-                            SelectionUnit="FullRow">
 
-                            <!--  Style mặc định: căn trái cho cả cell text và editing box  -->
-                            <DataGrid.Resources>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="HorizontalAlignment" Value="Left" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                </Style>
-                                <Style TargetType="{x:Type TextBox}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                </Style>
-                            </DataGrid.Resources>
+                        <WrapPanel>
 
-                            <DataGrid.Columns>
-                                <!--  Phòng ban  -->
-                                <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan}" Header="Phòng ban" />
+                            <DataGrid
+                                Margin="8"
+                                materialDesign:DataGridAssist.CellPadding="8"
+                                materialDesign:DataGridAssist.ColumnHeaderPadding="10,6"
+                                materialDesign:DataGridAssist.EnableEditBoxAssist="True"
+                                AlternationCount="2"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="True"
+                                HeadersVisibility="Column"
+                                IsReadOnly="False"
+                                ItemsSource="{Binding TbThuongDuAn.TbThuongDaiDoanDuAns}"
+                                RowHeaderWidth="0"
+                                SelectionUnit="FullRow">
 
-                                <!--  Tỉ lệ thưởng (%)  -->
-                                <DataGridTextColumn Binding="{Binding TiLeTongGoi, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}" Header="Tỉ lệ tổng gói (%)" />
+                                <!--  Style mặc định: căn trái cho cả cell text và editing box  -->
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="HorizontalAlignment" Value="Left" />
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                    </Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                    </Style>
+                                </DataGrid.Resources>
+                                <DataGrid.Columns>
 
-                                <!--  Giá trị  -->
-                                <DataGridTextColumn Binding="{Binding GiaTriTongGoi, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Giá trị tổng gói" />
+                                    <!-- Phòng ban -->
+                                    <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tên phòng ban thực hiện dự án">
+                                                    <materialDesign:PackIcon Kind="OfficeBuilding"/>
+                                                    <TextBlock Text="Phòng ban"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                <!--  Điều chỉnh đợt 1  -->
-                                <DataGridTextColumn Binding="{Binding TiLeDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}" Header="Tỉ lệ GD1/Trúng thầu (%)" />
-                                <DataGridTextColumn Binding="{Binding GiaTriDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Giá trị GD1/Trúng thầu" />
+                                    <!-- (DT) Hợp đồng -->
+                                    <DataGridTextColumn Binding="{Binding DoanhThuHopDong, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tổng doanh thu theo hợp đồng (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="FileDocumentOutline"/>
+                                                    <TextBlock Text="(DT) Hợp đồng"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                <!--  Điều chỉnh đợt 2  -->
-                                <DataGridTextColumn Binding="{Binding TiLeDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}" Header="Tỉ lệ GD2/Triển khai (%)" />
-                                <DataGridTextColumn Binding="{Binding GiaTriDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Giá trị GD2/Triển khai" />
+                                    <!-- (DT) Đã xuất hóa đơn -->
+                                    <DataGridTextColumn Binding="{Binding DoanhThuXuatHoaDon, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Doanh thu đã được xuất hóa đơn (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="FileSendOutline"/>
+                                                    <TextBlock Text="(DT) Đã xuất HĐ"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                <!--  Thu hồi công nợ  -->
-                                <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Quyết toán/Thu hồi công nợ" />
+                                    <!-- (TG) Tỉ lệ (%) -->
+                                    <DataGridTextColumn Binding="{Binding TiLeTongGoi, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tỉ lệ tổng gói thưởng (%)">
+                                                    <materialDesign:PackIcon Kind="Percent"/>
+                                                    <TextBlock Text="(TG) Tỉ lệ (%)"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                <!--  Nghiệm thu  -->
-                                <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}" Header="Nghiệm thu" />
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                    <!-- (TG) Giá trị -->
+                                    <DataGridTextColumn Binding="{Binding GiaTriTongGoi, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Giá trị tiền thưởng theo tỉ lệ tổng gói (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="Cash"/>
+                                                    <TextBlock Text="(TG) Giá trị"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- (TT/KHD) Tỉ lệ GD1 (%) -->
+                                    <DataGridTextColumn Binding="{Binding TiLeDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tỉ lệ điều chỉnh giai đoạn 1 (%) (Trúng thầu/ký hợp đồng)">
+                                                    <materialDesign:PackIcon Kind="TrendingUp"/>
+                                                    <TextBlock Text="(TT/KHD) Tỉ lệ GD1 (%)"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- (TT/KHD) Giá trị GD1 -->
+                                    <DataGridTextColumn Binding="{Binding GiaTriDieuChinhDot1, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Giá trị điều chỉnh giai đoạn 1 (VNĐ) (Trúng thầu/ký hợp đồng)">
+                                                    <materialDesign:PackIcon Kind="CurrencyUsd"/>
+                                                    <TextBlock Text="(TT/KHD) Giá trị GD1"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- (TK/TTL1) Tỉ lệ GD2 (%) -->
+                                    <DataGridTextColumn Binding="{Binding TiLeDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tỉ lệ điều chỉnh giai đoạn 2 (%) (Triển khai/Thanh toán Lần 1)">
+                                                    <materialDesign:PackIcon Kind="ChartLine"/>
+                                                    <TextBlock Text="(TK/TTL1) Tỉ lệ GD2 (%)"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- (TK/TTL1) Giá trị GD2 -->
+                                    <DataGridTextColumn Binding="{Binding GiaTriDieuChinhDot2, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Giá trị điều chỉnh giai đoạn 2 (VNĐ) (Triển khai/Thanh toán Lần 1)">
+                                                    <materialDesign:PackIcon Kind="CashMultiple"/>
+                                                    <TextBlock Text="(TK/TTL1) Giá trị GD2"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- Thu hồi công nợ -->
+                                    <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Giá trị quyết toán hoặc thu hồi công nợ (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="AccountCash"/>
+                                                    <TextBlock Text="Thu hồi công nợ"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- Nghiệm thu -->
+                                    <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=N0}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tổng giá trị nghiệm thu (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="ClipboardCheckOutline"/>
+                                                    <TextBlock Text="Nghiệm thu"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </WrapPanel>
+
                     </Expander>
 
 
                     <Expander
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        Header="3.Chi tiết dự án"
+                        Header="4.Chi tiết dự án"
                         IsExpanded="True">
-
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                      VerticalScrollBarVisibility="Auto"
-                                      CanContentScroll="True"
-                                      Margin="8">
-
+                        <WrapPanel>
                             <DataGrid
                                 Name="MyDataGrid"
                                 Margin="8"
@@ -337,75 +466,256 @@
                                 HeadersVisibility="Column"
                                 ItemsSource="{Binding TbThuongDuAn.TbThuongDuAnChiTiets}"
                                 RowHeaderWidth="0"
+                                FrozenColumnCount="2"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
                                 SelectionUnit="FullRow">
 
                                 <DataGrid.Columns>
+
+                                    <!-- Xóa dòng -->
+                                    <DataGridTemplateColumn Width="60">
+                                        <DataGridTemplateColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="Delete" Width="16" Height="16" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Xóa" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.HeaderTemplate>
+
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Command="{Binding DataContext.DeleteDetailCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource MaterialDesignToolButton}"
+                                                    ToolTip="Xóa dòng này">
+                                                    <materialDesign:PackIcon Kind="DeleteForeverOutline" Width="20" Height="20" />
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+
                                     <!-- Chủ đầu tư -->
-                                    <DataGridTextColumn Header="Chủ đầu tư"
-                                                        Binding="{Binding ChuDauTu, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                    <DataGridTextColumn Binding="{Binding ChuDauTu, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tên chủ đầu tư của dự án">
+                                                    <materialDesign:PackIcon Kind="AccountTie"/>
+                                                    <TextBlock Text="Chủ đầu tư"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Hợp đồng số -->
-                                    <DataGridTextColumn Header="Hợp đồng số"
-                                                        Binding="{Binding HopDongSo, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                    <DataGridTextColumn Binding="{Binding HopDongSo, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Số hợp đồng liên quan đến dự án">
+                                                    <materialDesign:PackIcon Kind="FileDocumentOutline"/>
+                                                    <TextBlock Text="Hợp đồng số"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Dự án -->
-                                    <DataGridTextColumn Header="Dự án"
-                                                        Binding="{Binding DuAn, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                    <DataGridTextColumn Binding="{Binding DuAn, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tên dự án đang thực hiện">
+                                                    <materialDesign:PackIcon Kind="Domain"/>
+                                                    <TextBlock Text="Dự án"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Ngày tháng -->
-                                    <DataGridTextColumn Header="Ngày tháng"
-                                                        Binding="{Binding NgayThang, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=\{0:dd/MM/yyyy\}}" />
+                                    <DataGridTextColumn Binding="{Binding NgayThang, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:dd/MM/yyyy}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Ngày ghi nhận dữ liệu">
+                                                    <materialDesign:PackIcon Kind="CalendarMonth"/>
+                                                    <TextBlock Text="Ngày tháng"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Doanh thu hợp đồng -->
-                                    <DataGridTextColumn Header="Doanh thu hợp đồng"
-                                                        Binding="{Binding DoanhThuHopDong, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+                                    <DataGridTextColumn Binding="{Binding DoanhThuHopDong, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Doanh thu theo hợp đồng (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="FileChart"/>
+                                                    <TextBlock Text="Doanh thu hợp đồng"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Doanh thu quyết toán -->
-                                    <DataGridTextColumn Header="Doanh thu quyết toán"
-                                                        Binding="{Binding DoanhThuQuyetToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+                                    <DataGridTextColumn Binding="{Binding DoanhThuQuyetToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Doanh thu sau khi quyết toán (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="ClipboardCheckOutline"/>
+                                                    <TextBlock Text="Doanh thu quyết toán"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Doanh thu đã xuất hóa đơn -->
-                                    <DataGridTextColumn Header="Doanh thu đã xuất hóa đơn"
-                                                        Binding="{Binding DoanhThuDaXuatHoaDon, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+                                    <DataGridTextColumn Binding="{Binding DoanhThuDaXuatHoaDon, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Doanh thu đã được xuất hóa đơn (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="FileSendOutline"/>
+                                                    <TextBlock Text="Doanh thu đã xuất HĐ"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Doanh thu chưa xuất hóa đơn -->
-                                    <DataGridTextColumn Header="Doanh thu chưa xuất hóa đơn"
-                                                        Binding="{Binding DoanhThuChuaXuatHoaDon, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+                                    <DataGridTextColumn Binding="{Binding DoanhThuChuaXuatHoaDon, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Doanh thu chưa được xuất hóa đơn (VNĐ) (Doanh thu quyết toán - Doanh thu đã xuất hóa đơn)">
+                                                    <materialDesign:PackIcon Kind="FileClockOutline"/>
+                                                    <TextBlock Text="Doanh thu chưa xuất HĐ"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Đã thanh toán -->
-                                    <DataGridTextColumn Header="Đã thanh toán"
-                                                        Binding="{Binding DaThanhToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+                                    <DataGridTextColumn Binding="{Binding DaThanhToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Số tiền đã được thanh toán (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="CashCheck"/>
+                                                    <TextBlock Text="Đã thanh toán"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Chưa thanh toán -->
-                                    <DataGridTextColumn Header="Chưa thanh toán"
-                                                        Binding="{Binding ChuaThanhToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}" />
+                                    <DataGridTextColumn Binding="{Binding ChuaThanhToan, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Số tiền còn chưa thanh toán (VNĐ) (Doanh thu quyết toán - Doanh thu đã xuất hóa đơn)">
+                                                    <materialDesign:PackIcon Kind="CashRemove"/>
+                                                    <TextBlock Text="Chưa thanh toán"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- Ghi chú -->
-                                    <DataGridTextColumn Header="Ghi chú"
-                                                        Binding="{Binding GhiChu, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                    <DataGridTextColumn Binding="{Binding GhiChu, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Thông tin ghi chú liên quan đến dự án">
+                                                    <materialDesign:PackIcon Kind="NoteTextOutline"/>
+                                                    <TextBlock Text="Ghi chú"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- TVGP -->
-                                    <DataGridTextColumn Header="Tỉ lệ TVGP (%)"
-                                                        Binding="{Binding Tvgp, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+                                    <DataGridTextColumn Binding="{Binding Tvgp, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng TVGP (VNĐ) (Tổng gói * Doanh thu quyết toán)">
+                                                    <materialDesign:PackIcon Kind="HandshakeOutline"/>
+                                                    <TextBlock Text="TVGP"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- HSDA -->
-                                    <DataGridTextColumn Header="Tỉ lệ HSDA (%)"
-                                                        Binding="{Binding Hsda, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+                                    <DataGridTextColumn Binding="{Binding Hsda, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng HSDA (VNĐ) (Tổng gói * Doanh thu quyết toán)">
+                                                    <materialDesign:PackIcon Kind="SchoolOutline"/>
+                                                    <TextBlock Text="HSDA"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- PO -->
-                                    <DataGridTextColumn Header="Tỉ lệ PO (%)"
-                                                        Binding="{Binding Po, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+                                    <DataGridTextColumn Binding="{Binding Po, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng PO (VNĐ) (Tổng gói * Doanh thu quyết toán)">
+                                                    <materialDesign:PackIcon Kind="ClipboardTextOutline"/>
+                                                    <TextBlock Text="PO"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- KTK -->
-                                    <DataGridTextColumn Header="Tỉ lệ KTK (%)"
-                                                        Binding="{Binding Ktk, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+                                    <DataGridTextColumn Binding="{Binding Ktk, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng KTK (VNĐ) (Tổng gói * Doanh thu quyết toán)">
+                                                    <materialDesign:PackIcon Kind="ToolboxOutline"/>
+                                                    <TextBlock Text="KTK"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
                                     <!-- TTDVKT -->
-                                    <DataGridTextColumn Header="Tỉ lệ TTDVKT (%)"
-                                                        Binding="{Binding Ttdvkt, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.######}}" />
+                                    <DataGridTextColumn Binding="{Binding Ttdvkt, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:N0}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng TTDVKT (VNĐ) (Tổng gói * Doanh thu quyết toán)">
+                                                    <materialDesign:PackIcon Kind="MonitorDashboard"/>
+                                                    <TextBlock Text="TTDVKT"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
                                 </DataGrid.Columns>
+
                             </DataGrid>
-                        </ScrollViewer>
+
+                            <Button
+                                Margin="5,0,5,0"
+                                HorizontalAlignment="Right"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                Command="{Binding CalculatedBonusCommand}"
+                                FontSize="15"
+                                Foreground="White">
+                                <Button.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Offset="0" Color="#59a2ff" />
+                                        <!--  Xanh lá nhạt  -->
+                                        <GradientStop Offset="1" Color="#005fda" />
+                                        <!--  Xanh lá đậm  -->
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                                <WrapPanel>
+                                    <materialDesign:PackIcon
+                                        VerticalAlignment="Center"
+                                        Kind="Calculator" />
+                                </WrapPanel>
+                            </Button>
+                        </WrapPanel>
                     </Expander>
 
                     <Expander
@@ -432,7 +742,8 @@
                             HorizontalAlignment="Right"
                             materialDesign:ButtonAssist.CornerRadius="10"
                             Background="#FF6E6E6E"
-                            Click="closeButton_Click"
+                            Command="{Binding CloseCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                             FontSize="15"
                             Foreground="White">
                             <WrapPanel>

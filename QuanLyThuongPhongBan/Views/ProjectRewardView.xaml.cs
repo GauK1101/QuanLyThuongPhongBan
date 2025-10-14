@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using QuanLyThuongPhongBan.Models;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace QuanLyThuongPhongBan.Views
 {
@@ -59,6 +62,71 @@ namespace QuanLyThuongPhongBan.Views
             row.DetailsVisibility = row.DetailsVisibility == Visibility.Visible
                 ? Visibility.Collapsed
                 : Visibility.Visible;
+        }
+
+        private void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            if (e.Row.Item is TbThuongDuAnChiTiet record)
+            {
+                if (record.ChuaThanhToan == 0)
+                    e.Row.Background = Brushes.LightGreen;
+
+                if (record.DaThanhToan == 0 || record.DaThanhToan == null)
+                    e.Row.Background = new SolidColorBrush(Color.FromRgb(255, 235, 236));
+
+                if (record.Tvgp == 0 || record.Tvgp == null)
+                {
+                    var grid = sender as DataGrid;
+
+                    if (grid != null)
+                    {
+                        grid.Dispatcher.InvokeAsync(() =>
+                        {
+                            var tvgpColumn = grid.Columns.FirstOrDefault(c => c.Header?.ToString() == "TVGP");
+                            if (tvgpColumn != null)
+                            {
+                                var cell = GetCell(grid, e.Row, tvgpColumn.DisplayIndex);
+                                if (cell != null)
+                                {
+                                    cell.Background = new SolidColorBrush(Color.FromRgb(255, 227, 186)); // Cam nhạt
+                                }
+                            }
+                        }, System.Windows.Threading.DispatcherPriority.Background);
+                    }
+                }
+            }
+        }
+
+        // Hàm phụ để lấy cell trong DataGridRow
+        private DataGridCell? GetCell(DataGrid grid, DataGridRow row, int columnIndex)
+        {
+            if (row == null) return null;
+
+            var presenter = FindVisualChild<DataGridCellsPresenter>(row);
+            if (presenter == null)
+            {
+                row.ApplyTemplate();
+                presenter = FindVisualChild<DataGridCellsPresenter>(row);
+            }
+
+            var cell = presenter?.ItemContainerGenerator.ContainerFromIndex(columnIndex) as DataGridCell;
+            return cell;
+        }
+
+        // Hàm phụ tìm phần tử con theo kiểu
+        private T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T tChild)
+                    return tChild;
+
+                var result = FindVisualChild<T>(child);
+                if (result != null)
+                    return result;
+            }
+            return null;
         }
     }
 }

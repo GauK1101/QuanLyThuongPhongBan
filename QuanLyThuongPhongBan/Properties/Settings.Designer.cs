@@ -70,5 +70,17 @@ namespace QuanLyThuongPhongBan.Properties {
                 this["User"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsCurrencySymbolVisible {
+            get {
+                return ((bool)(this["IsCurrencySymbolVisible"]));
+            }
+            set {
+                this["IsCurrencySymbolVisible"] = value;
+            }
+        }
     }
 }

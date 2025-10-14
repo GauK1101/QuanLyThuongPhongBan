@@ -14,7 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Image\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="Costura.Fody" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -72,6 +77,7 @@
 
 		<OutputPath Condition="'$(Configuration)' == 'Release'">bin\Release\$(AssemblyName)\</OutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<ApplicationIcon>Image\icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 </Project>

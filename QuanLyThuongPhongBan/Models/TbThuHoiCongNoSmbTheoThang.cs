@@ -88,4 +88,9 @@ public partial class TbThuHoiCongNoSmbTheoThang : BaseViewModel
         set => Set(value);
     }
 
+    public decimal? TongThuongNam
+    {
+        get => Get<decimal?>();
+        set => Set(value);
+    }
 }

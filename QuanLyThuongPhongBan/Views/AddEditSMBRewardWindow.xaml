@@ -7,37 +7,15 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
-    Title="AddEditSMBRewardWindow"
     Width="1250"
     Height="620"
-    AllowsTransparency="True"
-    Background="Transparent"
+    WindowStyle="SingleBorderWindow"
     DataContext="{StaticResource SMBRewardVM}"
-    KeyDown="Window_KeyDown"
     WindowStartupLocation="CenterScreen"
-    WindowStyle="None"
     mc:Ignorable="d">
 
-    <shell:WindowChrome.WindowChrome>
-        <shell:WindowChrome
-            CaptionHeight="30"
-            CornerRadius="8"
-            GlassFrameThickness="0" />
-    </shell:WindowChrome.WindowChrome>
-
     <Border
-        Padding="5"
-        BorderThickness="1"
-        CornerRadius="15">
-
-        <Border.Background>
-            <ImageBrush
-                ImageSource="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRFcoRoOy-EzrJ3MET_RdUYeay0PQ36DBYCNK6pWh18CFyFSEMR"
-                Stretch="UniformToFill"
-                TileMode="Tile"
-                Viewport="0,0,0.3,0.3"
-                ViewportUnits="RelativeToBoundingBox" />
-        </Border.Background>
+        Padding="5">
 
         <Grid>
             <Grid.RowDefinitions>
@@ -61,7 +39,6 @@
                             FontSize="20"
                             FontWeight="Bold"
                             Foreground="Black"
-                            MouseDown="Title_Window_MouseDown"
                             Text="Thưởng SMB" />
 
                     </DockPanel>
@@ -256,7 +233,7 @@
                             CanUserDeleteRows="True"
                             HeadersVisibility="Column"
                             IsReadOnly="False"
-                            ItemsSource="{Binding TbThuongSmb.Details}"
+                            ItemsSource="{Binding TbThuongSmb.TbThuongDaiDoanSmbs}"
                             RowHeaderWidth="0"
                             SelectionUnit="FullRow">
 
@@ -275,6 +252,9 @@
                             <DataGrid.Columns>
                                 <!--  Phòng ban  -->
                                 <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan}" Header="Phòng ban" />
+
+                                <DataGridTextColumn Binding="{Binding DoanhThuHopDong, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Hợp đồng/quyết toán/PO/PX" />
+                                <DataGridTextColumn Binding="{Binding DoanhThuXuatHoaDon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Đã xuất hóa đơn" />
 
                                 <!--  Tỉ lệ thưởng (%)  -->
                                 <DataGridTextColumn Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.#######}}" Header="Tỉ lệ tổng gói (%)" />

@@ -100,7 +100,8 @@
             <DataGrid
                 Grid.Row="1"
                 AutoGenerateColumns="False"
-                Background="Transparent"
+                AlternatingRowBackground="#FAFAFA"
+                FontSize="13"
                 CanUserAddRows="False"
                 CanUserResizeColumns="True"
                 ColumnReordered="DataGrid_ColumnReordered"
@@ -111,20 +112,165 @@
                 VirtualizingStackPanel.VirtualizationMode="Recycling">
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Nam}" Header="Năm" />
-                    <DataGridTextColumn Binding="{Binding Thang1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 1" />
-                    <DataGridTextColumn Binding="{Binding Thang2, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 2" />
-                    <DataGridTextColumn Binding="{Binding Thang3, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 3" />
-                    <DataGridTextColumn Binding="{Binding Thang4, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 4" />
-                    <DataGridTextColumn Binding="{Binding Thang5, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 5" />
-                    <DataGridTextColumn Binding="{Binding Thang6, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 6" />
-                    <DataGridTextColumn Binding="{Binding Thang7, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 7" />
-                    <DataGridTextColumn Binding="{Binding Thang8, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 8" />
-                    <DataGridTextColumn Binding="{Binding Thang9, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 9" />
-                    <DataGridTextColumn Binding="{Binding Thang10, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 10" />
-                    <DataGridTextColumn Binding="{Binding Thang11, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 11" />
-                    <DataGridTextColumn Binding="{Binding Thang12, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}" Header="Tháng 12" />
+
+                    <!-- Năm -->
+                    <DataGridTextColumn Binding="{Binding Nam}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" ToolTip="Năm áp dụng dữ liệu doanh thu">
+                                    <materialDesign:PackIcon Kind="CalendarOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Năm" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <!-- Tháng 1–12 -->
+                    <DataGridTextColumn Binding="{Binding Thang1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 1">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 1" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang2, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 2">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 2" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang3, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 3">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 3" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang4, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 4">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 4" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang5, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 5">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 5" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang6, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 6">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 6" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang7, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 7">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 7" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang8, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 8">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 8" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang9, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 9">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 9" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang10, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 10">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 10" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang11, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 11">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 11" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding Thang12, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Thưởng SMB tháng 12">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tháng 12" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Binding="{Binding TongThuongNam, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" ToolTip="Tổng SMB theo năm">
+                                    <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                    <TextBlock Text="Tổng SMB theo năm" FontWeight="Bold"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+
                 </DataGrid.Columns>
+
 
             </DataGrid>
 
@@ -133,7 +279,9 @@
                 <DataGrid
                     x:Name="myDataGrid"
                     AutoGenerateColumns="False"
-                    Background="Transparent"
+                    AlternatingRowBackground="#FAFAFA"
+                    Grid.Row="2"
+                    FontSize="13"
                     CanUserAddRows="False"
                     CanUserResizeColumns="True"
                     ColumnReordered="DataGrid_ColumnReordered"
@@ -259,8 +407,16 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Header="Quý năm thưởng"
-                                            Binding="{Binding QuyNamThuong, UpdateSourceTrigger=PropertyChanged}">
+                        <!-- Quý năm thưởng -->
+                        <DataGridTextColumn Binding="{Binding QuyNamThuong, UpdateSourceTrigger=PropertyChanged}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Quý và năm được thưởng">
+                                        <materialDesign:PackIcon Kind="CalendarMonthOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Quý năm thưởng" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -268,8 +424,16 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Hợp đồng"
-                                            Binding="{Binding TongGiaTriSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <!-- Hợp đồng -->
+                        <DataGridTextColumn Binding="{Binding TongGiaTriSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Tổng giá trị hợp đồng SMB">
+                                        <materialDesign:PackIcon Kind="FileDocumentOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Hợp đồng" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -278,8 +442,16 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Quyết toán"
-                                            Binding="{Binding XuatHoaDon, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <!-- Quyết toán -->
+                        <DataGridTextColumn Binding="{Binding XuatHoaDon, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Tổng giá trị quyết toán (hóa đơn xuất)">
+                                        <materialDesign:PackIcon Kind="CashMultiple" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Quyết toán" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -288,8 +460,16 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Tổng tỉ lệ"
-                                            Binding="{Binding TongTiLeThuongSmb, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}">
+                        <!-- Tổng tỉ lệ -->
+                        <DataGridTextColumn Binding="{Binding TongTiLeThuongSmb, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Tổng tỉ lệ thưởng SMB (%)">
+                                        <materialDesign:PackIcon Kind="PercentOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Tổng tỉ lệ" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -298,8 +478,16 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Tổng giá trị"
-                                            Binding="{Binding TongGiaTriThuongSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <!-- Tổng giá trị -->
+                        <DataGridTextColumn Binding="{Binding TongGiaTriThuongSmb, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Tổng giá trị thưởng SMB (VNĐ)">
+                                        <materialDesign:PackIcon Kind="CurrencyUsd" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Tổng giá trị" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -308,8 +496,16 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Tổng tỉ lệ GD1/Doanh thu (%)"
-                                            Binding="{Binding TongTiLeDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}">
+                        <!-- Tổng tỉ lệ GD1/Doanh thu -->
+                        <DataGridTextColumn Binding="{Binding TongTiLeDot1, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Tổng tỉ lệ GD1/Doanh thu (%)">
+                                        <materialDesign:PackIcon Kind="ChartLine" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Tổng tỉ lệ GD1/Doanh thu (%)" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -318,8 +514,16 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Tổng giá trị GD1/Doanh thu"
-                                            Binding="{Binding TongGiaTriDot1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <!-- Tổng giá trị GD1/Doanh thu -->
+                        <DataGridTextColumn Binding="{Binding TongGiaTriDot1, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Tổng giá trị GD1/Doanh thu (VNĐ)">
+                                        <materialDesign:PackIcon Kind="ChartBarStacked" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Tổng giá trị GD1/Doanh thu" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -328,8 +532,16 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Tổng quyết toán/Thu hồi công nợ"
-                                            Binding="{Binding TongThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <!-- Tổng quyết toán/Thu hồi công nợ -->
+                        <DataGridTextColumn Binding="{Binding TongThuHoiCongNo, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Tổng quyết toán hoặc thu hồi công nợ">
+                                        <materialDesign:PackIcon Kind="CashRefund" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Tổng thu hồi công nợ" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -338,8 +550,16 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Tổng nghiệm thu"
-                                            Binding="{Binding TongNghiemThu, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                        <!-- Tổng nghiệm thu -->
+                        <DataGridTextColumn Binding="{Binding TongNghiemThu, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                            <DataGridTextColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" ToolTip="Tổng giá trị nghiệm thu (VNĐ)">
+                                        <materialDesign:PackIcon Kind="CheckDecagramOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                        <TextBlock Text="Tổng nghiệm thu" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTextColumn.HeaderTemplate>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
@@ -347,6 +567,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
+
                     </DataGrid.Columns>
 
                     <DataGrid.RowDetailsTemplate>
@@ -359,25 +580,126 @@
                                 IsReadOnly="True"
                                 ItemsSource="{Binding TbThuongDaiDoanSmbs}">
                                 <DataGrid.Columns>
-                                    <!--  Phòng ban  -->
-                                    <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan, UpdateSourceTrigger=PropertyChanged}" Header="Phòng ban" />
+                                    <!-- Phòng ban -->
+                                    <DataGridTextColumn Binding="{Binding IdPhongBanNavigation.TenPhongBan, UpdateSourceTrigger=PropertyChanged}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tên phòng ban phụ trách dự án">
+                                                    <materialDesign:PackIcon Kind="OfficeBuilding" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Phòng ban" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                    <!--  Tỉ lệ thưởng (%)  -->
-                                    <DataGridTextColumn Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Tỉ lệ tổng gói" />
+                                    <!-- Hợp đồng/quyết toán/PO/PX -->
+                                    <DataGridTextColumn Binding="{Binding DoanhThuHopDong, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tổng doanh thu hợp đồng, quyết toán, PO hoặc PX">
+                                                    <materialDesign:PackIcon Kind="FileDocumentOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Hợp đồng/Quyết toán/PO/PX" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                    <!--  Giá trị  -->
-                                    <DataGridTextColumn Binding="{Binding GiaTriTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Giá trị tổng gói" />
+                                    <!-- Đã xuất hóa đơn -->
+                                    <DataGridTextColumn Binding="{Binding DoanhThuXuatHoaDon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tổng doanh thu đã xuất hóa đơn (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="InvoiceCheckOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Đã xuất hóa đơn" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                    <!--  Điều chỉnh đợt 1  -->
-                                    <DataGridTextColumn Binding="{Binding TiLeDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Tỉ lệ GD1/Doanh thu" />
-                                    <DataGridTextColumn Binding="{Binding GiaTriDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Giá trị GD1/Doanh thu" />
+                                    <!-- Tỉ lệ tổng gói -->
+                                    <DataGridTextColumn Binding="{Binding TiLeTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.######}%}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tỉ lệ tổng gói thưởng SMB (%)">
+                                                    <materialDesign:PackIcon Kind="PercentOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Tỉ lệ tổng gói" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                    <!--  Thu hồi công nợ  -->
-                                    <DataGridTextColumn Binding="{Binding TiLeThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Tỉ lẹ thu hồi công nợ" />
-                                    <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#######}}" Header="Thu hồi công nợ" />
+                                    <!-- Giá trị tổng gói -->
+                                    <DataGridTextColumn Binding="{Binding GiaTriTongSmb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tổng giá trị thưởng SMB (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="CurrencyUsd" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Giá trị tổng gói" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
 
-                                    <!--  Nghiệm thu  -->
-                                    <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=N0}" Header="Nghiệm thu" />
+                                    <!-- Tỉ lệ GD1/Doanh thu -->
+                                    <DataGridTextColumn Binding="{Binding TiLeDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.######}%}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tỉ lệ doanh thu xuất hóa đơn (%)">
+                                                    <materialDesign:PackIcon Kind="ChartLine" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Tỉ lệ GD1/Doanh thu" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- Giá trị GD1/Doanh thu -->
+                                    <DataGridTextColumn Binding="{Binding GiaTriDot1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Giá trị doanh thu xuất hóa đơn (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="ChartBar" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Giá trị GD1/Doanh thu" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- Tỉ lệ thu hồi công nợ -->
+                                    <DataGridTextColumn Binding="{Binding TiLeThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.#####}%}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tỉ lệ thu hồi công nợ (%)">
+                                                    <materialDesign:PackIcon Kind="AccountCashOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Tỉ lệ thu hồi công nợ" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- Thu hồi công nợ -->
+                                    <DataGridTextColumn Binding="{Binding ThuHoiCongNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Giá trị đã thu hồi công nợ (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="CashRefund" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Thu hồi công nợ" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- Nghiệm thu -->
+                                    <DataGridTextColumn Binding="{Binding NghiemThu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CurrencyConverter}}">
+                                        <DataGridTextColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" ToolTip="Tổng giá trị nghiệm thu của phòng ban (VNĐ)">
+                                                    <materialDesign:PackIcon Kind="ClipboardCheckOutline" Width="18" Height="18" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="Nghiệm thu" FontWeight="Bold"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTextColumn.HeaderTemplate>
+                                    </DataGridTextColumn>
+
                                 </DataGrid.Columns>
 
                             </DataGrid>

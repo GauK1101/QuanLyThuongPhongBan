@@ -25,7 +25,7 @@ namespace QuanLyThuongPhongBan.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1.0.0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.0.1")]
         public string CurrentVersion {
             get {
                 return ((string)(this["CurrentVersion"]));

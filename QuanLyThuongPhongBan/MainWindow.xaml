@@ -194,13 +194,25 @@
                                     Text="{Binding Caption}" />
                             </WrapPanel>
 
-
                             <Grid
                                 Grid.Column="1"
                                 Margin="0,10,0,0"
                                 HorizontalAlignment="Right">
 
                                 <StackPanel Orientation="Horizontal">
+
+                                    <ToggleButton
+                                        Width="60"
+                                        IsChecked="{Binding Settings.IsCurrencySymbolVisible}"
+                                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                        ToolTip="Ẩn/Hiện ký hiệu tiền">
+                                        <materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                                            <SolidColorBrush Color="Purple" />
+                                        </materialDesign:ToggleButtonAssist.SwitchTrackOnBackground>
+                                        <materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+                                            <SolidColorBrush Color="Gray" />
+                                        </materialDesign:ToggleButtonAssist.SwitchTrackOffBackground>
+                                    </ToggleButton>
 
                                     <StackPanel HorizontalAlignment="Center">
 

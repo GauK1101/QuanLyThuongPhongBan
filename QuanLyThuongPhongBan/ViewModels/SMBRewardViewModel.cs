@@ -153,19 +153,19 @@ namespace QuanLyThuongPhongBan.ViewModels
             foreach (var detail in TbThuongSmb.TbThuongDaiDoanSmbs)
             {
                 // Tính giá trị tổng SMB cho chi tiết = (Tổng giá trị SMB * Tỷ lệ thưởng) / 100
-                detail.GiaTriTongSmb = ((TbThuongSmb.TongGiaTriSmb ?? 0) * (detail.TiLeTongSmb ?? 0)) / 100;
+                detail.GiaTriTongSmb = ((detail.DoanhThuHopDong ?? 0) * (detail.TiLeTongSmb ?? 0)) / 100;
 
                 // Tính giá trị đợt 1 = (Giá trị xuất hóa đơn * Tỷ lệ đợt 1) / 100
-                detail.GiaTriDot1 = ((TbThuongSmb.XuatHoaDon ?? 0) * (detail.TiLeDot1 ?? 0)) / 100;
+                detail.GiaTriDot1 = ((detail.DoanhThuXuatHoaDon ?? 0) * (detail.TiLeDot1 ?? 0)) / 100;
+
+                // Tỉ lệ thu hồi công nợ = Tỉ lệ tổng smb + Tỉ lệ đợt 1
+                detail.TiLeThuHoiCongNo = detail.TiLeTongSmb - detail.TiLeDot1;
 
                 // Thu hồi công nợ = Tổng SMB - Đợt 1
                 detail.ThuHoiCongNo = detail.GiaTriTongSmb - detail.GiaTriDot1;
 
                 // Nghiệm thu = Đợt 1 + Thu hồi công nợ
                 detail.NghiemThu = detail.GiaTriDot1 + detail.ThuHoiCongNo;
-
-                // Tỉ lệ thu hồi công nợ = Tỉ lệ tổng smb + Tỉ lệ đợt 1
-                detail.TiLeThuHoiCongNo = detail.TiLeTongSmb - detail.TiLeDot1;
 
                 // Cập nhật tổng tỷ lệ thưởng SMB (cộng tất cả tỷ lệ từ chi tiết)
                 TbThuongSmb.TongTiLeThuongSmb = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(x => x.TiLeTongSmb ?? 0);
@@ -198,6 +198,11 @@ namespace QuanLyThuongPhongBan.ViewModels
                 // Trường hợp thêm mới
                 if (TbThuongSmb.Id == 0)
                 {
+                    foreach (var chiTiet in TbThuongSmb.TbThuongDaiDoanSmbs)
+                    {
+                        chiTiet.IdPhongBanNavigation = null; // tránh EF insert
+                    }
+
                     // Thêm bản ghi thưởng SMB vào DbSet
                     DataProvider.Ins.DB.TbThuongSmbs.Add(TbThuongSmb);
 
@@ -211,10 +216,6 @@ namespace QuanLyThuongPhongBan.ViewModels
                         HanhDong = "Thêm SMB", // Hành động thực hiện
                         MoTa = $"Thêm mới SMB - Năm: {TbThuongSmb.QuyNamThuong}" // Mô tả thêm
                     });
-
-                    // Gỡ liên kết theo dõi trạng thái entity để tránh lỗi khi cập nhật
-                    //foreach (var entry in DataProvider.Ins.DB.ChangeTracker.Entries().ToList())
-                    //    entry.State = EntityState.Detached;
 
                     // Lưu thay đổi vào database
                     DataProvider.Ins.DB.SaveChanges();
@@ -250,10 +251,6 @@ namespace QuanLyThuongPhongBan.ViewModels
                         HanhDong = "Sửa SMB", // Hành động thực hiện
                         MoTa = $"{GetChangeDescription(existing, TbThuongSmb)} - Năm: {TbThuongSmb.QuyNamThuong}" // Mô tả thay đổi
                     });
-
-                    // Gỡ theo dõi trạng thái để cập nhật lại object
-                    //foreach (var entry in DataProvider.Ins.DB.ChangeTracker.Entries().ToList())
-                    //    entry.State = EntityState.Detached;
 
                     // Cập nhật lại bản ghi SMB trong DB
                     DataProvider.Ins.DB.TbThuongSmbs.Update(TbThuongSmb);
@@ -309,7 +306,7 @@ namespace QuanLyThuongPhongBan.ViewModels
         }
 
         // Cập nhật giá trị công nợ vào bảng theo tháng hiện tại
-        private void UpdateMonthlyRecord()
+        private void UpdateMonthlyRecord(bool deleteRecord = true)
         {
             // Nếu đối tượng gốc null thì thoát sớm
             if (TbThuongSmb == null) return;
@@ -325,13 +322,21 @@ namespace QuanLyThuongPhongBan.ViewModels
 
             // Tính tổng thay đổi giữa dữ liệu mới và cũ
             // Với mỗi item: (giá trị mới - giá trị cũ)
-            decimal? totalDifference = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(newItem =>
+            decimal? totalDifference;
+            if (deleteRecord)
             {
-                decimal newValue = newItem.ThuHoiCongNo ?? 0;
-                decimal oldValue = oldDict.TryGetValue(newItem.Id, out var val) ? val : 0;
+                totalDifference = TbThuongSmb.TbThuongDaiDoanSmbs.Sum(newItem =>
+                {
+                    decimal newValue = newItem.ThuHoiCongNo ?? 0;
+                    decimal oldValue = oldDict.TryGetValue(newItem.Id, out var val) ? val : 0;
 
-                return newValue - oldValue; // Tổng thay đổi
-            });
+                    return newValue - oldValue; // Tổng thay đổi
+                });
+            }
+            else
+            {
+                totalDifference = -TbThuongSmb.TongThuHoiCongNo;
+            }
 
             // Lấy tháng và năm hiện tại
             var month = DateTime.Now.Month;
@@ -356,6 +361,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                     // => cộng giá trị thay đổi vào tháng tương ứng
                     var currentValue = property.GetValue(existingDate) as decimal?;
                     var newValue = currentValue.GetValueOrDefault() + (totalDifference ?? 0);
+                    existingDate.TongThuongNam = (existingDate.TongThuongNam ?? 0) + (totalDifference ?? 0);
                     property.SetValue(existingDate, newValue);
                 }
                 else
@@ -365,6 +371,8 @@ namespace QuanLyThuongPhongBan.ViewModels
                     {
                         Nam = year
                     };
+
+                    existingDate.TongThuongNam = (existingDate.TongThuongNam ?? 0) + (totalDifference ?? 0);
 
                     // Gán giá trị cho tháng hiện tại
                     property.SetValue(newRecord, totalDifference ?? 0);
@@ -426,6 +434,8 @@ namespace QuanLyThuongPhongBan.ViewModels
 
                 // Gán đối tượng được chọn vào biến xử lý
                 TbThuongSmb = model;
+
+                UpdateMonthlyRecord(false);
 
                 // Detach toàn bộ entity đang được EF theo dõi để tránh xung đột trạng thái
                 foreach (var entry in DataProvider.Ins.DB.ChangeTracker.Entries().ToList())
@@ -545,10 +555,15 @@ namespace QuanLyThuongPhongBan.ViewModels
                     ListMonth = new ObservableCollection<TbThuHoiCongNoSmbTheoThang>(
                         await DataProvider.Ins.DB.TbThuHoiCongNoSmbTheoThangs
                         .AsNoTracking()
+                        .OrderByDescending(d => d.Id)
                         .ToListAsync());
 
-                    // Áp dụng bộ lọc tìm kiếm lên truy vấn dữ liệu chính
-                    query = SearchViewModel.Search(query, SearchFill ?? string.Empty);
+                    // 👉 Có thể thêm điều kiện tìm kiếm nếu SearchFill có giá trị
+                    if (!string.IsNullOrWhiteSpace(SearchFill))
+                    {
+                        query = query.Where(x =>
+                            x.QuyNamThuong.ToString().Contains(SearchFill));
+                    }
 
                     // Nếu List null thì khởi tạo mới
                     if (List == null)

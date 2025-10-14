@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using QuanLyThuongPhongBan.ModelSettings;
+using System.Windows;
 
 namespace QuanLyThuongPhongBan
 {
@@ -7,6 +8,6 @@ namespace QuanLyThuongPhongBan
     /// </summary>
     public partial class App : Application
     {
-
+        public static AppSettings Settings { get; } = new AppSettings();
     }
 }

@@ -1,17 +1,18 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
 using QuanLyThuongPhongBan.Models;
+using QuanLyThuongPhongBan.ModelSettings;
 using QuanLyThuongPhongBan.Views;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using static QuanLyThuongPhongBan.CLass.SearchFilter;
 
 namespace QuanLyThuongPhongBan.ViewModels
 {
     internal class MainViewModel : BaseViewModel
     {
         #region Properties
+        public AppSettings Settings => App.Settings;
 
         private ObservableCollection<TbNhatKy>? _list;
         public ObservableCollection<TbNhatKy>? List
@@ -129,15 +130,15 @@ namespace QuanLyThuongPhongBan.ViewModels
 
         #region Command
         
-        public ICommand ShowProjectRewardViewCommand { get; }
-        public ICommand ShowSMBRewardViewCommand { get; }
-        public ICommand RecordLogViewCommand { get; }
-        public ICommand LogoutCommand { get; }
-        public ICommand LoadedWindowCommand { get; }
+        public ICommand? ShowProjectRewardViewCommand { get; }
+        public ICommand? ShowSMBRewardViewCommand { get; }
+        public ICommand? RecordLogViewCommand { get; }
+        public ICommand? LogoutCommand { get; }
+        public ICommand? LoadedWindowCommand { get; }
 
         #endregion
 
-        public ObservableCollection<string> Notifications { get; set; }
+        public ObservableCollection<string>? Notifications { get; set; }
 
         public MainViewModel()
         {
