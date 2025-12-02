@@ -1,0 +1,65 @@
+﻿<Window
+    x:Class="QuanLyThuongPhongBan.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:QuanLyThuongPhongBan.Views"
+    Title="MainWindow"
+    Width="1280"
+    Height="720"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Style.Triggers>
+                <!--  Khi Visibility = Visible → tự động chọn nó  -->
+                <Trigger Property="Visibility" Value="Visible">
+                    <Setter Property="IsSelected" Value="True" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="2">
+        <hc:TransitioningContentControl>
+            <TabControl Style="{StaticResource TabControlInLine}">
+
+                <TabItem Header="SMB" Visibility="{Binding SmbTabVisibility}">
+                    <view:SmbRewardView />
+                </TabItem>
+
+                <TabItem Header="Dự án" Visibility="{Binding ProjectTabVisibility}">
+                    <view:ProjectBonusDetailView />
+                </TabItem>
+
+                <TabItem Header="Danh sách báo cáo dự án" Visibility="{Binding ReportTabVisibility}">
+                    <view:ProjectSummaryReportView />
+                </TabItem>
+
+            </TabControl>
+        </hc:TransitioningContentControl>
+
+        <ScrollViewer
+            Margin="0,95,5,80"
+            HorizontalAlignment="Right"
+            VerticalScrollBarVisibility="Hidden">
+            <StackPanel VerticalAlignment="Top" hc:Growl.GrowlParent="True" />
+        </ScrollViewer>
+
+        <Button
+            x:Name="btnLogout"
+            Height="29"
+            Margin="0,0,0,5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Background="Transparent"
+            Command="{Binding LogoutCommand}"
+            ToolTip="Đăng xuất">
+            <TextBlock Text="🚶 Logout" />
+        </Button>
+    </Grid>
+</Window>

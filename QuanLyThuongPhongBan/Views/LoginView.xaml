@@ -1,0 +1,241 @@
+﻿<Window
+    x:Class="QuanLyThuongPhongBan.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    Title="Đăng nhập"
+    Width="440"
+    Height="620"
+    AllowsTransparency="True"
+    Background="Transparent"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="48"
+            CornerRadius="30"
+            GlassFrameThickness="0" />
+    </WindowChrome.WindowChrome>
+
+    <!--  BACKGROUND GRADIENT SIÊU ĐẸP (xanh – tím nhẹ nhàng, ấm áp)  -->
+    <Border CornerRadius="15" Effect="{StaticResource EffectShadow5}">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="#FF667EEA" />
+                <GradientStop Offset="1" Color="#FF764BA2" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <!--  Lớp mờ nhẹ + nội dung trắng bo tròn bên trong  -->
+        <Border
+            Margin="1"
+            Background="{DynamicResource RegionBrush}"
+            CornerRadius="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  TITLE BAR sạch sẽ + icon unicode  -->
+                <Grid Grid.Row="0">
+                    <TextBlock
+                        Margin="28,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource TitleBrush}"
+                        Text="Đăng nhập hệ thống" />
+
+                    <!--  Nút Minimize & Close dùng Segoe Fluent Icons  -->
+                    <StackPanel
+                        Margin="0,0,12,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <Button
+                            Width="36"
+                            Height="36"
+                            Margin="0,0,1,0"
+                            Click="MinimizeButton_Click"
+                            Content="-"
+                            FontSize="14"
+                            WindowChrome.IsHitTestVisibleInChrome="True" />
+                        <Button
+                            Width="36"
+                            Height="36"
+                            Click="CloseButton_Click"
+                            Content="✕"
+                            FontSize="14"
+                            WindowChrome.IsHitTestVisibleInChrome="True" />
+                    </StackPanel>
+                </Grid>
+
+                <!--  NỘI DUNG CHÍNH  -->
+                <StackPanel
+                    Grid.Row="1"
+                    Width="320"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+                    <Image
+                        Height="100"
+                        Margin="0,0,0,30"
+                        Effect="{StaticResource EffectShadow2}"
+                        Source="https://ktd.vn/wp-content/uploads/2025/08/logo_ktd.png" />
+
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        HorizontalAlignment="Center"
+                        FontSize="28"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource PrimaryTextBrush}"
+                        Text="Chào mừng trở lại!" />
+
+                    <TextBlock
+                        Margin="0,0,0,40"
+                        HorizontalAlignment="Center"
+                        FontSize="14"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
+                        Text="Vui lòng đăng nhập để tiếp tục" />
+
+                    <!--  Ô TÀI KHOẢN – có icon người  -->
+                    <Border
+                        Height="56"
+                        Margin="0,0,0,16"
+                        Background="{DynamicResource RegionBrush}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="14">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Icon người  -->
+                            <TextBlock
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Foreground="{DynamicResource PrimaryBrush}"
+                                Text="👤" />
+
+                            <!--  TextBox  -->
+                            <hc:TextBox
+                                Grid.Column="1"
+                                hc:InfoElement.Placeholder="Tên đăng nhập"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                FontSize="16"
+                                Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </Border>
+
+                    <!--  Ô MẬT KHẨU – có icon khóa  -->
+                    <Border
+                        Height="56"
+                        Margin="0,0,0,30"
+                        Background="{DynamicResource RegionBrush}"
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="14">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Icon khóa  -->
+                            <TextBlock
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Foreground="{DynamicResource PrimaryBrush}"
+                                Text="🔒" />
+
+                            <!--  PasswordBox thật  -->
+                            <PasswordBox
+                                x:Name="PwdBox"
+                                Grid.Column="1"
+                                Padding="10,0"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                FontSize="17"
+                                GotFocus="PwdBox_GotFocus"
+                                LostFocus="PwdBox_LostFocus"
+                                PasswordChanged="PwdBox_PasswordChanged" />
+
+                            <!--  Placeholder bằng TextBlock  -->
+                            <TextBlock
+                                x:Name="PlaceholderText"
+                                Grid.Column="1"
+                                Margin="10,0"
+                                VerticalAlignment="Center"
+                                FontSize="17"
+                                Foreground="#99AAAAAA"
+                                IsHitTestVisible="False"
+                                Text="Mật khẩu">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <!--  Mặc định ẩn  -->
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <!--  Chỉ hiện khi: KHÔNG có ký tự VÀ không focus  -->
+                                            <DataTrigger Binding="{Binding ElementName=PwdBox, Path=Password.Length}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=PwdBox, Path=IsKeyboardFocused}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+
+                    <!--  Nhớ mật khẩu + Quên mật khẩu  -->
+                    <Grid Margin="0,0,0,30">
+                        <CheckBox
+                            Content="Nhớ mật khẩu lần sau"
+                            IsChecked="{Binding RememberMe}"
+                            Style="{StaticResource CheckBoxBaseStyle}" />
+                    </Grid>
+
+                    <!--  Nút đăng nhập to bự đẹp  -->
+
+                    <Button
+                        Height="56"
+                        Command="{Binding LoginCommand}"
+                        Content="🔑   ĐĂNG NHẬP"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        IsDefault="True"
+                        Style="{StaticResource ButtonPrimary}" />
+
+                    <!--  Footer nhỏ xinh  -->
+                    <TextBlock
+                        Margin="0,30,0,0"
+                        HorizontalAlignment="Center"
+                        FontSize="11"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
+                        Text="© 2025 Hệ thống Quản lý Thưởng Phòng Ban" />
+                </StackPanel>
+
+                <ScrollViewer
+                    Grid.Row="1"
+                    Margin="0,0,10,490"
+                    HorizontalAlignment="Right"
+                    VerticalScrollBarVisibility="Hidden">
+                    <StackPanel VerticalAlignment="Top" hc:Growl.Token="loginMsg" />
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<SelfContained>true</SelfContained>
+		
+		<PublishTrimmed>false</PublishTrimmed>
+		
+		<ApplicationIcon>Assets\Images\icon.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Assets\Images\icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Models\DTOs\Responses\" />
+		<Folder Include="Models\DTOs\Requests\" />
+		<Folder Include="ViewOfGauK\ViewModels\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="HandyControl" Version="3.5.1" />
+		<PackageReference Include="HandyControl.Lang.en" Version="3.5.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Assets\Images\icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Assets\Images\icon.ico">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<!-- 1. Vẫn gói thành 1 file duy nhất -->
+		<PublishSingleFile>true</PublishSingleFile>
+
+		<!-- 2. BẬT ReadyToRun (khởi động siêu nhanh) -->
+		<PublishReadyToRun>true</PublishReadyToRun>
+
+		<!-- 3. TẮT Trimmed đi để tránh crash WPF -->
+		<PublishTrimmed>false</PublishTrimmed>
+
+		<!-- 4. Nhưng vẫn loại bỏ mấy thứ thừa (ngôn ngữ, debug symbol) -->
+		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+		<IncludeSymbolsInSingleFile>false</IncludeSymbolsInSingleFile>
+
+		<!-- 5. Loại bỏ hoàn toàn thư mục ngôn ngữ (cs, de, fr, ru, ...) -->
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+		<!-- Chỉ giữ tiếng Anh, các ngôn ngữ khác sẽ không sinh ra folder -->
+
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+	</PropertyGroup>
+</Project>

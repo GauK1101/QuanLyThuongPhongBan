@@ -1,0 +1,66 @@
+﻿<UserControl
+    x:Class="QuanLyThuongPhongBan.ViewOfGauK.View.UpdateView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:QuanLyThuongPhongBan.ViewOfGauK.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="800"
+    Height="400"
+    mc:Ignorable="d">
+
+    <Border CornerRadius="10">
+        <Border.Background>
+            <ImageBrush
+                x:Name="imageBrush"
+                ImageSource="https://wallpapersok.com/images/hd/dive-into-the-story-of-rain-anime-dy1bf6mh71zw8s4t.jpg"
+                Stretch="UniformToFill" />
+        </Border.Background>
+
+        <Grid>
+            <Border
+                Background="Black"
+                CornerRadius="10"
+                Opacity="0.75" />
+
+            <Button
+                Width="22"
+                Height="22"
+                Margin="0,14,14,0"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
+                Command="hc:ControlCommands.Close"
+                Foreground="{DynamicResource PrimaryBrush}"
+                Style="{StaticResource ButtonIcon}" />
+
+            <StackPanel>
+                <hc:Gravatar
+                    Width="150"
+                    Height="150"
+                    Margin="0,50,0,50"
+                    hc:BorderBrush="White"
+                    hc:BorderThickness="1"
+                    Source="https://i.pinimg.com/1200x/9d/37/61/9d3761682999cff483055d8a215ebf74.jpg"
+                    Style="{StaticResource GravatarCircle}" />
+
+                <StackPanel Margin="0,0,0,65" VerticalAlignment="Bottom">
+                    <TextBlock
+                        Margin="15"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Text="{Binding StatusMessage}" />
+                    <ProgressBar
+                        Width="650"
+                        IsIndeterminate="{Binding IsIndeterminate}"
+                        Style="{DynamicResource ProgressBarInfoStripe}"
+                        Value="{Binding ProgressPercentage}" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

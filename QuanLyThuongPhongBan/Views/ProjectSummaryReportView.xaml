@@ -1,0 +1,553 @@
+﻿<UserControl
+    x:Class="QuanLyThuongPhongBan.Views.ProjectSummaryReportView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Panel danh sách báo cáo  -->
+        <Border
+            Grid.Column="0"
+            Background="#f8f9fa"
+            BorderBrush="#bdc3c7"
+            BorderThickness="0,0,1,0">
+            <DockPanel>
+                <!--  Header với tiêu đề và nút reload  -->
+                <StackPanel Background="#2c3e50" DockPanel.Dock="Top">
+                    <TextBlock
+                        Padding="10,7"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="DANH SÁCH BÁO CÁO" />
+
+                    <!--  Nút làm mới  -->
+                    <Button
+                        Margin="10,5,10,10"
+                        Padding="12,5"
+                        HorizontalAlignment="Stretch"
+                        Background="#27ae60"
+                        BorderBrush="#219652"
+                        BorderThickness="0"
+                        Command="{Binding RefreshCommand}"
+                        Cursor="Hand">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <Path
+                                Width="14"
+                                Height="14"
+                                Margin="0,0,8,0"
+                                Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"
+                                Fill="White"
+                                Stretch="Uniform" />
+                            <TextBlock
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Text="LÀM MỚI DANH SÁCH" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+                <!--  Danh sách báo cáo  -->
+                <ListBox
+                    Background="Transparent"
+                    BorderThickness="0"
+                    ItemsSource="{Binding Reports}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    SelectedItem="{Binding SelectedReport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Width="275"
+                                Margin="0,5"
+                                HorizontalAlignment="Center"
+                                Background="White"
+                                BorderBrush="#e1e8ed"
+                                BorderThickness="1"
+                                CornerRadius="6">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="30" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--  Nội dung báo cáo  -->
+                                    <StackPanel Grid.Column="0" Margin="12,8,5,8">
+                                        <TextBlock
+                                            FontSize="13"
+                                            FontWeight="SemiBold"
+                                            Foreground="#2c3e50"
+                                            Text="{Binding NameReport}"
+                                            TextWrapping="Wrap" />
+                                        <TextBlock
+                                            Margin="0,3,0,0"
+                                            FontSize="10"
+                                            Foreground="#7f8c8d"
+                                            Text="{Binding DateCrate, StringFormat='dd/MM/yyyy'}" />
+                                    </StackPanel>
+
+                                    <!--  Nút xóa  -->
+                                    <Button
+                                        Grid.Column="1"
+                                        Width="24"
+                                        Height="24"
+                                        Margin="0,0,5,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding}"
+                                        Cursor="Hand"
+                                        ToolTip="Xóa báo cáo">
+
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#ffeeee" />
+                                                        <Setter Property="BorderBrush" Value="#e74c3c" />
+                                                        <Setter Property="BorderThickness" Value="1" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+
+                                        <TextBlock
+                                            FontSize="11"
+                                            FontWeight="Bold"
+                                            Foreground="#e74c3c"
+                                            Text="🗑️" />
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+        <!--  Panel chi tiết báo cáo  -->
+        <Border
+            Grid.Column="1"
+            Padding="5"
+            Background="White">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <GroupBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Padding="10"
+                    hc:TitleElement.TitlePlacement="Top"
+                    Background="#f8f9fa"
+                    FontSize="20"
+                    Header="{Binding SelectedReport.NameReport, StringFormat='📋 BÁO CÁO: {0}'}">
+                    <StackPanel>
+                        <!--  BÁO CÁO TỔNG QUAN DỰ ÁN  -->
+                        <Border
+                            Margin="0,0,0,20"
+                            Background="#F9F9F9"
+                            BorderBrush="#CCCCCC"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <StackPanel>
+                                <Border
+                                    Padding="10"
+                                    Background="#2C5AA0"
+                                    CornerRadius="5,5,0,0">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="14"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="📊 BÁO CÁO TỔNG QUAN DỰ ÁN" />
+                                </Border>
+
+                                <DataGrid
+                                    AutoGenerateColumns="False"
+                                    BorderThickness="0"
+                                    CanUserAddRows="False"
+                                    CanUserResizeColumns="True"
+                                    FontSize="13"
+                                    HeadersVisibility="Column"
+                                    ItemsSource="{Binding ProjectBonuses}">
+
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Year}" Header="📅 Năm">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Year}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding ContractValue, StringFormat='{}{0:N0}'}" Header="📄 Hợp đồng">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding ContractValue, StringFormat='Hợp đồng: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Settlement, StringFormat='{}{0:N0}'}" Header="✅ Quyết toán">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Settlement, StringFormat='Quyết toán: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalProjectBonusRate, StringFormat='{}{0:0.######}'}" Header="📊 (TG) Tổng tỉ lệ">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalProjectBonusRate, StringFormat='Tổng tỉ lệ thưởng: {0:0.######}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalProjectBonusValue, StringFormat='{}{0:N0}'}" Header="💰 (TG) Tổng giá trị">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalProjectBonusValue, StringFormat='Tổng giá trị thưởng: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalAdjustment1Rate, StringFormat='{}{0:0.######}'}" Header="📈 (TT/KHD) Tỉ lệ GD1">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalAdjustment1Rate, StringFormat='Tỉ lệ điều chỉnh 1: {0:0.######}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalAdjustment1Value, StringFormat='{}{0:N0}'}" Header="💵 (TT/KHD) Giá trị GD1">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalAdjustment1Value, StringFormat='Giá trị điều chỉnh 1: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalAdjustment2Rate, StringFormat='{}{0:0.######}'}" Header="📉 (TK/TTL1) Tỉ lệ GD2">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalAdjustment2Rate, StringFormat='Tỉ lệ điều chỉnh 2: {0:0.######}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalAdjustment2Value, StringFormat='{}{0:N0}'}" Header="💳 (TK/TTL1) Giá trị GD2">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalAdjustment2Value, StringFormat='Giá trị điều chỉnh 2: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalDebtRecovery, StringFormat='{}{0:N0}'}" Header="💸 Thu hồi công nợ">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalDebtRecovery, StringFormat='Thu hồi công nợ: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalAcceptance, StringFormat='{}{0:N0}'}" Header="🔍 Nghiệm thu">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalAcceptance, StringFormat='Nghiệm thu: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+
+                        <!--  BÁO CÁO THƯỞNG THEO PHÒNG BAN  -->
+                        <Border
+                            Margin="0,0,0,20"
+                            Background="#F9F9F9"
+                            BorderBrush="#CCCCCC"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <StackPanel>
+                                <Border
+                                    Padding="10"
+                                    Background="#28A745"
+                                    CornerRadius="5,5,0,0">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="14"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="🏢 BÁO CÁO THƯỞNG THEO PHÒNG BAN" />
+                                </Border>
+
+                                <DataGrid
+                                    AutoGenerateColumns="False"
+                                    BorderThickness="0"
+                                    CanUserAddRows="False"
+                                    CanUserResizeColumns="True"
+                                    FontSize="13"
+                                    HeadersVisibility="Column"
+                                    ItemsSource="{Binding ProjectTeamBonuses}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding ProjectBonus.Year}" Header="📅 Năm">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding ProjectBonus.Year}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Department.Name}" Header="🏢 Phòng ban">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Department.Name}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding ContractRevenue, StringFormat='{}{0:N0}'}" Header="📄 (DT) Hợp đồng">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding ContractRevenue, StringFormat='Doanh thu hợp đồng: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding InvoiceRevenue, StringFormat='{}{0:N0}'}" Header="📤 (DT) Đã xuất HĐ">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding InvoiceRevenue, StringFormat='Doanh thu đã xuất HĐ: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalPackageRate, StringFormat='{}{0:0.######}'}" Header="📊 (TG) Tỉ lệ">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalPackageRate, StringFormat='Tỉ lệ tổng gói: {0:0.######}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TotalPackageValue, StringFormat='{}{0:N0}'}" Header="💰 (TG) Giá trị">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TotalPackageValue, StringFormat='Giá trị tổng gói: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Adjustment1Rate, StringFormat='{}{0:0.######}'}" Header="📈 (TT/KHD) Tỉ lệ GD1">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Adjustment1Rate, StringFormat='Tỉ lệ điều chỉnh 1: {0:0.######}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Adjustment1Value, StringFormat='{}{0:N0}'}" Header="💵 (TT/KHD) Giá trị GD1">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Adjustment1Value, StringFormat='Giá trị điều chỉnh 1: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Adjustment2Rate, StringFormat='{}{0:0.######}'}" Header="📉 (TK/TTL1) Tỉ lệ GD2">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Adjustment2Rate, StringFormat='Tỉ lệ điều chỉnh 2: {0:0.######}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Adjustment2Value, StringFormat='{}{0:N0}'}" Header="💳 (TK/TTL1) Giá trị GD2">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Adjustment2Value, StringFormat='Giá trị điều chỉnh 2: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding DebtRecovery, StringFormat='{}{0:N0}'}" Header="💸 Thu hồi công nợ">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding DebtRecovery, StringFormat='Thu hồi công nợ: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Acceptance, StringFormat='{}{0:N0}'}" Header="🔍 Tổng cộng">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Acceptance, StringFormat='Tổng cộng: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+
+                        <!--  BÁO CÁO CHI TIẾT DỰ ÁN  -->
+                        <Border
+                            Background="#F9F9F9"
+                            BorderBrush="#CCCCCC"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <StackPanel>
+                                <Border
+                                    Padding="10"
+                                    Background="#FFC107"
+                                    CornerRadius="5,5,0,0">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="14"
+                                        FontWeight="Bold"
+                                        Foreground="White"
+                                        Text="📋 BÁO CÁO CHI TIẾT DỰ ÁN" />
+                                </Border>
+
+                                <DataGrid
+                                    AutoGenerateColumns="False"
+                                    BorderThickness="0"
+                                    CanUserAddRows="False"
+                                    CanUserResizeColumns="True"
+                                    FontSize="13"
+                                    HeadersVisibility="Column"
+                                    ItemsSource="{Binding ProjectBonusDetails}">
+
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding ProjectBonus.Year}" Header="📅 Năm">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding ProjectBonus.Year}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Width="200"
+                                            Binding="{Binding ProjectName}"
+                                            Header="🏗️ Dự án">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding ProjectName}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Width="150"
+                                            Binding="{Binding Investor}"
+                                            Header="👤 Chủ đầu tư">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Investor}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Width="120"
+                                            Binding="{Binding ContractNumber}"
+                                            Header="📑 Hợp đồng số">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding ContractNumber}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding Date, StringFormat='{}{0:dd/MM/yyyy}'}" Header="📅 Ngày tháng">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Date, StringFormat='Ngày: {0:dd/MM/yyyy}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding ContractRevenue, StringFormat='{}{0:N0}'}" Header="💰 (DTTT) Hợp đồng">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding ContractRevenue, StringFormat='Doanh thu hợp đồng: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding SettlementRevenue, StringFormat='{}{0:N0}'}" Header="🧾 (DTTT) Quyết toán">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding SettlementRevenue, StringFormat='Doanh thu quyết toán: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding InvoicedRevenue, StringFormat='{}{0:N0}'}" Header="📤 (DTTT) Đã xuất HĐ">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding InvoicedRevenue, StringFormat='Doanh thu đã xuất HĐ: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding UninvoicedRevenue, StringFormat='{}{0:N0}'}" Header="📥 (DTTT) Chưa xuất HĐ">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding UninvoicedRevenue, StringFormat='Doanh thu chưa xuất HĐ: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding PaidAmount, StringFormat='{}{0:N0}'}" Header="✅ Đã thanh toán">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding PaidAmount, StringFormat='Đã thanh toán: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding UnpaidAmount, StringFormat='{}{0:N0}'}" Header="⏳ Chưa thanh toán">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding UnpaidAmount, StringFormat='Chưa thanh toán: {0:N0} VNĐ'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding HSDA, StringFormat='{}{0:N0}'}" Header="🔢 HSDA">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding HSDA, StringFormat='HSDA: {0:N0}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding KTK, StringFormat='{}{0:N0}'}" Header="🔢 KTK">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding KTK, StringFormat='KTK: {0:N0}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding PO, StringFormat='{}{0:N0}'}" Header="🔢 PO">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding PO, StringFormat='PO: {0:N0}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TTDVKT, StringFormat='{}{0:N0}'}" Header="🔢 TTDVKT">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TTDVKT, StringFormat='TTDVKT: {0:N0}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Binding="{Binding TVGP, StringFormat='{}{0:N0}'}" Header="🔢 TVGP">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding TVGP, StringFormat='TVGP: {0:N0}'}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Width="200"
+                                            Binding="{Binding Notes}"
+                                            Header="📝 Ghi chú">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="ToolTip" Value="{Binding Notes}" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </GroupBox>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>
