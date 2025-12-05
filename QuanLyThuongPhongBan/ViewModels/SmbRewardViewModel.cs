@@ -25,6 +25,12 @@ namespace QuanLyThuongPhongBan.ViewModels
 
         [ObservableProperty]
         private SmbTeamBonus? _selectedSmbTeamBonus;
+
+        [ObservableProperty]
+        private SmbBonus? _selectedSmbBonus;
+
+        [ObservableProperty]
+        private int _selectedIndex = -1;
         #endregion
 
         public SmbRewardViewModel(ISmbRewardService smbRewardService)
@@ -104,10 +110,24 @@ namespace QuanLyThuongPhongBan.ViewModels
         [RelayCommand]
         private async Task Refresh()
         {
-            await LoadDataAsync();
-            Growl.Success("Dữ liệu đã được tải thành công.");
+            var currentSelectedId = SelectedSmbBonus?.Id ?? 0;
 
-            SearchKeyword = string.Empty;
+            await LoadDataAsync();
+
+            // Sau khi load xong → khôi phục lại dòng cũ
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                if (currentSelectedId > 0 && SmbBonus != null)
+                {
+                    var itemToSelect = SmbBonus.FirstOrDefault(x => x.Id == currentSelectedId);
+                    if (itemToSelect != null)
+                    {
+                        SelectedSmbBonus = itemToSelect; // tự động trigger ScrollIntoView
+                    }
+                }
+
+                Growl.Success("Dữ liệu đã được làm mới!");
+            });
         }
 
         [RelayCommand]
@@ -116,7 +136,7 @@ namespace QuanLyThuongPhongBan.ViewModels
             try
             {
                 await _smbRewardService.CreateAsync();
-                await LoadDataAsync();
+                await Refresh();
                 Growl.Success("Đã thêm dự án mới thành công.");
             }
             catch (Exception ex)
@@ -133,8 +153,10 @@ namespace QuanLyThuongPhongBan.ViewModels
             {
                 var isUpdate = await _smbRewardService.UpdateAsync(model.Id, model);
 
-                if (isUpdate)
+                if (isUpdate){
                     Growl.Success("Sửa thành công.");
+                    Refresh();
+                }
             }
             catch (Exception ex)
             {

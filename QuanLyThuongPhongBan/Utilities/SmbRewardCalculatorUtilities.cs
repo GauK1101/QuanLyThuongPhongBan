@@ -11,6 +11,9 @@ namespace QuanLyThuongPhongBan.Utilities
             // Tính toán cho từng chi tiết thưởng đại đoàn SMB
             foreach (var item in smbBonus.SmbTeamBonuses)
             {
+                item.ContractRevenue = smbBonus.TotalSmbBonusValue;
+                item.InvoiceRevenue = smbBonus.InvoiceOutput;
+                //item. = smbBonus.TotalSmbBonusValue;
                 CalculateSingleTeamBonus(item);
             }
 
@@ -20,11 +23,11 @@ namespace QuanLyThuongPhongBan.Utilities
             smbBonus.TotalSmbValue = smbBonus.SmbTeamBonuses.Sum(d => d.TotalSmbValue);
             smbBonus.TotalAcceptance = smbBonus.SmbTeamBonuses.Sum(d => d.Acceptance);
             smbBonus.TotalDebtRecovery = smbBonus.SmbTeamBonuses.Sum(d => d.DebtRecovery);
-            smbBonus.TotalSmbBonusValue = smbBonus.SmbTeamBonuses.Sum(d => d.TotalSmbValue);
             smbBonus.TotalSmbBonusRate = smbBonus.SmbTeamBonuses.Sum(d => d.TotalSmbRate);
 
             // Tính tổng xuất hóa đơn từ các chi tiết
-            smbBonus.InvoiceOutput = smbBonus.SmbTeamBonuses.Sum(d => d.InvoiceRevenue);
+            //smbBonus.TotalSmbBonusValue = smbBonus.SmbTeamBonuses.Sum(d => d.TotalSmbValue);
+            //smbBonus.InvoiceOutput = smbBonus.SmbTeamBonuses.Sum(d => d.InvoiceRevenue);
         }
 
         public static void CalculateSingleTeamBonus(SmbTeamBonus item)
@@ -38,7 +41,7 @@ namespace QuanLyThuongPhongBan.Utilities
             item.Phase1Value = (item.InvoiceRevenue * item.Phase1Rate) / 100;
 
             // Tính thu hồi công nợ = Tổng SMB - Đợt 1
-            item.DebtRecovery = item.TotalSmbValue - item.Phase1Value;
+            //item.DebtRecovery = item.TotalSmbValue - item.Phase1Value;
 
             // Tính tỷ lệ thu hồi công nợ = Tỷ lệ tổng SMB - Tỷ lệ đợt 1
             item.DebtRecoveryRate = item.TotalSmbRate - item.Phase1Rate;

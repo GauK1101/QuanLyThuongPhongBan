@@ -12,7 +12,12 @@ namespace QuanLyThuongPhongBan.Views
         public SmbRewardView()
         {
             InitializeComponent();
-            DataContext = App.GetService<SmbRewardViewModel>();
+            DataContext = App.GetService<SmbRewardViewModel>(); 
+            
+            if (DataContext is SmbRewardViewModel vm)
+            {
+                vm.PropertyChanged += Vm_PropertyChanged; // cách đẹp hơn: tách ra hàm riêng
+            }
         }
 
         private void AnyCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -47,6 +52,20 @@ namespace QuanLyThuongPhongBan.Views
             if (dataGrid != null && DataContext is SmbRewardViewModel vm)
             {
                 vm.SelectedSmbBonuses = new ObservableCollection<SmbBonus>(dataGrid.SelectedItems.Cast<SmbBonus>());
+            }
+        }
+
+        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(SmbRewardViewModel.SelectedSmbBonus)
+                && sender is SmbRewardViewModel vm
+                && vm.SelectedSmbBonus != null)
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    myDataGrid.ScrollIntoView(vm.SelectedSmbBonus);
+                    myDataGrid.UpdateLayout(); // đảm bảo scroll chính xác
+                });
             }
         }
     }

@@ -110,6 +110,7 @@
                         HeadersVisibility="All"
                         ItemsSource="{Binding SmbBonus}"
                         RowHeaderWidth="40"
+                        SelectedItem="{Binding SelectedSmbBonus, Mode=TwoWay}"
                         SelectionChanged="DataGrid_SelectionChanged"
                         SelectionMode="Extended"
                         VirtualizingStackPanel.IsVirtualizing="True"

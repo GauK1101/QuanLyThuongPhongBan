@@ -10,7 +10,7 @@ namespace QuanLyThuongPhongBan.Services.Implementations
         // Giả lập database bằng List (sau này thay bằng DbContext.InvoiceUsers.ToList())
         private readonly List<AppUser> _fakeDb = new()
         {
-            new AppUser { Id = 1, Username = "admin",     PasswordHash = HashPassword("admin123"), DisplayName = "Quản trị viên",      Role = "Admin" },
+            new AppUser { Id = 1, Username = "admin",     PasswordHash = HashPassword("Admin@1234"), DisplayName = "Quản trị viên",      Role = "Admin" },
             new AppUser { Id = 2, Username = "hosoduan", PasswordHash = HashPassword("hsda123456"),  DisplayName = "Hò sơ dự án",     Role = "hsda" },
             new AppUser { Id = 3, Username = "ketoan",  PasswordHash = HashPassword("kt123456"),   DisplayName = "kế toán",       Role = "kt" },
         };
