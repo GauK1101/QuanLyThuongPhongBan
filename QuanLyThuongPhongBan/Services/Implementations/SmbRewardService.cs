@@ -122,7 +122,7 @@ namespace QuanLyThuongPhongBan.Services.Implementations
             return entity;
         }
 
-        public async Task<bool> UpdateAsync(int id, SmbBonus model)
+        public async Task<bool> UpdateAsync(int id, SmbBonus model, bool autoCalculateOnRateChange)
         {
             if (id == 0)
                 return false;
@@ -141,8 +141,8 @@ namespace QuanLyThuongPhongBan.Services.Implementations
                     //var changes = PropertyChangeHelper.GetChangesSummary(entity, model);
                     //MessageBox.Show(changes);
 
-                    if (HandyControl.Controls.MessageBox.Show("Bạn tự động sửa giá trị các phòng ban không ?", "SỬA PHÒNG BAN", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                    SmbRewardCalculatorUtilities.CalculateSmbTeamBonuses(model);
+                    if (autoCalculateOnRateChange)
+                        SmbRewardCalculatorUtilities.CalculateSmbTeamBonuses(model);
 
                     context.Entry(model).State = EntityState.Modified;
 

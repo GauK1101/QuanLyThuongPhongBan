@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using QuanLyThuongPhongBan.Services.Interfaces;
-using QuanLyThuongPhongBan.Views;
+using QuanLyThuongPhongBan.Views.Login;
 using System.Windows;
 
 namespace QuanLyThuongPhongBan.ViewModels

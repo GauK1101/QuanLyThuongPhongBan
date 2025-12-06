@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HandyControl.Controls;
-using QuanLyThuongPhongBan.Helpers;
 using QuanLyThuongPhongBan.Models;
 using QuanLyThuongPhongBan.Services.Interfaces;
-using QuanLyThuongPhongBan.Views;
+using QuanLyThuongPhongBan.Views.Login;
 using System.Windows;
 using MessageBox = HandyControl.Controls.MessageBox;
 

@@ -2,9 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using HandyControl.Controls;
 using HandyControl.Data;
-using QuanLyThuongPhongBan.Models.Entities;
+using QuanLyThuongPhongBan.Helpers;
+using QuanLyThuongPhongBan.Models.App.SettingsSmb;
 using QuanLyThuongPhongBan.Services.Interfaces;
 using QuanLyThuongPhongBan.ViewModels.Base;
+using QuanLyThuongPhongBan.Views.Dialogs;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -16,26 +18,35 @@ namespace QuanLyThuongPhongBan.ViewModels
         private readonly SemaphoreSlim _loadSemaphore = new SemaphoreSlim(1, 1);
 
         #region Properties
-        [ObservableProperty]
-        private ObservableCollection<SmbBonus> _smbBonus;
+        [ObservableProperty] private ObservableCollection<SmbBonus> _smbBonus;
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(DeleteCommand))]
         private ObservableCollection<SmbBonus> _selectedSmbBonuses = new ObservableCollection<SmbBonus>();
 
-        [ObservableProperty]
-        private SmbTeamBonus? _selectedSmbTeamBonus;
+        [ObservableProperty] private SmbTeamBonus? _selectedSmbTeamBonus;
 
-        [ObservableProperty]
-        private SmbBonus? _selectedSmbBonus;
+        [ObservableProperty] private SmbBonus? _selectedSmbBonus;
 
-        [ObservableProperty]
-        private int _selectedIndex = -1;
+        [ObservableProperty] private int _selectedIndex = -1;
+
+        [ObservableProperty] private bool _isPhase1Value = true;
+        [ObservableProperty] private bool _isTotalSmbValue = true;
+        [ObservableProperty] private bool _isDebtRecovery = true;
+        [ObservableProperty] private bool _isAcceptance = true;
+        [ObservableProperty] private bool _isAutoCalculateOnRateChange = true;
         #endregion
 
         public SmbRewardViewModel(ISmbRewardService smbRewardService)
         {
             _smbRewardService = smbRewardService;
+
+            var setting = SettingsSmbHelper.LoadCalculateOptions();
+            IsPhase1Value = setting.CalculatePhase1Value;
+            IsTotalSmbValue = setting.CalculateTotalSmbValue;
+            IsDebtRecovery = setting.CalculateDebtRecovery;
+            IsAcceptance = setting.CalculateAcceptance;
+            IsAutoCalculateOnRateChange = setting.AutoCalculateOnRateChange;
 
             Task.Run(LoadDataAsync);
         }
@@ -151,9 +162,10 @@ namespace QuanLyThuongPhongBan.ViewModels
         {
             try
             {
-                var isUpdate = await _smbRewardService.UpdateAsync(model.Id, model);
+                var isUpdate = await _smbRewardService.UpdateAsync(model.Id, model, IsAutoCalculateOnRateChange);
 
-                if (isUpdate){
+                if (isUpdate)
+                {
                     Growl.Success("Sửa thành công.");
                     Refresh();
                 }
@@ -220,6 +232,33 @@ namespace QuanLyThuongPhongBan.ViewModels
                 var (userMsg, devMsg) = ErrorHelper.HandleError(ex, null, "Search SmbRewardViewModel");
                 Growl.Error(userMsg);
             }
+        }
+
+
+        [RelayCommand]
+        private void ShowSettings()
+        {
+            Dialog.Show(new CalculateOptionsDialog());
+        }
+
+        partial void OnIsPhase1ValueChanged(bool value) => SaveSettings();
+        partial void OnIsTotalSmbValueChanged(bool value) => SaveSettings();
+        partial void OnIsDebtRecoveryChanged(bool value) => SaveSettings();
+        partial void OnIsAcceptanceChanged(bool value) => SaveSettings();
+        partial void OnIsAutoCalculateOnRateChangeChanged(bool value) => SaveSettings();
+
+
+        private void SaveSettings()
+        {
+            var setting = new CalculateOptionsSetting
+            {
+                CalculatePhase1Value = IsPhase1Value,
+                CalculateTotalSmbValue = IsTotalSmbValue,
+                CalculateDebtRecovery = IsDebtRecovery,
+                CalculateAcceptance = IsAcceptance,
+                AutoCalculateOnRateChange = IsAutoCalculateOnRateChange,
+            };
+            SettingsSmbHelper.SaveCalculateOptions(setting);
         }
     }
 }

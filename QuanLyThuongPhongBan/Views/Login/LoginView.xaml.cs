@@ -1,9 +1,12 @@
-﻿using QuanLyThuongPhongBan.ViewModels;
+﻿using HandyControl.Controls;
+using HandyControl.Tools.Extension;
+using QuanLyThuongPhongBan.ViewModels;
+using QuanLyThuongPhongBan.Views.Dialogs;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using Window = System.Windows.Window;
 
-namespace QuanLyThuongPhongBan.Views
+namespace QuanLyThuongPhongBan.Views.Login
 {
     /// <summary>
     /// Interaction logic for LoginView.xaml

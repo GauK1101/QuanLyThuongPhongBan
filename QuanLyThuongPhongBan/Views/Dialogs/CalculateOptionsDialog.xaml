@@ -1,0 +1,84 @@
+﻿<UserControl
+    x:Class="QuanLyThuongPhongBan.Views.Dialogs.CalculateOptionsDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    hc:Dialog.MaskCanClose="True">
+    <Border
+        MaxWidth="500"
+        Padding="12"
+        Background="{DynamicResource RegionBrush}"
+        CornerRadius="12">
+
+        <Grid>
+            <Grid Margin="30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Tiêu đề  -->
+                <TextBlock
+                    Margin="0,0,0,25"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Text="Tùy chọn tính toán thưởng SMB" />
+
+                <!--  Các Toggle đẹp  -->
+                <StackPanel Grid.Row="1">
+                    <CheckBox Content="Tính toán tự động" IsChecked="{Binding IsAutoCalculateOnRateChange}" />
+                    <StackPanel Margin="10,16,0,0">
+                        <CheckBox Content="Tính tổng giá trị thưởng SMB" IsChecked="{Binding IsTotalSmbValue}" />
+                        <TextBlock
+                            Margin="20,5,0,0"
+                            FontSize="11"
+                            Foreground="#5c5c5c"
+                            IsEnabled="False"
+                            Text="Tính giá trị tổng SMB = (Doanh thu hợp đồng * Tỷ lệ tổng SMB) / 100" />
+                    </StackPanel>
+                    <StackPanel Margin="10,16,0,0">
+                        <CheckBox Content="Tính giá trị đợt 1" IsChecked="{Binding IsPhase1Value}" />
+                        <TextBlock
+                            Margin="10,5,0,0"
+                            FontSize="11"
+                            Foreground="#5c5c5c"
+                            IsEnabled="False"
+                            Text="Tính giá trị đợt 1 = (Doanh thu xuất hóa đơn * Tỷ lệ đợt 1) / 100" />
+                    </StackPanel>
+                    <StackPanel Margin="10,16,0,0">
+                        <CheckBox Content="Tính tỷ lệ thu hồi công nợ" IsChecked="{Binding IsDebtRecovery}" />
+                        <TextBlock
+                            Margin="20,5,0,0"
+                            FontSize="11"
+                            Foreground="#5c5c5c"
+                            IsEnabled="False"
+                            Text="Tính tỷ lệ thu hồi công nợ = Tỷ lệ tổng SMB - Tỷ lệ đợt 1" />
+                    </StackPanel>
+                    <StackPanel Margin="10,16,0,0">
+                        <CheckBox Content="Tính nghiệm thu" IsChecked="{Binding IsAcceptance}" />
+                        <TextBlock
+                            Margin="20,5,0,0"
+                            FontSize="11"
+                            Foreground="#5c5c5c"
+                            IsEnabled="False"
+                            Text="Tính nghiệm thu = Đợt 1 + Thu hồi công nợ" />
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
+
+            <Button
+                Width="22"
+                Height="22"
+                Margin="0,4,4,0"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
+                Command="hc:ControlCommands.Close"
+                Foreground="{DynamicResource PrimaryBrush}"
+                Style="{StaticResource ButtonIcon}" />
+        </Grid>
+    </Border>
+</UserControl>

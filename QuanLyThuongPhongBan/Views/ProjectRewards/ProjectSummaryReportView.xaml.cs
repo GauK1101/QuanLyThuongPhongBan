@@ -1,10 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using QuanLyThuongPhongBan.Models.Entities;
-using QuanLyThuongPhongBan.ViewModels;
-using System.Collections.ObjectModel;
+﻿using QuanLyThuongPhongBan.ViewModels;
 using System.Windows.Controls;
 
-namespace QuanLyThuongPhongBan.Views
+namespace QuanLyThuongPhongBan.Views.ProjectRewards
 {
     /// <summary>
     /// Interaction logic for ProjectSummaryReportView.xaml

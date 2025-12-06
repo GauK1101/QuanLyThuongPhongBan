@@ -9,7 +9,7 @@
             string searchKeyword = null);
         Task<SmbBonus?> GetByIdAsync(int id);
         Task<SmbBonus?> CreateAsync();
-        Task<bool> UpdateAsync(int id, SmbBonus model);
+        Task<bool> UpdateAsync(int id, SmbBonus model, bool autoCalculateOnRateChange);
         Task<bool> DeleteAsync(int id);
     }
 }

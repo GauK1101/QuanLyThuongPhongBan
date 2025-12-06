@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace QuanLyThuongPhongBan.Views
+namespace QuanLyThuongPhongBan.Views.SmbRewards
 {
     /// <summary>
     /// Interaction logic for SMBRewardView.xaml

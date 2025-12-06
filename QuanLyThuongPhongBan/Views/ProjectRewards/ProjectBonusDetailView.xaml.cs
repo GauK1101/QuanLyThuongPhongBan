@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace QuanLyThuongPhongBan.Views
+namespace QuanLyThuongPhongBan.Views.ProjectRewards
 {
     public partial class ProjectBonusDetailView : UserControl
     {

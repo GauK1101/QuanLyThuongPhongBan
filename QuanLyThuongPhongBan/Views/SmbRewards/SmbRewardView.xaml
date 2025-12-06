@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="QuanLyThuongPhongBan.Views.SmbRewardView"
+    x:Class="QuanLyThuongPhongBan.Views.SmbRewards.SmbRewardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -87,6 +87,19 @@
                             Command="{Binding RefreshCommand}"
                             Content="🔄 Làm mới"
                             Style="{StaticResource ButtonInfo}" />
+                        <ToggleButton
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Height="32"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Stretch"
+                            Background="Transparent"
+                            Content="&#xE115;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="18"
+                            Foreground="#6c757d"
+                            IsChecked="{Binding IsOpen, ElementName=DrawerRight}"
+                            ToolTip="Tùy chọn tính toán" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -549,6 +562,87 @@
                     </StackPanel>
                 </Grid>
             </Border>
+
+
+            <hc:Drawer Name="DrawerRight" MaskCanClose="True">
+                <Border
+                    hc:BorderElement.CornerRadius="10"
+                    Background="{DynamicResource RegionBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="0,1,0,0">
+                    <Grid>
+                        <Grid Margin="30">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!--  Tiêu đề  -->
+                            <TextBlock
+                                Margin="0,0,0,25"
+                                FontSize="20"
+                                FontWeight="SemiBold"
+                                Text="Tùy chọn tính toán thưởng SMB" />
+
+                            <!--  Các Toggle đẹp  -->
+                            <StackPanel Grid.Row="1">
+                                <CheckBox Content="Tính toán tự động" IsChecked="{Binding IsAutoCalculateOnRateChange}" />
+                                <StackPanel Margin="20,5,0,0">
+                                    <StackPanel Margin="0,16,0,0">
+                                        <CheckBox Content="Tính tổng giá trị thưởng SMB" IsChecked="{Binding IsTotalSmbValue}" />
+                                        <TextBlock
+                                            Margin="20,5,0,0"
+                                            FontSize="11"
+                                            Foreground="#5c5c5c"
+                                            IsEnabled="False"
+                                            Text="Tính giá trị tổng SMB = (Doanh thu hợp đồng * Tỷ lệ tổng SMB) / 100" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,16,0,0">
+                                        <CheckBox Content="Tính giá trị đợt 1" IsChecked="{Binding IsPhase1Value}" />
+                                        <TextBlock
+                                            Margin="10,5,0,0"
+                                            FontSize="11"
+                                            Foreground="#5c5c5c"
+                                            IsEnabled="False"
+                                            Text="Tính giá trị đợt 1 = (Doanh thu xuất hóa đơn * Tỷ lệ đợt 1) / 100" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,16,0,0">
+                                        <CheckBox Content="Tính tỷ lệ thu hồi công nợ" IsChecked="{Binding IsDebtRecovery}" />
+                                        <TextBlock
+                                            Margin="20,5,0,0"
+                                            FontSize="11"
+                                            Foreground="#5c5c5c"
+                                            IsEnabled="False"
+                                            Text="Tính tỷ lệ thu hồi công nợ = Tỷ lệ tổng SMB - Tỷ lệ đợt 1" />
+                                    </StackPanel>
+                                    <StackPanel Margin="0,16,0,0">
+                                        <CheckBox Content="Tính nghiệm thu" IsChecked="{Binding IsAcceptance}" />
+                                        <TextBlock
+                                            Margin="20,5,0,0"
+                                            FontSize="11"
+                                            Foreground="#5c5c5c"
+                                            IsEnabled="False"
+                                            Text="Tính nghiệm thu = Đợt 1 + Thu hồi công nợ" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+
+                        <Button
+                            Width="22"
+                            Height="22"
+                            Margin="15"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
+                            Command="hc:ControlCommands.Close"
+                            Foreground="{DynamicResource PrimaryBrush}"
+                            Style="{StaticResource ButtonIcon}" />
+                    </Grid>
+                </Border>
+            </hc:Drawer>
         </Grid>
     </Border>
 </UserControl>

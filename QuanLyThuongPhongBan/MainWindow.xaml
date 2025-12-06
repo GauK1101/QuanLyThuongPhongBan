@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:view="clr-namespace:QuanLyThuongPhongBan.Views"
+    xmlns:project="clr-namespace:QuanLyThuongPhongBan.Views.ProjectRewards"
+    xmlns:smb="clr-namespace:QuanLyThuongPhongBan.Views.SmbRewards"
     Title="MainWindow"
     Width="1280"
     Height="720"
@@ -16,7 +17,6 @@
         <Style TargetType="TabItem">
             <Setter Property="Visibility" Value="Collapsed" />
             <Style.Triggers>
-                <!--  Khi Visibility = Visible → tự động chọn nó  -->
                 <Trigger Property="Visibility" Value="Visible">
                     <Setter Property="IsSelected" Value="True" />
                 </Trigger>
@@ -29,15 +29,15 @@
             <TabControl Style="{StaticResource TabControlInLine}">
 
                 <TabItem Header="SMB" Visibility="{Binding SmbTabVisibility}">
-                    <view:SmbRewardView />
+                    <smb:SmbRewardView />
                 </TabItem>
 
                 <TabItem Header="Dự án" Visibility="{Binding ProjectTabVisibility}">
-                    <view:ProjectBonusDetailView />
+                    <project:ProjectBonusDetailView />
                 </TabItem>
 
                 <TabItem Header="Danh sách báo cáo dự án" Visibility="{Binding ReportTabVisibility}">
-                    <view:ProjectSummaryReportView />
+                    <project:ProjectSummaryReportView />
                 </TabItem>
 
             </TabControl>
