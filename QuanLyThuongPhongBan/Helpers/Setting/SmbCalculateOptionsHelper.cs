@@ -6,7 +6,7 @@ namespace QuanLyThuongPhongBan.Helpers.Setting;
 
 public static class SmbCalculateOptionsHelper
 {
-    private static readonly string ConfigPath = Path.Combine(Directory.GetCurrentDirectory(), "sbm-calculate-options.json");
+    private static readonly string ConfigPath = Path.Combine(Directory.GetCurrentDirectory(), "smb-calculate-options.json");
 
     public static SmbCalculateOptions LoadCalculateOptions()
     {

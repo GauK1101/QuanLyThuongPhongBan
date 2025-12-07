@@ -7,6 +7,7 @@ using QuanLyThuongPhongBan.Helpers;
 using QuanLyThuongPhongBan.Services.Implementations;
 using QuanLyThuongPhongBan.Services.Interfaces;
 using QuanLyThuongPhongBan.ViewModels;
+using QuanLyThuongPhongBan.ViewOfGauK.ViewModels;
 using QuanLyThuongPhongBan.Views.Login;
 using QuanLyThuongPhongBan.Views.ProjectRewards;
 using QuanLyThuongPhongBan.Views.SmbRewards;
@@ -73,6 +74,8 @@ namespace QuanLyThuongPhongBan
             ConfigHelper.Instance.SetLang("en");
 
             base.OnStartup(e);
+
+            await new UpdaterViewModel().CheckForUpdates();
         }
 
         protected override async void OnExit(ExitEventArgs e)

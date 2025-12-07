@@ -7,8 +7,7 @@ namespace QuanLyThuongPhongBan.Helpers.Setting
     public static class ProjectBonusCalculateOptionsHelper
     {
         private static readonly string ProjectBonusConfigPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "QuanLyThuongPhongBan",
+            Directory.GetCurrentDirectory(),
             "project-bonus-calculate-options.json");
 
         public static ProjectBonusCalculateOptions LoadCalculateOptions()

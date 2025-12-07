@@ -62,11 +62,19 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
                             await StartUpdateProcess();
                         }
                     }
+                    else
+                    {
+                        Growl.SuccessGlobal("Bạn đang dùng phiên bản mới nhất!");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi kiểm tra cập nhật: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                Log($"Lỗi khi kiểm tra cập nhật: {ex.Message}");
+
+                StatusMessage = "Cập nhật thất bại.";
+                IsIndeterminate = false;
+                ProgressPercentage = 0;
             }
         }
 
@@ -87,7 +95,9 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Get version error: {ex.Message}");
+                StatusMessage = "Cập nhật thất bại.";
+                IsIndeterminate = false;
+                ProgressPercentage = 0;
             }
             return string.Empty;
         }
@@ -108,7 +118,10 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Cập nhật thất bại: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                Log($"Cập nhật thất bại: {ex.Message}");
+                StatusMessage = "Cập nhật thất bại.";
+                IsIndeterminate = false;
+                ProgressPercentage = 0;
             }
         }
 
@@ -255,13 +268,13 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
 
-                string batchScript = Path.Combine(Path.GetTempPath(), "update.bat");
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = batchScript,
-                    CreateNoWindow = true,
-                    UseShellExecute = false
-                });
+            string batchScript = Path.Combine(Path.GetTempPath(), "update.bat");
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = batchScript,
+                CreateNoWindow = true,
+                UseShellExecute = false
+            });
 
             Application.Current.Shutdown();
         }
@@ -277,12 +290,24 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
                 if (Directory.Exists(_backupPath))
                     Directory.Delete(_backupPath, true);
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Cleanup error: {ex.Message}");
-            }
+            catch { }
 
             return Task.CompletedTask;
+        }
+
+        private static readonly string LogFile = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "updater.log");
+
+        private static void Log(string message)
+        {
+            try
+            {
+                string logEntry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} | {message}{Environment.NewLine}";
+                Directory.CreateDirectory(Path.GetDirectoryName(LogFile)!);
+                File.AppendAllText(LogFile, logEntry);
+            }
+            catch { /* Nếu không ghi được log thì thôi, đừng làm app crash */ }
         }
     }
 }
