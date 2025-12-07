@@ -2,7 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using QuanLyThuongPhongBan.Data;
 using QuanLyThuongPhongBan.Helpers;
+using QuanLyThuongPhongBan.Helpers.Setting;
+using QuanLyThuongPhongBan.Models.App.Settings;
 using QuanLyThuongPhongBan.Models.Entities;
+using QuanLyThuongPhongBan.Models.Settings;
 using QuanLyThuongPhongBan.Services.Interfaces;
 using QuanLyThuongPhongBan.Utilities;
 using System.ComponentModel.DataAnnotations;
@@ -122,7 +125,7 @@ namespace QuanLyThuongPhongBan.Services.Implementations
             return entity;
         }
 
-        public async Task<bool> UpdateAsync(int id, ProjectBonusDetail model)
+        public async Task<bool> UpdateAsync(int id, ProjectBonusDetail model, ProjectBonusCalculateOptions? settings = null)
         {
             if (id == 0)
                 return false;
@@ -137,8 +140,8 @@ namespace QuanLyThuongPhongBan.Services.Implementations
                 {
                     //MessageBox.Show(PropertyChangeHelper.GetChangesSummary(entity, model).ToString());
 
-                    if (HandyControl.Controls.MessageBox.Show("Bạn có muốn tự động sửa giá trị các không ?", "SỬA CHI TIẾT", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                        ProjectBonusCalculatorUtilities.CalculateSingleDetail(model);
+                    if (settings.AutoCalculateOnRateChange)
+                        ProjectBonusCalculatorUtilities.CalculateSingleDetail(model, settings);
 
                     context.Entry(model).State = EntityState.Modified;
                     context.SaveChanges();

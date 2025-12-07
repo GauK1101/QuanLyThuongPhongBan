@@ -111,6 +111,19 @@
                             Command="{Binding RefreshCommand}"
                             Content="🔄 Làm mới"
                             Style="{StaticResource ButtonInfo}" />
+                        <ToggleButton
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Height="32"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Stretch"
+                            Background="Transparent"
+                            Content="&#xE115;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="18"
+                            Foreground="#6c757d"
+                            IsChecked="{Binding IsOpen, ElementName=DrawerRight}"
+                            ToolTip="Tùy chọn tính toán" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -441,6 +454,126 @@
                     </StackPanel>
                 </Grid>
             </Border>
+
+            <hc:Drawer Name="DrawerRight" MaskCanClose="True">
+                <Border
+                    hc:BorderElement.CornerRadius="10"
+                    Background="{DynamicResource RegionBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="0,1,0,0">
+                    <Grid>
+                        <Grid Margin="30">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!--  Tiêu đề  -->
+                            <TextBlock
+                                Margin="0,0,0,25"
+                                FontSize="20"
+                                FontWeight="SemiBold"
+                                Text="Tùy chọn tính toán thưởng dự án" />
+
+                            <Border
+                                Grid.Row="1"
+                                Padding="15"
+                                Background="#d6d6d6"
+                                CornerRadius="10">
+                                <!--  Các Toggle đẹp  -->
+                                <StackPanel>
+                                    <CheckBox Content="Tính toán tự động" IsChecked="{Binding IsAutoCalculateOnRateChange}" />
+
+                                    <StackPanel Margin="20,5,0,0">
+                                        <StackPanel Margin="0,16,0,0">
+                                            <CheckBox Content="Tính thưởng TVGP (2.5%)" IsChecked="{Binding IsDetailTVGP}" />
+                                            <TextBlock
+                                                Margin="20,5,0,0"
+                                                FontSize="11"
+                                                Foreground="#5c5c5c"
+                                                IsEnabled="False"
+                                                Text="Tự động tính TVGP = Doanh thu quyết toán × 2.5%" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,16,0,0">
+                                            <CheckBox Content="Tính thưởng HSDA (5%)" IsChecked="{Binding IsDetailHSDA}" />
+                                            <TextBlock
+                                                Margin="20,5,0,0"
+                                                FontSize="11"
+                                                Foreground="#5c5c5c"
+                                                IsEnabled="False"
+                                                Text="Tự động tính HSDA = Doanh thu quyết toán × 5%" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,16,0,0">
+                                            <CheckBox Content="Tính thưởng PO (3%)" IsChecked="{Binding IsDetailPO}" />
+                                            <TextBlock
+                                                Margin="20,5,0,0"
+                                                FontSize="11"
+                                                Foreground="#5c5c5c"
+                                                IsEnabled="False"
+                                                Text="Tự động tính PO = Doanh thu quyết toán × 3%" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,16,0,0">
+                                            <CheckBox Content="Tính thưởng KTK (4%)" IsChecked="{Binding IsDetailKTK}" />
+                                            <TextBlock
+                                                Margin="20,5,0,0"
+                                                FontSize="11"
+                                                Foreground="#5c5c5c"
+                                                IsEnabled="False"
+                                                Text="Tự động tính KTK = Doanh thu quyết toán × 4%" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,16,0,0">
+                                            <CheckBox Content="Tính thưởng TTDVKT (2%)" IsChecked="{Binding IsDetailTTDVKT}" />
+                                            <TextBlock
+                                                Margin="20,5,0,0"
+                                                FontSize="11"
+                                                Foreground="#5c5c5c"
+                                                IsEnabled="False"
+                                                Text="Tự động tính TTDVKT = Doanh thu quyết toán × 2%" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,16,0,0">
+                                            <CheckBox Content="Tính doanh thu chưa xuất hóa đơn" IsChecked="{Binding IsUninvoicedRevenue}" />
+                                            <TextBlock
+                                                Margin="20,5,0,0"
+                                                FontSize="11"
+                                                Foreground="#5c5c5c"
+                                                IsEnabled="False"
+                                                Text="Chưa xuất HĐ = Quyết toán - Đã xuất HĐ" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="0,16,0,0">
+                                            <CheckBox Content="Tính số tiền chưa thanh toán" IsChecked="{Binding IsUnpaidAmount}" />
+                                            <TextBlock
+                                                Margin="20,5,0,0"
+                                                FontSize="11"
+                                                Foreground="#5c5c5c"
+                                                IsEnabled="False"
+                                                Text="Chưa thanh toán = Quyết toán - Đã thanh toán" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <Button
+                            Width="22"
+                            Height="22"
+                            Margin="15"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            hc:IconElement.Geometry="{StaticResource ErrorGeometry}"
+                            Command="hc:ControlCommands.Close"
+                            Foreground="{DynamicResource PrimaryBrush}"
+                            Style="{StaticResource ButtonIcon}" />
+                    </Grid>
+                </Border>
+            </hc:Drawer>
         </Grid>
 
         <!--  Loading Indicator  -->

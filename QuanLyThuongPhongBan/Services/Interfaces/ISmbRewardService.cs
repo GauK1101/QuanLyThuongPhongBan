@@ -1,4 +1,6 @@
-﻿namespace QuanLyThuongPhongBan.Services.Interfaces
+﻿using QuanLyThuongPhongBan.Models.App.Settings;
+
+namespace QuanLyThuongPhongBan.Services.Interfaces
 {
     public interface ISmbRewardService
     {
@@ -9,7 +11,7 @@
             string searchKeyword = null);
         Task<SmbBonus?> GetByIdAsync(int id);
         Task<SmbBonus?> CreateAsync();
-        Task<bool> UpdateAsync(int id, SmbBonus model, bool autoCalculateOnRateChange);
+        Task<bool> UpdateAsync(int id, SmbBonus model, SmbCalculateOptions? settings = null);
         Task<bool> DeleteAsync(int id);
     }
 }

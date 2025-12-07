@@ -1,4 +1,6 @@
-﻿using QuanLyThuongPhongBan.Models.Entities;
+﻿using QuanLyThuongPhongBan.Models.App.Settings;
+using QuanLyThuongPhongBan.Models.Entities;
+using QuanLyThuongPhongBan.Models.Settings;
 
 namespace QuanLyThuongPhongBan.Utilities
 {
@@ -29,18 +31,18 @@ namespace QuanLyThuongPhongBan.Utilities
                     item.ContractRevenue = projectBonus.ProjectBonusDetails.Where(condition).Sum(d => d.ContractRevenue);
                     item.InvoiceRevenue = projectBonus.ProjectBonusDetails.Where(condition).Sum(d => d.SettlementRevenue);
 
-                    item.TotalPackageValue = (item.InvoiceRevenue * item.TotalPackageRate) / 100;
-                    item.Adjustment1Value = (item.ContractRevenue * item.Adjustment1Rate) / 100;
-                    item.Adjustment2Value = (item.ContractRevenue * item.Adjustment2Rate) / 100;
+                        item.TotalPackageValue = (item.InvoiceRevenue * item.TotalPackageRate) / 100;
+                        item.Adjustment1Value = (item.ContractRevenue * item.Adjustment1Rate) / 100;
+                        item.Adjustment2Value = (item.ContractRevenue * item.Adjustment2Rate) / 100;
 
-                    item.DebtRecovery = item.TotalPackageValue - item.Adjustment1Value - item.Adjustment2Value;
-                    item.Acceptance = item.Adjustment1Value + item.Adjustment2Value + item.DebtRecovery;
+                        item.DebtRecovery = item.TotalPackageValue - item.Adjustment1Value - item.Adjustment2Value;
+                        item.Acceptance = item.Adjustment1Value + item.Adjustment2Value + item.DebtRecovery;
                 }
                 else
                 {
                     item.ContractRevenue = 0m;
                     item.InvoiceRevenue = 0m;
-                }
+            }
             }
 
             // --- Tổng hợp lại các chỉ tiêu chung ---
@@ -54,30 +56,30 @@ namespace QuanLyThuongPhongBan.Utilities
             projectBonus.TotalAcceptance = projectBonus.ProjectTeamBonuses.Sum(d => d.Acceptance);
         }
 
-        public static void CalculateDetails(ICollection<ProjectBonusDetail> details)
-        {
-            if (details == null || !details.Any()) return;
+        //public static void CalculateDetails(ICollection<ProjectBonusDetail> details)
+        //{
+        //    if (details == null || !details.Any()) return;
 
-            foreach (var item in details)
-            {
-                CalculateSingleDetail(item);
-            }
-        }
+        //    foreach (var item in details)
+        //    {
+        //        CalculateSingleDetail(item);
+        //    }
+        //}
 
-        public static void CalculateSingleDetail(ProjectBonusDetail item)
+        public static void CalculateSingleDetail(ProjectBonusDetail item, ProjectBonusCalculateOptions options)
         {
             if (item == null) return;
 
             // Tính phần thưởng theo từng phòng ban (1-5)
-            item.TVGP = Math.Round(item.SettlementRevenue * 2.5m / 100m, 0);
-            item.HSDA = Math.Round(item.SettlementRevenue * 5.0m / 100m, 0);
-            item.PO = Math.Round(item.SettlementRevenue * 3.0m / 100m, 0);
-            item.KTK = Math.Round(item.SettlementRevenue * 4.0m / 100m, 0);
-            item.TTDVKT = Math.Round(item.SettlementRevenue * 2.0m / 100m, 0);
+            if (options.CalculateDetailTVGP) item.TVGP = Math.Round(item.SettlementRevenue * 2.5m / 100m, 0);
+            if (options.CalculateDetailHSDA) item.HSDA = Math.Round(item.SettlementRevenue * 5.0m / 100m, 0);
+            if (options.CalculateDetailPO) item.PO = Math.Round(item.SettlementRevenue * 3.0m / 100m, 0);
+            if (options.CalculateDetailKTK) item.KTK = Math.Round(item.SettlementRevenue * 4.0m / 100m, 0);
+            if (options.CalculateDetailTTDVKT) item.TTDVKT = Math.Round(item.SettlementRevenue * 2.0m / 100m, 0);
 
             // Tính DoanhThuChuaXuatHoaDon & ChuaThanhToan
-            item.UninvoicedRevenue = item.SettlementRevenue - item.InvoicedRevenue;
-            item.UnpaidAmount = item.SettlementRevenue - item.PaidAmount;
+            if (options.CalculateUninvoicedRevenue) item.UninvoicedRevenue = item.SettlementRevenue - item.InvoicedRevenue;
+            if (options.CalculateUnpaidAmount) item.UnpaidAmount = item.SettlementRevenue - item.PaidAmount;
         }
     }
 }

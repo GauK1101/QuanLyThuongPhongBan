@@ -1,6 +1,6 @@
-﻿namespace QuanLyThuongPhongBan.Models.App.SettingsSmb;
+﻿namespace QuanLyThuongPhongBan.Models.App.Settings;
 
-public class CalculateOptionsSetting
+public class SmbCalculateOptions
 {
     public bool CalculatePhase1Value { get; set; } = true;
     public bool CalculateTotalSmbValue { get; set; } = true;
@@ -10,7 +10,7 @@ public class CalculateOptionsSetting
     public bool AutoCalculateOnRateChange { get; set; } = true;
 
     // Để lưu file json đẹp
-    public static CalculateOptionsSetting Default => new()
+    public static SmbCalculateOptions Default => new()
     {
         CalculatePhase1Value = true,
         CalculateTotalSmbValue = true,

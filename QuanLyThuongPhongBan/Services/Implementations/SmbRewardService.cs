@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using QuanLyThuongPhongBan.Data;
 using QuanLyThuongPhongBan.Helpers;
+using QuanLyThuongPhongBan.Models.App.Settings;
 using QuanLyThuongPhongBan.Services.Interfaces;
 using QuanLyThuongPhongBan.Utilities;
 using System.ComponentModel.DataAnnotations;
@@ -122,7 +124,7 @@ namespace QuanLyThuongPhongBan.Services.Implementations
             return entity;
         }
 
-        public async Task<bool> UpdateAsync(int id, SmbBonus model, bool autoCalculateOnRateChange)
+        public async Task<bool> UpdateAsync(int id, SmbBonus model, SmbCalculateOptions? settings = null)
         {
             if (id == 0)
                 return false;
@@ -141,8 +143,10 @@ namespace QuanLyThuongPhongBan.Services.Implementations
                     //var changes = PropertyChangeHelper.GetChangesSummary(entity, model);
                     //MessageBox.Show(changes);
 
-                    if (autoCalculateOnRateChange)
-                        SmbRewardCalculatorUtilities.CalculateSmbTeamBonuses(model);
+                    settings ??= SmbCalculateOptions.Default;
+
+                    if (settings.AutoCalculateOnRateChange)
+                        SmbRewardCalculatorUtilities.CalculateSmbTeamBonuses(model, settings);
 
                     context.Entry(model).State = EntityState.Modified;
 

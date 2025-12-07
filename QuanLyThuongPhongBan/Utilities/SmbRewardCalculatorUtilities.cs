@@ -1,16 +1,14 @@
 ﻿
 using Microsoft.Extensions.Options;
-using QuanLyThuongPhongBan.Models.App.SettingsSmb;
+using QuanLyThuongPhongBan.Models.App.Settings;
 
 namespace QuanLyThuongPhongBan.Utilities
 {
     public class SmbRewardCalculatorUtilities
     {
-        public static void CalculateSmbTeamBonuses(SmbBonus smbBonus, CalculateOptionsSetting? options = null)
+        public static void CalculateSmbTeamBonuses(SmbBonus smbBonus, SmbCalculateOptions options)
         {
             if (smbBonus == null) return;
-
-            options ??= CalculateOptionsSetting.Default;
 
             // Tính toán cho từng chi tiết thưởng đại đoàn SMB
             foreach (var item in smbBonus.SmbTeamBonuses)
@@ -34,7 +32,7 @@ namespace QuanLyThuongPhongBan.Utilities
             //smbBonus.InvoiceOutput = smbBonus.SmbTeamBonuses.Sum(d => d.InvoiceRevenue);
         }
 
-        public static void CalculateSingleTeamBonus(SmbTeamBonus item, CalculateOptionsSetting options)
+        public static void CalculateSingleTeamBonus(SmbTeamBonus item, SmbCalculateOptions options)
         {
             {
                 //if (item == null) return;

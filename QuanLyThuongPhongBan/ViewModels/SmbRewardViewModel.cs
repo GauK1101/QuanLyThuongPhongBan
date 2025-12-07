@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using HandyControl.Controls;
 using HandyControl.Data;
-using QuanLyThuongPhongBan.Helpers;
-using QuanLyThuongPhongBan.Models.App.SettingsSmb;
+using QuanLyThuongPhongBan.Helpers.Setting;
+using QuanLyThuongPhongBan.Models.App.Settings;
 using QuanLyThuongPhongBan.Services.Interfaces;
 using QuanLyThuongPhongBan.ViewModels.Base;
 using QuanLyThuongPhongBan.Views.Dialogs;
@@ -16,6 +16,7 @@ namespace QuanLyThuongPhongBan.ViewModels
     {
         private readonly ISmbRewardService _smbRewardService;
         private readonly SemaphoreSlim _loadSemaphore = new SemaphoreSlim(1, 1);
+        private readonly SmbCalculateOptions _settings;
 
         #region Properties
         [ObservableProperty] private ObservableCollection<SmbBonus> _smbBonus;
@@ -41,12 +42,12 @@ namespace QuanLyThuongPhongBan.ViewModels
         {
             _smbRewardService = smbRewardService;
 
-            var setting = SettingsSmbHelper.LoadCalculateOptions();
-            IsPhase1Value = setting.CalculatePhase1Value;
-            IsTotalSmbValue = setting.CalculateTotalSmbValue;
-            IsDebtRecovery = setting.CalculateDebtRecovery;
-            IsAcceptance = setting.CalculateAcceptance;
-            IsAutoCalculateOnRateChange = setting.AutoCalculateOnRateChange;
+            _settings = SmbCalculateOptionsHelper.LoadCalculateOptions();
+            IsPhase1Value = _settings.CalculatePhase1Value;
+            IsTotalSmbValue = _settings.CalculateTotalSmbValue;
+            IsDebtRecovery = _settings.CalculateDebtRecovery;
+            IsAcceptance = _settings.CalculateAcceptance;
+            IsAutoCalculateOnRateChange = _settings.AutoCalculateOnRateChange;
 
             Task.Run(LoadDataAsync);
         }
@@ -162,7 +163,7 @@ namespace QuanLyThuongPhongBan.ViewModels
         {
             try
             {
-                var isUpdate = await _smbRewardService.UpdateAsync(model.Id, model, IsAutoCalculateOnRateChange);
+                var isUpdate = await _smbRewardService.UpdateAsync(model.Id, model, _settings);
 
                 if (isUpdate)
                 {
@@ -247,10 +248,9 @@ namespace QuanLyThuongPhongBan.ViewModels
         partial void OnIsAcceptanceChanged(bool value) => SaveSettings();
         partial void OnIsAutoCalculateOnRateChangeChanged(bool value) => SaveSettings();
 
-
         private void SaveSettings()
         {
-            var setting = new CalculateOptionsSetting
+            var setting = new SmbCalculateOptions
             {
                 CalculatePhase1Value = IsPhase1Value,
                 CalculateTotalSmbValue = IsTotalSmbValue,
@@ -258,7 +258,7 @@ namespace QuanLyThuongPhongBan.ViewModels
                 CalculateAcceptance = IsAcceptance,
                 AutoCalculateOnRateChange = IsAutoCalculateOnRateChange,
             };
-            SettingsSmbHelper.SaveCalculateOptions(setting);
+            SmbCalculateOptionsHelper.SaveCalculateOptions(setting);
         }
     }
 }

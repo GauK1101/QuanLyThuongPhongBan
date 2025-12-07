@@ -2,13 +2,15 @@
 using CommunityToolkit.Mvvm.Input;
 using HandyControl.Controls;
 using HandyControl.Data;
+using QuanLyThuongPhongBan.Helpers.Setting;
+using QuanLyThuongPhongBan.Models.App.Settings;
 using QuanLyThuongPhongBan.Models.Entities;
+using QuanLyThuongPhongBan.Models.Settings;
 using QuanLyThuongPhongBan.Services.Interfaces;
 using QuanLyThuongPhongBan.Utilities;
 using QuanLyThuongPhongBan.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Windows;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace QuanLyThuongPhongBan.ViewModels
 {
@@ -16,6 +18,8 @@ namespace QuanLyThuongPhongBan.ViewModels
     {
         private readonly IProjectBonusDetailService _projectBonusDetailService;
         private readonly IProjectSummaryReportService _projectSummaryReportService;
+        private readonly ProjectBonusCalculateOptions _settings;
+
 
         private readonly SemaphoreSlim _loadSemaphore = new SemaphoreSlim(1, 1);
 
@@ -29,12 +33,31 @@ namespace QuanLyThuongPhongBan.ViewModels
         [NotifyCanExecuteChangedFor(nameof(CreateReportCommand))]
         private ObservableCollection<ProjectBonusDetail> _selectedProjectBonusDetails = new ObservableCollection<ProjectBonusDetail>();
 
+        [ObservableProperty] private bool _isDetailTVGP = true;
+        [ObservableProperty] private bool _isDetailHSDA = true;
+        [ObservableProperty] private bool _isDetailPO = true;
+        [ObservableProperty] private bool _isDetailKTK = true;
+        [ObservableProperty] private bool _isDetailTTDVKT = true;
+        [ObservableProperty] private bool _isUninvoicedRevenue = true;
+        [ObservableProperty] private bool _isUnpaidAmount = true;
+        [ObservableProperty] private bool _isAutoCalculateOnRateChange = true;
+
         #endregion
 
         public ProjectBonusDetailViewModel(IProjectBonusDetailService projectBonusDetailService, IProjectSummaryReportService projectSummaryReportService)
         {
             _projectBonusDetailService = projectBonusDetailService;
             _projectSummaryReportService = projectSummaryReportService;
+
+            _settings = ProjectBonusCalculateOptionsHelper.LoadCalculateOptions();
+            IsDetailTVGP = _settings.CalculateDetailTVGP;
+            IsDetailHSDA = _settings.CalculateDetailHSDA;
+            IsDetailPO = _settings.CalculateDetailPO;
+            IsDetailKTK = _settings.CalculateDetailKTK;
+            IsDetailTTDVKT = _settings.CalculateDetailTTDVKT;
+            IsUninvoicedRevenue = _settings.CalculateUninvoicedRevenue;
+            IsUnpaidAmount = _settings.CalculateUnpaidAmount;
+            IsAutoCalculateOnRateChange = _settings.AutoCalculateOnRateChange;
 
             Task.Run(LoadDataAsync);
         }
@@ -151,7 +174,7 @@ namespace QuanLyThuongPhongBan.ViewModels
         {
             try
             {
-                var isUpdate = await _projectBonusDetailService.UpdateAsync(model.Id, model);
+                var isUpdate = await _projectBonusDetailService.UpdateAsync(model.Id, model, _settings);
 
                 if (isUpdate)
                     Growl.Success("Sửa thành công.");
@@ -270,6 +293,32 @@ namespace QuanLyThuongPhongBan.ViewModels
                 var (userMsg, devMsg) = ErrorHelper.HandleError(ex, null, "PasteToSelectedRow ProjectBonusDetailViewModel");
                 Growl.Error(userMsg);
             }
+        }
+
+        partial void OnIsAutoCalculateOnRateChangeChanged(bool value) => SaveSettings();
+        partial void OnIsDetailTVGPChanged(bool value) => SaveSettings();
+        partial void OnIsDetailHSDAChanged(bool value) => SaveSettings();
+        partial void OnIsDetailPOChanged(bool value) => SaveSettings();
+        partial void OnIsDetailKTKChanged(bool value) => SaveSettings();
+        partial void OnIsDetailTTDVKTChanged(bool value) => SaveSettings();
+        partial void OnIsUninvoicedRevenueChanged(bool value) => SaveSettings();
+        partial void OnIsUnpaidAmountChanged(bool value) => SaveSettings();
+
+        private void SaveSettings()
+        {
+            var setting = new ProjectBonusCalculateOptions
+            {
+                AutoCalculateOnRateChange = IsAutoCalculateOnRateChange,
+                CalculateDetailTVGP = IsDetailTVGP,
+                CalculateDetailHSDA = IsDetailHSDA,
+                CalculateDetailPO = IsDetailPO,
+                CalculateDetailKTK = IsDetailKTK,
+                CalculateDetailTTDVKT = IsDetailTTDVKT,
+                CalculateUninvoicedRevenue = IsUninvoicedRevenue,
+                CalculateUnpaidAmount = IsUnpaidAmount
+            };
+
+            ProjectBonusCalculateOptionsHelper.SaveCalculateOptions(setting);
         }
     }
 }
