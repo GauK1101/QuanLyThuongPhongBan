@@ -14,7 +14,7 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
 {
     public partial class UpdaterViewModel : ObservableObject
     {
-        Version current = new Version("1.0.4");
+        Version current = new Version("1.0.4.3");
 
         private readonly HttpClient _httpClient;
         private readonly string _tempZipFile = Path.Combine(Path.GetTempPath(), "update.zip");
