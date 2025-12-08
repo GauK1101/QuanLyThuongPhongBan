@@ -9,6 +9,9 @@ namespace QuanLyThuongPhongBan
         {
             InitializeComponent();
             DataContext = viewModel;
+
+            UpdaterViewModel updater = new UpdaterViewModel();
+            _ = updater.CheckForUpdates();
         }
     }
 }

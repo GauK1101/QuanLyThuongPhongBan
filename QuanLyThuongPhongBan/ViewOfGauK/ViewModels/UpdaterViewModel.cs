@@ -14,7 +14,7 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
 {
     public partial class UpdaterViewModel : ObservableObject
     {
-        Version current = new Version("1.0.4.3");
+        Version current = new Version("1.0.4.4");
 
         private readonly HttpClient _httpClient;
         private readonly string _tempZipFile = Path.Combine(Path.GetTempPath(), "update.zip");
@@ -40,7 +40,7 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
 
         public async Task CheckForUpdates()
         {
-            await CleanupTempFiles();
+            ForceCleanupTempFiles();
 
             try
             {
@@ -206,53 +206,36 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
             }
         }
 
-        private async Task CreateUpdateScriptAsync(string innerFolderPath) // innerFolderPath = thư mục temp đã giải nén
+        private async Task CreateUpdateScriptAsync(string innerFolderPath)
         {
-            string? appDirectory = Path.GetDirectoryName(Environment.ProcessPath);
-            if (string.IsNullOrEmpty(appDirectory)) return;
-
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory.TrimEnd('\\');
             string exeName = Path.GetFileName(Environment.ProcessPath)!;
-            string batchPath = Path.Combine(Path.GetTempPath(), "QuanLyThuong_Update.bat");
 
-            await using var writer = new StreamWriter(batchPath, false, Encoding.UTF8);
+            string batchPath = Path.Combine(Path.GetTempPath(), $"upd_{Guid.NewGuid():N}.bat");
 
-            await writer.WriteLineAsync("@echo off");
-            await writer.WriteLineAsync("chcp 65001 >nul");
-            await writer.WriteLineAsync("echo.");
-            await writer.WriteLineAsync("echo ===========================================");
-            await writer.WriteLineAsync("echo     ĐANG CẬP NHẬT PHIÊN BẢN MỚI");
-            await writer.WriteLineAsync("echo ===========================================");
-            await writer.WriteLineAsync("timeout /t 3 >nul");
+            var bat = new StringBuilder();
+            bat.AppendLine("@echo off");
+            bat.AppendLine("timeout /t 3 >nul");
+            bat.AppendLine($"taskkill /F /IM \"{exeName}\" >nul 2>&1");
+            bat.AppendLine($"move /Y \"{appDirectory}\\{exeName}\" \"{appDirectory}\\{exeName}.old\" >nul 2>&1");
+            bat.AppendLine($"robocopy \"{innerFolderPath}\" \"{appDirectory}\" /MIR /R:5 /W:5 /NFL /NDL /NJH /NJS");
+            bat.AppendLine($"start \"\" \"{appDirectory}\\{exeName}\"");
+            bat.AppendLine($"del /F /Q \"{appDirectory}\\{exeName}.old\" >nul 2>&1");
+            bat.AppendLine($"(goto) 2>nul & del /F /Q \"%~f0\"");
 
-            // BƯỚC 1: COPY TOÀN BỘT FILE MỚI VÀO THƯ MỤC CÀI ĐẶT (GHI ĐÈ)
-            await writer.WriteLineAsync($":: BƯỚC 1: Copy file mới vào {appDirectory}");
-            await writer.WriteLineAsync($"robocopy \"{innerFolderPath}\" \"{appDirectory}\" /MIR /R:5 /W:5 /NFL /NDL /NJH /NJS");
-            // /MIR = Mirror: copy + xóa file cũ không còn trong nguồn → dọn sạch hoàn hảo
-            await writer.WriteLineAsync("if %errorlevel% 8 goto :error");
+            await File.WriteAllTextAsync(batchPath, bat.ToString());
 
-            // BƯỚC 2: KHỞI ĐỘNG LẠI ỨNG DỤNG
-            await writer.WriteLineAsync($":: BƯỚC 2: Khởi động lại ứng dụng");
-            await writer.WriteLineAsync($"start \"\" \"{Path.Combine(appDirectory, exeName)}\"");
-
-            // BƯỚC 3: TỰ XÓA FILE .BAT SAU KHI HOÀN TẤT
-            await writer.WriteLineAsync($":: Dọn dẹp file cập nhật");
-            await writer.WriteLineAsync("(goto) 2>nul & del /F /Q \"%~f0\"");
-
-            await writer.WriteLineAsync("exit");
-
-            await writer.WriteLineAsync(":error");
-            await writer.WriteLineAsync("echo.");
-            await writer.WriteLineAsync("echo CẬP NHẬT THẤT BẠI! Vui lòng thử lại.");
-
-            // Chạy .bat
-            var psi = new ProcessStartInfo(batchPath)
+            // Cách chạy KHÔNG BAO GIỜ BỊ LOCK
+            Process.Start(new ProcessStartInfo
             {
-                UseShellExecute = true,
-                CreateNoWindow = false,
-                WorkingDirectory = appDirectory
-            };
+                FileName = "cmd.exe",
+                Arguments = $"/c timeout /t 1 >nul && \"{batchPath}\"",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true,
+                UseShellExecute = false
+            });
 
-            Process.Start(psi);
+            Application.Current.Shutdown();
         }
 
         private void PromptRestart()
@@ -274,20 +257,47 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
             Application.Current.Shutdown();
         }
 
-        private Task CleanupTempFiles()
+        private void ForceCleanupTempFiles()
         {
             try
             {
-                if (File.Exists(_tempZipFile))
-                    File.Delete(_tempZipFile);
-                if (Directory.Exists(_extractPath))
-                    Directory.Delete(_extractPath, true);
-                if (Directory.Exists(_backupPath))
-                    Directory.Delete(_backupPath, true);
-            }
-            catch { }
+                var tempPath = Path.GetTempPath();
 
-            return Task.CompletedTask;
+                // Danh sách pattern cần xóa
+                var patterns = new[]
+                {
+                    "upd_*.bat",
+                    "update.zip",
+                    "update",
+                    "backup"
+                };
+
+                foreach (var pattern in patterns)
+                {
+                    try
+                    {
+                        var files = Directory.GetFiles(tempPath, pattern, SearchOption.TopDirectoryOnly);
+                        foreach (var file in files)
+                        {
+                            try { File.Delete(file); }
+                            catch { /* Đang bị lock thì thôi, lần sau dọn tiếp */ }
+                        }
+                    }
+                    catch { }
+
+                    // Xóa luôn thư mục nếu có
+                    if (pattern is "update" or "backup")
+                    {
+                        var dir = Path.Combine(tempPath, pattern);
+                        if (Directory.Exists(dir))
+                        {
+                            try { Directory.Delete(dir, true); }
+                            catch { }
+                        }
+                    }
+                }
+            }
+            catch { /* Không bao giờ để crash vì dọn temp */ }
         }
 
         private static readonly string LogFile = Path.Combine(

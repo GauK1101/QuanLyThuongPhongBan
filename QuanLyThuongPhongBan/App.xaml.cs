@@ -75,7 +75,7 @@ namespace QuanLyThuongPhongBan
 
             base.OnStartup(e);
 
-            await new UpdaterViewModel().CheckForUpdates();
+            //await new UpdaterViewModel().CheckForUpdates();
         }
 
         protected override async void OnExit(ExitEventArgs e)
