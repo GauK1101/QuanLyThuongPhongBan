@@ -67,77 +67,77 @@ namespace QuanLyThuongPhongBan.Models.Entities
         /// Doanh thu hợp đồng
         /// </summary>
         [Display(Name = "💰 Doanh thu hợp đồng")]
-        [Column("doanh_thu_hop_dong", TypeName = "decimal(18, 6)")]
+        [Column("doanh_thu_hop_dong", TypeName = "decimal(22, 6)")]
         public decimal ContractRevenue { get; set; }
 
         /// <summary>
         /// Doanh thu quyết toán
         /// </summary>
         [Display(Name = "💰 Doanh thu quyết toán")]
-        [Column("doanh_thu_quyet_toan", TypeName = "decimal(18, 6)")]
+        [Column("doanh_thu_quyet_toan", TypeName = "decimal(22, 6)")]
         public decimal SettlementRevenue { get; set; }
 
         /// <summary>
         /// Doanh thu đã xuất hóa đơn
         /// </summary>
         [Display(Name = "🧾 Doanh thu đã xuất hóa đơn")]
-        [Column("doanh_thu_da_xuat_hoa_don", TypeName = "decimal(18, 6)")]
+        [Column("doanh_thu_da_xuat_hoa_don", TypeName = "decimal(22, 6)")]
         public decimal InvoicedRevenue { get; set; }
 
         /// <summary>
         /// Doanh thu chưa xuất hóa đơn
         /// </summary>
         [Display(Name = "📄 Doanh thu chưa xuất hóa đơn")]
-        [Column("doanh_thu_chua_xuat_hoa_don", TypeName = "decimal(18, 6)")]
+        [Column("doanh_thu_chua_xuat_hoa_don", TypeName = "decimal(22, 6)")]
         public decimal UninvoicedRevenue { get; set; }
 
         /// <summary>
         /// Đã thanh toán
         /// </summary>
         [Display(Name = "💳 Đã thanh toán")]
-        [Column("da_thanh_toan", TypeName = "decimal(18, 6)")]
+        [Column("da_thanh_toan", TypeName = "decimal(22, 6)")]
         public decimal PaidAmount { get; set; }
 
         /// <summary>
         /// Chưa thanh toán
         /// </summary>
         [Display(Name = "⏳ Chưa thanh toán")]
-        [Column("chua_thanh_toan", TypeName = "decimal(18, 6)")]
+        [Column("chua_thanh_toan", TypeName = "decimal(22, 6)")]
         public decimal UnpaidAmount { get; set; }
 
         /// <summary>
         /// Hệ số Dự án
         /// </summary>
         [Display(Name = "📊 Hệ số Dự án")]
-        [Column("hsda", TypeName = "decimal(18, 6)")]
+        [Column("hsda", TypeName = "decimal(22, 6)")]
         public decimal HSDA { get; set; }
 
         /// <summary>
         /// Hệ số KTK
         /// </summary>
         [Display(Name = "📊 Hệ số KTK")]
-        [Column("ktk", TypeName = "decimal(18, 6)")]
+        [Column("ktk", TypeName = "decimal(22, 6)")]
         public decimal KTK { get; set; }
 
         /// <summary>
         /// Hệ số PO
         /// </summary>
         [Display(Name = "📊 Hệ số PO")]
-        [Column("po", TypeName = "decimal(18, 6)")]
+        [Column("po", TypeName = "decimal(22, 6)")]
         public decimal PO { get; set; }
 
         /// <summary>
         /// Hệ số TTDVKT
         /// </summary>
         [Display(Name = "📊 Hệ số TTDVKT")]
-        [Column("ttdvkt", TypeName = "decimal(18, 6)")]
+        [Column("ttdvkt", TypeName = "decimal(22, 6)")]
         public decimal TTDVKT { get; set; }
 
         /// <summary>
         /// Hệ số TVGP
         /// </summary>
         [Display(Name = "📊 Hệ số TVGP")]
-        [Column("tvgp", TypeName = "decimal(18, 6)")]
+        [Column("tvgp", TypeName = "decimal(22, 6)")]
         public decimal TVGP { get; set; }
 
         /// <summary>

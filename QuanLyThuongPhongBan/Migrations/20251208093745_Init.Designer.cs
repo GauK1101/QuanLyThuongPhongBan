@@ -12,8 +12,8 @@ using QuanLyThuongPhongBan.Data;
 namespace QuanLyThuongPhongBan.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251201173003_init-create")]
-    partial class initcreate
+    [Migration("20251208093745_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,7 +176,7 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("ContractValue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("gia_tri_hop_dong");
 
@@ -188,55 +188,55 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("Settlement")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("quyet_toan");
 
                     b.Property<decimal>("TotalAcceptance")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_nghiem_thu");
 
                     b.Property<decimal>("TotalAdjustment1Rate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_ti_le_dieu_chinh_dot_1");
 
                     b.Property<decimal>("TotalAdjustment1Value")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_gia_tri_dieu_chinh_dot_1");
 
                     b.Property<decimal>("TotalAdjustment2Rate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_ti_le_dieu_chinh_dot_2");
 
                     b.Property<decimal>("TotalAdjustment2Value")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_gia_tri_dieu_chinh_dot_2");
 
                     b.Property<decimal>("TotalDebtRecovery")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_thu_hoi_cong_no");
 
                     b.Property<decimal>("TotalProjectBonusRate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_ti_le_thuong_du_an");
 
                     b.Property<decimal>("TotalProjectBonusValue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_gia_tri_thuong_du_an");
 
@@ -274,7 +274,7 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("ContractRevenue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("doanh_thu_hop_dong");
 
@@ -290,7 +290,7 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("HSDA")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("hsda");
 
@@ -302,13 +302,13 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("InvoicedRevenue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("doanh_thu_da_xuat_hoa_don");
 
                     b.Property<decimal>("KTK")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("ktk");
 
@@ -320,13 +320,13 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("PO")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("po");
 
                     b.Property<decimal>("PaidAmount")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("da_thanh_toan");
 
@@ -342,31 +342,31 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("SettlementRevenue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("doanh_thu_quyet_toan");
 
                     b.Property<decimal>("TTDVKT")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("ttdvkt");
 
                     b.Property<decimal>("TVGP")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tvgp");
 
                     b.Property<decimal>("UninvoicedRevenue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("doanh_thu_chua_xuat_hoa_don");
 
                     b.Property<decimal>("UnpaidAmount")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("chua_thanh_toan");
 
@@ -394,37 +394,37 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("Acceptance")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("nghiem_thu");
 
                     b.Property<decimal>("Adjustment1Rate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("ti_le_dieu_chinh_dot_1");
 
                     b.Property<decimal>("Adjustment1Value")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("gia_tri_dieu_chinh_dot_1");
 
                     b.Property<decimal>("Adjustment2Rate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("ti_le_dieu_chinh_dot_2");
 
                     b.Property<decimal>("Adjustment2Value")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("gia_tri_dieu_chinh_dot_2");
 
                     b.Property<decimal>("ContractRevenue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("doanh_thu_hop_dong");
 
@@ -436,7 +436,7 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("DebtRecovery")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("thu_hoi_cong_no");
 
@@ -446,7 +446,7 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("InvoiceRevenue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("doanh_thu_xuat_hoa_don");
 
@@ -456,13 +456,13 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("TotalPackageRate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("ti_le_tong_goi");
 
                     b.Property<decimal>("TotalPackageValue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("gia_tri_tong_goi");
 
@@ -496,11 +496,17 @@ namespace QuanLyThuongPhongBan.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<decimal>("InvoiceOutput")
+                    b.Property<decimal>("DebtRecoveryRevenue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
-                        .HasColumnName("xuat_hoa_don");
+                        .HasColumnName("doanh_thu_thu_hoi_cong_no");
+
+                    b.Property<decimal>("InvoiceRevenue")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(22, 6)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("doanh_thu_xuat_hoa_don");
 
                     b.Property<string>("QuarterYear")
                         .IsRequired()
@@ -508,47 +514,47 @@ namespace QuanLyThuongPhongBan.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("quy_nam_thuong");
 
+                    b.Property<decimal>("SmbRevenue")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(22, 6)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("doanh_thu_smb");
+
                     b.Property<decimal>("TotalAcceptance")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_nghiem_thu");
 
                     b.Property<decimal>("TotalDebtRecovery")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_thu_hoi_cong_no");
 
                     b.Property<decimal>("TotalPhase1Rate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_ti_le_dot_1");
 
                     b.Property<decimal>("TotalPhase1Value")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_gia_tri_dot_1");
 
                     b.Property<decimal>("TotalSmbBonusRate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_ti_le_thuong_smb");
 
                     b.Property<decimal>("TotalSmbBonusValue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("tong_gia_tri_thuong_smb");
-
-                    b.Property<decimal>("TotalSmbValue")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
-                        .HasDefaultValue(0m)
-                        .HasColumnName("tong_gia_tri_smb");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
@@ -572,15 +578,9 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("Acceptance")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("nghiem_thu");
-
-                    b.Property<decimal>("ContractRevenue")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
-                        .HasDefaultValue(0m)
-                        .HasColumnName("doanh_thu_hop_dong");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -590,15 +590,21 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("DebtRecovery")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("thu_hoi_cong_no");
 
                     b.Property<decimal>("DebtRecoveryRate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("ti_le_thu_hoi_cong_no");
+
+                    b.Property<decimal>("DebtRecoveryRevenue")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(22, 6)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("doanh_thu_thu_hoi_cong_no");
 
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int")
@@ -606,19 +612,19 @@ namespace QuanLyThuongPhongBan.Migrations
 
                     b.Property<decimal>("InvoiceRevenue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("doanh_thu_xuat_hoa_don");
 
                     b.Property<decimal>("Phase1Rate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("ti_le_dot_1");
 
                     b.Property<decimal>("Phase1Value")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("gia_tri_dot_1");
 
@@ -626,15 +632,21 @@ namespace QuanLyThuongPhongBan.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id_thuong_smb");
 
+                    b.Property<decimal>("SmbRevenue")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(22, 6)")
+                        .HasDefaultValue(0m)
+                        .HasColumnName("doanh_thu_smb");
+
                     b.Property<decimal>("TotalSmbRate")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("ti_le_tong_smb");
 
                     b.Property<decimal>("TotalSmbValue")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 6)")
+                        .HasColumnType("decimal(22, 6)")
                         .HasDefaultValue(0m)
                         .HasColumnName("gia_tri_tong_smb");
 

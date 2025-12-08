@@ -227,7 +227,6 @@
 
                             <!--  Quarter Year  -->
                             <DataGridTextColumn
-                                Width="120"
                                 Binding="{Binding QuarterYear}"
                                 Header="📅 Quý năm thưởng">
                                 <DataGridTextColumn.ElementStyle>
@@ -238,35 +237,41 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <!--  Total SMB Value  -->
                             <DataGridTextColumn
-                                Width="140"
-                                Binding="{Binding TotalSmbValue, StringFormat=N0}"
-                                Header="💰 Tổng giá trị SMB">
+                                Binding="{Binding SmbRevenue, StringFormat=N0}"
+                                Header="📑 Doanh thu Smb">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="ToolTip" Value="{Binding TotalSmbValue, StringFormat='Tổng giá trị SMB: {0:N0} VNĐ'}" />
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="ToolTip" Value="{Binding SmbRevenue, StringFormat='Doanh thu Smb: {0:N0} VNĐ'}" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <!--  Invoice Output  -->
                             <DataGridTextColumn
-                                Width="140"
-                                Binding="{Binding InvoiceOutput, StringFormat=N0}"
-                                Header="🧾 Xuất hóa đơn">
+                                Binding="{Binding InvoiceRevenue, StringFormat=N0}"
+                                Header="🧾 Doanh thu xuất hóa đơn">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="ToolTip" Value="{Binding InvoiceOutput, StringFormat='Xuất hóa đơn: {0:N0} VNĐ'}" />
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="ToolTip" Value="{Binding InvoiceRevenue, StringFormat='Doanh thu xuất hóa đơn: {0:N0} VNĐ'}" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Binding="{Binding DebtRecoveryRevenue, StringFormat=N0}"
+                                Header="🔄 Doanh thu thu hồi công nợ">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="ToolTip" Value="{Binding DebtRecoveryRevenue, StringFormat='Doanh thu thu hồi công nợ: {0:N0} VNĐ'}" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
                             <!--  Total SMB Bonus Rate  -->
                             <DataGridTextColumn
-                                Width="110"
                                 Binding="{Binding TotalSmbBonusRate, StringFormat={}{0:0.#####}%}"
                                 Header="📊 Tỉ lệ thưởng">
                                 <DataGridTextColumn.ElementStyle>
@@ -277,22 +282,20 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <!--  Total SMB Bonus Value  -->
+                            <!--  Total SMB Value  -->
                             <DataGridTextColumn
-                                Width="140"
                                 Binding="{Binding TotalSmbBonusValue, StringFormat=N0}"
-                                Header="💵 Tổng giá trị thưởng">
+                                Header="💰 Tổng giá trị SMB">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="ToolTip" Value="{Binding TotalSmbBonusValue, StringFormat='Tổng giá trị thưởng SMB: {0:N0} VNĐ'}" />
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="ToolTip" Value="{Binding TotalSmbValue, StringFormat='Tổng giá trị SMB: {0:N0} VNĐ'}" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
                             <!--  Total Phase 1 Rate  -->
                             <DataGridTextColumn
-                                Width="120"
                                 Binding="{Binding TotalPhase1Rate, StringFormat={}{0:0.#####}%}"
                                 Header="📈 Tỉ lệ đợt 1">
                                 <DataGridTextColumn.ElementStyle>
@@ -305,39 +308,36 @@
 
                             <!--  Total Phase 1 Value  -->
                             <DataGridTextColumn
-                                Width="140"
                                 Binding="{Binding TotalPhase1Value, StringFormat=N0}"
                                 Header="💹 Giá trị đợt 1">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="ToolTip" Value="{Binding TotalPhase1Value, StringFormat='Tổng giá trị đợt 1: {0:N0} VNĐ'}" />
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
                             <!--  Total Debt Recovery  -->
                             <DataGridTextColumn
-                                Width="140"
                                 Binding="{Binding TotalDebtRecovery, StringFormat=N0}"
                                 Header="🔄 Thu hồi công nợ">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="ToolTip" Value="{Binding TotalDebtRecovery, StringFormat='Tổng thu hồi công nợ: {0:N0} VNĐ'}" />
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
                             <!--  Total Acceptance  -->
                             <DataGridTextColumn
-                                Width="140"
                                 Binding="{Binding TotalAcceptance, StringFormat=N0}"
                                 Header="✅ Tổng nghiệm thu">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="ToolTip" Value="{Binding TotalAcceptance, StringFormat='Tổng giá trị nghiệm thu: {0:N0} VNĐ'}" />
-                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
@@ -380,35 +380,43 @@
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
 
-                                                <!--  Contract Revenue  -->
+                                                <!--  Total SMB Bonus Value  -->
                                                 <DataGridTextColumn
-                                                    Width="140"
-                                                    Binding="{Binding ContractRevenue, StringFormat=N0}"
-                                                    Header="📑 Doanh thu hợp đồng">
+                                                    Binding="{Binding SmbRevenue, StringFormat=N0}"
+                                                    Header="📑 Doanh thu Smb">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
-                                                            <Setter Property="ToolTip" Value="{Binding ContractRevenue, StringFormat='Doanh thu hợp đồng: {0:N0} VNĐ'}" />
-                                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                                            <Setter Property="ToolTip" Value="{Binding SmbRevenue, StringFormat='Doanh thu Smb: {0:N0} VNĐ'}" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
 
-                                                <!--  Invoice Revenue  -->
+                                                <!--  Invoice Output  -->
                                                 <DataGridTextColumn
-                                                    Width="140"
                                                     Binding="{Binding InvoiceRevenue, StringFormat=N0}"
-                                                    Header="🧾 Doanh thu xuất HĐ">
+                                                    Header="🧾 Doanh thu xuất hóa đơn">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="ToolTip" Value="{Binding InvoiceRevenue, StringFormat='Doanh thu xuất hóa đơn: {0:N0} VNĐ'}" />
-                                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                                        </Style>
+                                                    </DataGridTextColumn.ElementStyle>
+                                                </DataGridTextColumn>
+
+                                                <DataGridTextColumn
+                                                    Binding="{Binding DebtRecoveryRevenue, StringFormat=N0}"
+                                                    Header="🔄 Doanh thu thu hồi công nợ">
+                                                    <DataGridTextColumn.ElementStyle>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="ToolTip" Value="{Binding DebtRecoveryRevenue, StringFormat='Doanh thu thu hồi công nợ: {0:N0} VNĐ'}" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
 
                                                 <!--  Total Smb Rate  -->
                                                 <DataGridTextColumn
-                                                    Width="120"
                                                     Binding="{Binding TotalSmbRate, StringFormat={}{0:0.######}%}"
                                                     Header="📊 Tỉ lệ tổng SMB">
                                                     <DataGridTextColumn.ElementStyle>
@@ -421,20 +429,18 @@
 
                                                 <!--  Total Smb Value  -->
                                                 <DataGridTextColumn
-                                                    Width="140"
                                                     Binding="{Binding TotalSmbValue, StringFormat=N0}"
                                                     Header="💎 Giá trị tổng SMB">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="ToolTip" Value="{Binding TotalSmbValue, StringFormat='Giá trị tổng SMB: {0:N0} VNĐ'}" />
-                                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
 
                                                 <!--  Phase 1 Rate  -->
                                                 <DataGridTextColumn
-                                                    Width="120"
                                                     Binding="{Binding Phase1Rate, StringFormat={}{0:0.######}%}"
                                                     Header="📈 Tỉ lệ đợt 1">
                                                     <DataGridTextColumn.ElementStyle>
@@ -447,20 +453,18 @@
 
                                                 <!--  Phase 1 Value  -->
                                                 <DataGridTextColumn
-                                                    Width="140"
                                                     Binding="{Binding Phase1Value, StringFormat=N0}"
                                                     Header="💰 Giá trị đợt 1">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="ToolTip" Value="{Binding Phase1Value, StringFormat='Giá trị đợt 1: {0:N0} VNĐ'}" />
-                                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
 
                                                 <!--  Debt Recovery Rate  -->
                                                 <DataGridTextColumn
-                                                    Width="140"
                                                     Binding="{Binding DebtRecoveryRate, StringFormat={}{0:0.#####}%}"
                                                     Header="📉 Tỉ lệ thu hồi nợ">
                                                     <DataGridTextColumn.ElementStyle>
@@ -473,26 +477,24 @@
 
                                                 <!--  Debt Recovery  -->
                                                 <DataGridTextColumn
-                                                    Width="140"
                                                     Binding="{Binding DebtRecovery, StringFormat=N0}"
                                                     Header="💳 Thu hồi công nợ">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="ToolTip" Value="{Binding DebtRecovery, StringFormat='Thu hồi công nợ: {0:N0} VNĐ'}" />
-                                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
 
                                                 <!--  Acceptance  -->
                                                 <DataGridTextColumn
-                                                    Width="140"
                                                     Binding="{Binding Acceptance, StringFormat=N0}"
                                                     Header="✅ Nghiệm thu">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="ToolTip" Value="{Binding Acceptance, StringFormat='Nghiệm thu: {0:N0} VNĐ'}" />
-                                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                                            <Setter Property="HorizontalAlignment" Value="Center" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
@@ -586,7 +588,7 @@
                             <Border
                                 Grid.Row="1"
                                 Padding="15"
-                                Background="#d6d6d6"
+                                Background="#f2f2f2"
                                 CornerRadius="10">
                                 <!--  Các Toggle đẹp  -->
                                 <StackPanel>
@@ -599,7 +601,7 @@
                                                 FontSize="11"
                                                 Foreground="#5c5c5c"
                                                 IsEnabled="False"
-                                                Text="Tính giá trị tổng SMB = (Doanh thu hợp đồng * Tỷ lệ tổng SMB) / 100" />
+                                                Text="Tính giá trị tổng SMB = Doanh thu hợp đồng * Tỷ lệ tổng SMB" />
                                         </StackPanel>
                                         <StackPanel Margin="0,16,0,0">
                                             <CheckBox Content="Tính giá trị đợt 1" IsChecked="{Binding IsPhase1Value}" />
@@ -608,7 +610,7 @@
                                                 FontSize="11"
                                                 Foreground="#5c5c5c"
                                                 IsEnabled="False"
-                                                Text="Tính giá trị đợt 1 = (Doanh thu xuất hóa đơn * Tỷ lệ đợt 1) / 100" />
+                                                Text="Tính giá trị đợt 1 = Doanh thu xuất hóa đơn * Tỷ lệ đợt 1" />
                                         </StackPanel>
                                         <StackPanel Margin="0,16,0,0">
                                             <CheckBox Content="Tính tỷ lệ thu hồi công nợ" IsChecked="{Binding IsDebtRecovery}" />
@@ -618,6 +620,15 @@
                                                 Foreground="#5c5c5c"
                                                 IsEnabled="False"
                                                 Text="Tính tỷ lệ thu hồi công nợ = Tỷ lệ tổng SMB - Tỷ lệ đợt 1" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,16,0,0">
+                                            <CheckBox Content="Tính thu hồi công nợ" IsChecked="{Binding IsDebtRecovery}" />
+                                            <TextBlock
+                                                Margin="20,5,0,0"
+                                                FontSize="11"
+                                                Foreground="#5c5c5c"
+                                                IsEnabled="False"
+                                                Text="Tính thu hồi công nợ = Doanh thu thu hồi công nợ - Tỷ lệ thu hồi công nợ" />
                                         </StackPanel>
                                         <StackPanel Margin="0,16,0,0">
                                             <CheckBox Content="Tính nghiệm thu" IsChecked="{Binding IsAcceptance}" />

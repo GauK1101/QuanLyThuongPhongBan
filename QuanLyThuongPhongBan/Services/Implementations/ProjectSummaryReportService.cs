@@ -88,11 +88,11 @@ namespace QuanLyThuongPhongBan.Services.Implementations
             {
                 var departments = new List<Department>
                              {
-                                 new Department { Name = "Tư vấn giải pháp" },
-                                 new Department { Name = "Hồ sơ dự án" },
-                                 new Department { Name = "Nhập hàng" },
-                                 new Department { Name = "Kế toán - kho" },
-                                 new Department { Name = "TT kỹ thuật & DV" }
+                                 new Department { Name = "Tư vấn giải pháp", Description = "" },
+                                 new Department { Name = "Hồ sơ dự án", Description = "" },
+                                 new Department { Name = "Nhập hàng", Description = "" },
+                                 new Department { Name = "Kế toán - kho", Description = "" },
+                                 new Department { Name = "TT kỹ thuật & DV", Description = "" }
                              };
                 await context.Departments.AddRangeAsync(departments);
                 await context.SaveChangesAsync();

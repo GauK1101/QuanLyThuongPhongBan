@@ -206,58 +206,53 @@ namespace QuanLyThuongPhongBan.ViewOfGauK.ViewModels
             }
         }
 
-        private async Task CreateUpdateScriptAsync(string innerFolderPath)
+        private async Task CreateUpdateScriptAsync(string innerFolderPath) // innerFolderPath = thư mục temp đã giải nén
         {
             string? appDirectory = Path.GetDirectoryName(Environment.ProcessPath);
             if (string.IsNullOrEmpty(appDirectory)) return;
 
-            string exeName = Path.GetFileName(Environment.ProcessPath); // tên file .exe đang chạy
-            string batchScript = Path.Combine(Path.GetTempPath(), "update.bat");
+            string exeName = Path.GetFileName(Environment.ProcessPath)!;
+            string batchPath = Path.Combine(Path.GetTempPath(), "QuanLyThuong_Update.bat");
 
-            using var writer = new StreamWriter(batchScript, false, Encoding.UTF8);
+            await using var writer = new StreamWriter(batchPath, false, Encoding.UTF8);
+
+            await writer.WriteLineAsync("@echo off");
+            await writer.WriteLineAsync("chcp 65001 >nul");
+            await writer.WriteLineAsync("echo.");
+            await writer.WriteLineAsync("echo ===========================================");
+            await writer.WriteLineAsync("echo     ĐANG CẬP NHẬT PHIÊN BẢN MỚI");
+            await writer.WriteLineAsync("echo ===========================================");
+            await writer.WriteLineAsync("timeout /t 3 >nul");
+
+            // BƯỚC 1: COPY TOÀN BỘT FILE MỚI VÀO THƯ MỤC CÀI ĐẶT (GHI ĐÈ)
+            await writer.WriteLineAsync($":: BƯỚC 1: Copy file mới vào {appDirectory}");
+            await writer.WriteLineAsync($"robocopy \"{innerFolderPath}\" \"{appDirectory}\" /MIR /R:5 /W:5 /NFL /NDL /NJH /NJS");
+            // /MIR = Mirror: copy + xóa file cũ không còn trong nguồn → dọn sạch hoàn hảo
+            await writer.WriteLineAsync("if %errorlevel% 8 goto :error");
+
+            // BƯỚC 2: KHỞI ĐỘNG LẠI ỨNG DỤNG
+            await writer.WriteLineAsync($":: BƯỚC 2: Khởi động lại ứng dụng");
+            await writer.WriteLineAsync($"start \"\" \"{Path.Combine(appDirectory, exeName)}\"");
+
+            // BƯỚC 3: TỰ XÓA FILE .BAT SAU KHI HOÀN TẤT
+            await writer.WriteLineAsync($":: Dọn dẹp file cập nhật");
+            await writer.WriteLineAsync("(goto) 2>nul & del /F /Q \"%~f0\"");
+
+            await writer.WriteLineAsync("exit");
+
+            await writer.WriteLineAsync(":error");
+            await writer.WriteLineAsync("echo.");
+            await writer.WriteLineAsync("echo CẬP NHẬT THẤT BẠI! Vui lòng thử lại.");
+
+            // Chạy .bat
+            var psi = new ProcessStartInfo(batchPath)
             {
-                writer.WriteLine("@echo off");
-                writer.WriteLine("chcp 65001 >nul");
-                writer.WriteLine("echo Đang cập nhật ứng dụng, vui lòng đợi...");
-
-                // Đợi 1-2 giây để app cũ thoát hẳn
-                writer.WriteLine("timeout /t 2 /nobreak >nul");
-
-                // Bước 1: XÓA SẠCH toàn bộ file + folder trong thư mục hiện tại (trừ file .exe và file update.bat)
-                writer.WriteLine($":: XÓA SẠCH TOÀN BỘ (trừ {exeName} và file tạm)");
-                writer.WriteLine($"pushd \"{appDirectory}\"");
-
-                // Xóa tất cả file (trừ chính nó và update.bat đang chạy)
-                writer.WriteLine($"del /q /f \".\\*\" 2>nul");
-                writer.WriteLine($"for /d %%x in (\".\") do (");
-                writer.WriteLine($"    if /i not \"%%~nx\"==\"{Path.GetFileNameWithoutExtension(exeName)}\" (");
-                writer.WriteLine($"        rd /s /q \"%%x\" 2>nul");
-                writer.WriteLine($"    )");
-                writer.WriteLine($")");
-
-                // Bước 2: Copy toàn bộ file mới từ thư mục tạm vào
-                writer.WriteLine($":: COPY FILE MỚI VÀO");
-                writer.WriteLine($"robocopy \"{innerFolderPath}\" \"{appDirectory}\" /E /IS /IT /NFL /NDL /NJH /NJS >nul");
-
-                // Bước 3: Khởi động lại ứng dụng
-                writer.WriteLine($":: KHỞI ĐỘNG LẠI ỨNG DỤNG");
-                writer.WriteLine($"start \"\" \"{Path.Combine(appDirectory, exeName)}\"");
-
-                // Bước 4: Xóa file update.bat và thư mục tạm (tự dọn rác)
-                writer.WriteLine($":: DỌN RÁC");
-                writer.WriteLine($"(goto) 2>nul & del /q \"%~f0\""); // tự xóa chính file .bat này
-
-                writer.WriteLine("exit");
-            }
-
-            // Chạy file .bat với quyền hiện tại
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = batchScript,
                 UseShellExecute = true,
-                CreateNoWindow = true
+                CreateNoWindow = false,
+                WorkingDirectory = appDirectory
             };
-            Process.Start(startInfo);
+
+            Process.Start(psi);
         }
 
         private void PromptRestart()

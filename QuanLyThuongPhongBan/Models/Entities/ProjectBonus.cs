@@ -28,70 +28,70 @@ namespace QuanLyThuongPhongBan.Models.Entities
         /// Giá trị hợp đồng
         /// </summary>
         [Display(Name = "💰 Giá trị hợp đồng")]
-        [Column("gia_tri_hop_dong", TypeName = "decimal(18, 6)")]
+        [Column("gia_tri_hop_dong", TypeName = "decimal(22, 6)")]
         public decimal ContractValue { get; set; }
 
         /// <summary>
         /// Quyết toán
         /// </summary>
         [Display(Name = "📋 Quyết toán")]
-        [Column("quyet_toan", TypeName = "decimal(18, 6)")]
+        [Column("quyet_toan", TypeName = "decimal(22, 6)")]
         public decimal Settlement { get; set; }
 
         /// <summary>
         /// Tổng giá trị điều chỉnh đợt 1
         /// </summary>
         [Display(Name = "💰 Tổng giá trị điều chỉnh đợt 1")]
-        [Column("tong_gia_tri_dieu_chinh_dot_1", TypeName = "decimal(18, 6)")]
+        [Column("tong_gia_tri_dieu_chinh_dot_1", TypeName = "decimal(22, 6)")]
         public decimal TotalAdjustment1Value { get; set; }
 
         /// <summary>
         /// Tổng tỷ lệ điều chỉnh đợt 1
         /// </summary>
         [Display(Name = "📊 Tổng tỷ lệ điều chỉnh đợt 1")]
-        [Column("tong_ti_le_dieu_chinh_dot_1", TypeName = "decimal(18, 6)")]
+        [Column("tong_ti_le_dieu_chinh_dot_1", TypeName = "decimal(22, 6)")]
         public decimal TotalAdjustment1Rate { get; set; }
 
         /// <summary>
         /// Tổng giá trị điều chỉnh đợt 2
         /// </summary>
         [Display(Name = "💰 Tổng giá trị điều chỉnh đợt 2")]
-        [Column("tong_gia_tri_dieu_chinh_dot_2", TypeName = "decimal(18, 6)")]
+        [Column("tong_gia_tri_dieu_chinh_dot_2", TypeName = "decimal(22, 6)")]
         public decimal TotalAdjustment2Value { get; set; }
 
         /// <summary>
         /// Tổng tỷ lệ điều chỉnh đợt 2
         /// </summary>
         [Display(Name = "📊 Tổng tỷ lệ điều chỉnh đợt 2")]
-        [Column("tong_ti_le_dieu_chinh_dot_2", TypeName = "decimal(18, 6)")]
+        [Column("tong_ti_le_dieu_chinh_dot_2", TypeName = "decimal(22, 6)")]
         public decimal TotalAdjustment2Rate { get; set; }
 
         /// <summary>
         /// Tổng nghiệm thu
         /// </summary>
         [Display(Name = "✅ Tổng nghiệm thu")]
-        [Column("tong_nghiem_thu", TypeName = "decimal(18, 6)")]
+        [Column("tong_nghiem_thu", TypeName = "decimal(22, 6)")]
         public decimal TotalAcceptance { get; set; }
 
         /// <summary>
         /// Tổng thu hồi công nợ
         /// </summary>
         [Display(Name = "🔄 Tổng thu hồi công nợ")]
-        [Column("tong_thu_hoi_cong_no", TypeName = "decimal(18, 6)")]
+        [Column("tong_thu_hoi_cong_no", TypeName = "decimal(22, 6)")]
         public decimal TotalDebtRecovery { get; set; }
 
         /// <summary>
         /// Tổng giá trị thưởng dự án
         /// </summary>
         [Display(Name = "🎁 Tổng giá trị thưởng dự án")]
-        [Column("tong_gia_tri_thuong_du_an", TypeName = "decimal(18, 6)")]
+        [Column("tong_gia_tri_thuong_du_an", TypeName = "decimal(22, 6)")]
         public decimal TotalProjectBonusValue { get; set; }
 
         /// <summary>
         /// Tổng tỷ lệ thưởng dự án
         /// </summary>
         [Display(Name = "📈 Tổng tỷ lệ thưởng dự án")]
-        [Column("tong_ti_le_thuong_du_an", TypeName = "decimal(18, 6)")]
+        [Column("tong_ti_le_thuong_du_an", TypeName = "decimal(22, 6)")]
         public decimal TotalProjectBonusRate { get; set; }
 
         /// <summary>

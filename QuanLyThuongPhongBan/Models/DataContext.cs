@@ -198,52 +198,52 @@ public class DataContext : DbContext
             // Các cột giá trị và tỷ lệ
             entity.Property(e => e.TotalPackageValue)
                 .HasColumnName("gia_tri_tong_goi")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalPackageRate)
                 .HasColumnName("ti_le_tong_goi")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.Adjustment1Value)
                 .HasColumnName("gia_tri_dieu_chinh_dot_1")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.Adjustment1Rate)
                 .HasColumnName("ti_le_dieu_chinh_dot_1")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.Adjustment2Value)
                 .HasColumnName("gia_tri_dieu_chinh_dot_2")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.Adjustment2Rate)
                 .HasColumnName("ti_le_dieu_chinh_dot_2")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.Acceptance)
                 .HasColumnName("nghiem_thu")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.DebtRecovery)
                 .HasColumnName("thu_hoi_cong_no")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.InvoiceRevenue)
                 .HasColumnName("doanh_thu_xuat_hoa_don")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.ContractRevenue)
                 .HasColumnName("doanh_thu_hop_dong")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.CreatedAt)
@@ -279,58 +279,60 @@ public class DataContext : DbContext
             entity.ToTable("tb_thuong_dai_doan_smb");
             entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.Id)
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
 
-            entity.Property(e => e.DepartmentId)
-                .HasColumnName("id_phong_ban");
+            entity.Property(e => e.DepartmentId).HasColumnName("id_phong_ban");
+            entity.Property(e => e.SmbBonusId).HasColumnName("id_thuong_smb");
 
-            entity.Property(e => e.SmbBonusId)
-                .HasColumnName("id_thuong_smb");
-            
             entity.Property(e => e.Phase1Value)
                 .HasColumnName("gia_tri_dot_1")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.Phase1Rate)
                 .HasColumnName("ti_le_dot_1")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalSmbValue)
                 .HasColumnName("gia_tri_tong_smb")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalSmbRate)
                 .HasColumnName("ti_le_tong_smb")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.Acceptance)
                 .HasColumnName("nghiem_thu")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.DebtRecovery)
                 .HasColumnName("thu_hoi_cong_no")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.DebtRecoveryRate)
                 .HasColumnName("ti_le_thu_hoi_cong_no")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.InvoiceRevenue)
                 .HasColumnName("doanh_thu_xuat_hoa_don")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
-            entity.Property(e => e.ContractRevenue)
-                .HasColumnName("doanh_thu_hop_dong")
-                .HasColumnType("decimal(18, 6)")
+            entity.Property(e => e.SmbRevenue)
+                .HasColumnName("doanh_thu_smb")
+                .HasColumnType("decimal(22, 6)")
+                .HasDefaultValue(0m);
+
+            // THÊM DÒNG QUAN TRỌNG NHẤT - ĐÃ THIẾU TỪ ĐẦU!!!
+            entity.Property(e => e.DebtRecoveryRevenue)
+                .HasColumnName("doanh_thu_thu_hoi_cong_no")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.CreatedAt)
@@ -375,53 +377,53 @@ public class DataContext : DbContext
 
             entity.Property(e => e.ContractValue)
                 .HasColumnName("gia_tri_hop_dong")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.Settlement)
                 .HasColumnName("quyet_toan")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             // Các cột tổng
             entity.Property(e => e.TotalAdjustment1Value)
                 .HasColumnName("tong_gia_tri_dieu_chinh_dot_1")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalAdjustment2Value)
                 .HasColumnName("tong_gia_tri_dieu_chinh_dot_2")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalAdjustment1Rate)
                 .HasColumnName("tong_ti_le_dieu_chinh_dot_1")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalAdjustment2Rate)
                 .HasColumnName("tong_ti_le_dieu_chinh_dot_2")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalAcceptance)
                 .HasColumnName("tong_nghiem_thu")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalDebtRecovery)
                 .HasColumnName("tong_thu_hoi_cong_no")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalProjectBonusValue)
                 .HasColumnName("tong_gia_tri_thuong_du_an")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalProjectBonusRate)
                 .HasColumnName("tong_ti_le_thuong_du_an")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.CreatedAt)
@@ -474,58 +476,58 @@ public class DataContext : DbContext
             // Các cột doanh thu
             entity.Property(e => e.ContractRevenue)
                 .HasColumnName("doanh_thu_hop_dong")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.SettlementRevenue)
                 .HasColumnName("doanh_thu_quyet_toan")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.InvoicedRevenue)
                 .HasColumnName("doanh_thu_da_xuat_hoa_don")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.UninvoicedRevenue)
                 .HasColumnName("doanh_thu_chua_xuat_hoa_don")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.PaidAmount)
                 .HasColumnName("da_thanh_toan")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.UnpaidAmount)
                 .HasColumnName("chua_thanh_toan")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             // Các cột hệ số
             entity.Property(e => e.HSDA)
                 .HasColumnName("hsda")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.KTK)
                 .HasColumnName("ktk")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.PO)
                 .HasColumnName("po")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TTDVKT)
                 .HasColumnName("ttdvkt")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TVGP)
                 .HasColumnName("tvgp")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.CreatedAt)
@@ -563,45 +565,50 @@ public class DataContext : DbContext
                 .HasColumnName("quy_nam_thuong")
                 .HasMaxLength(50);
 
-            // Các cột tổng
+            entity.Property(e => e.SmbRevenue)
+                .HasColumnName("doanh_thu_smb")
+                .HasColumnType("decimal(22, 6)")
+                .HasDefaultValue(0m);
+
+            entity.Property(e => e.InvoiceRevenue)
+                .HasColumnName("doanh_thu_xuat_hoa_don")
+                .HasColumnType("decimal(22, 6)")
+                .HasDefaultValue(0m);
+
+            // THÊM DÒNG NÀY - ĐÃ THIẾU TỪ TRƯỚC TỚI NAY!!!
+            entity.Property(e => e.DebtRecoveryRevenue)
+                .HasColumnName("doanh_thu_thu_hoi_cong_no")
+                .HasColumnType("decimal(22, 6)")
+                .HasDefaultValue(0m);
+
             entity.Property(e => e.TotalPhase1Value)
                 .HasColumnName("tong_gia_tri_dot_1")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalPhase1Rate)
                 .HasColumnName("tong_ti_le_dot_1")
-                .HasColumnType("decimal(18, 6)")
-                .HasDefaultValue(0m);
-
-            entity.Property(e => e.TotalSmbValue)
-                .HasColumnName("tong_gia_tri_smb")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalAcceptance)
                 .HasColumnName("tong_nghiem_thu")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalDebtRecovery)
                 .HasColumnName("tong_thu_hoi_cong_no")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalSmbBonusValue)
                 .HasColumnName("tong_gia_tri_thuong_smb")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.TotalSmbBonusRate)
                 .HasColumnName("tong_ti_le_thuong_smb")
-                .HasColumnType("decimal(18, 6)")
-                .HasDefaultValue(0m);
-
-            entity.Property(e => e.InvoiceOutput)
-                .HasColumnName("xuat_hoa_don")
-                .HasColumnType("decimal(18, 6)")
+                .HasColumnType("decimal(22, 6)")
                 .HasDefaultValue(0m);
 
             entity.Property(e => e.CreatedAt)

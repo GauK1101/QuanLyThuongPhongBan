@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using QuanLyThuongPhongBan.Data;
 using QuanLyThuongPhongBan.Helpers;
 using QuanLyThuongPhongBan.Models.App.Settings;
+using QuanLyThuongPhongBan.Models.Entities;
 using QuanLyThuongPhongBan.Services.Interfaces;
 using QuanLyThuongPhongBan.Utilities;
 using System.ComponentModel.DataAnnotations;
@@ -115,6 +116,20 @@ namespace QuanLyThuongPhongBan.Services.Implementations
         public async Task<SmbBonus?> CreateAsync()
         {
             using var context = CreateNewContext();
+
+            if (!await context.Departments.AnyAsync())
+            {
+                var departments = new List<Department>
+                             {
+                                 new Department { Name = "Tư vấn giải pháp", Description = "" },
+                                 new Department { Name = "Hồ sơ dự án", Description = "" },
+                                 new Department { Name = "Nhập hàng", Description = "" },
+                                 new Department { Name = "Kế toán - kho", Description = "" },
+                                 new Department { Name = "TT kỹ thuật & DV", Description = "" }
+                             };
+                await context.Departments.AddRangeAsync(departments);
+                await context.SaveChangesAsync();
+            }
 
             var entity = CreateDefaultTemplate();
 

@@ -2,15 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using QuanLyThuongPhongBan.Data;
 using QuanLyThuongPhongBan.Helpers;
-using QuanLyThuongPhongBan.Helpers.Setting;
-using QuanLyThuongPhongBan.Models.App.Settings;
 using QuanLyThuongPhongBan.Models.Entities;
 using QuanLyThuongPhongBan.Models.Settings;
 using QuanLyThuongPhongBan.Services.Interfaces;
 using QuanLyThuongPhongBan.Utilities;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Windows;
 
 namespace QuanLyThuongPhongBan.Services.Implementations
 {
